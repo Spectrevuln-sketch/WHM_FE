@@ -1,13 +1,14 @@
 'use client';
 
-import CardContainer from "@/components/layout/dashboard/cards/CardContainer";
-import OverviewCard from "@/components/layout/dashboard/cards/OverviewCard";
+import CardContainer from "@/components/cards/CardContainer";
+import ListHistoryCard from "@/components/cards/ListHistoryCard";
+import OverviewCard from "@/components/cards/OverviewCard";
 import { Grid } from "@mui/material";
 import React from "react";
 
 const Dashboard = () => {
 
-  const [overviewData, setOverviewData] = React.useState([
+  const [overviewData] = React.useState([
     {
       label: 'monday',
       value: 50,
@@ -46,6 +47,8 @@ const Dashboard = () => {
         //
       }}
     >
+
+      {/* top */}
       <CardContainer>
         <OverviewCard
           data={overviewData}
@@ -55,7 +58,152 @@ const Dashboard = () => {
           productDelivered={200}
         />
       </CardContainer>
-      <Grid></Grid>
+
+      {/* bottom */}
+      <Grid
+      container
+      direction={'row'}
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginTop: '32px',
+        gap: '24px'
+      }}
+      >
+        <CardContainer>
+          <ListHistoryCard
+            title="Material Service Request"
+            amount={1000}
+            data={[
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'waiting',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'approval',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'waiting',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'waiting',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'waiting',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'waiting',
+              },
+            ]}
+          />
+        </CardContainer>
+        <CardContainer>
+          <ListHistoryCard
+            title="Delivering Product"
+            amount={500}
+            data={[
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivering',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivering',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivering',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivering',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivering',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivering',
+              },
+            ]}
+          />
+        </CardContainer>
+        <CardContainer>
+          <ListHistoryCard
+            title="Product Delivered"
+            amount={200}
+            data={[
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivered',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivered',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivered',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivered',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivered',
+              },
+              {
+                title: 'Direct Source',
+                subtitle: 'Direct link click',
+                link: '/dashboard',
+                status: 'delivered',
+              },
+            ]}
+          />
+        </CardContainer>
+      </Grid>
+
     </Grid>
   );
 }

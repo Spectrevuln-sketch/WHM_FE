@@ -1,6 +1,7 @@
 'use client';
 
 import { FormControl, FormHelperText, InputAdornment, OutlinedInput, Typography } from "@mui/material";
+import React from "react";
 
 interface CustomTextFieldInterface {
   label: string;
@@ -12,7 +13,7 @@ interface CustomTextFieldInterface {
   onChange: (val: string) => void;
 }
 
-const CustomTextField: React.FC<CustomTextFieldInterface> = ({label, endAdornment, value, isDisabled, isError, textHelper, onChange}) => {
+const CustomTextField: React.FC<CustomTextFieldInterface> = ({label, endAdornment, value, textHelper, onChange}) => {
   return(
     <FormControl variant="outlined" fullWidth>
       {

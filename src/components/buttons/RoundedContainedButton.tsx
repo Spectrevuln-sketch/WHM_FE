@@ -3,13 +3,13 @@
 import { Button } from "@mui/material";
 import React from "react";
 
-interface CustomContainedButtonInterface {
+interface RoundedContainedButtonInterface {
   label: string;
   isDisabled: boolean;
   onClick: () => void;
 }
 
-const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label, isDisabled, onClick}) => {
+const RoundedContainedButton: React.FC<RoundedContainedButtonInterface> = ({label, isDisabled, onClick}) => {
   return(
     <Button
       fullWidth
@@ -20,8 +20,9 @@ const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label,
         fontSize: '16px',
         color: '#FFFFFF',
         textTransform: 'none',
-        background: 'linear-gradient(to right, #F7C113, #EDCD67) !important',
-        boxShadow: 'none'
+        backgroundColor: '#F7C113 !important',
+        boxShadow: 'none',
+        borderRadius: '200px'
       }}
     >
       {label}
@@ -29,4 +30,4 @@ const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label,
   )
 }
 
-export default CustomContainedButton;
+export default RoundedContainedButton;

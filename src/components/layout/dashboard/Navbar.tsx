@@ -41,7 +41,7 @@ const sidebarItem = [
   {
     label: 'Create MSR',
     icon: <Image src={dashboardIcons.createMsrIcon} alt='create-msr-icon' width={24} height={24} />,
-    route: '/dashboard/create-msr'
+    route: '/dashboard/material-service-request'
   },
   {
     label: 'Delivering Product',
@@ -58,6 +58,7 @@ const sidebarItem = [
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   boxShadow: '1px 4px 4px 0px #00000040',
+  zIndex: 500,
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -72,6 +73,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   }),
   overflowX: 'hidden',
   boxShadow: '1px 4px 4px 0px #00000040',
+  zIndex: 500,
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
@@ -155,7 +157,8 @@ export default function DashboardNavbar({
         open={open}
         sx={{
           paddingY: '20px',
-          backgroundColor: 'transparent',
+          backgroundColor: '#FFF',
+          zIndex: 300,
           boxShadow: 'none'
         }}
       >

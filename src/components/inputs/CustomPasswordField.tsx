@@ -10,10 +10,10 @@ interface CustomTextFieldInterface {
   isDisabled: boolean;
   isError: boolean;
   textHelper: string;
-  onChange: (val: any) => any;
+  onChange: (val: string) => void;
 }
 
-const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({label, value, isDisabled, isError, textHelper, onChange}) => {
+const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({label, value, textHelper, onChange}) => {
 
   const [showPassword, setShowPassword] = React.useState(false);
 

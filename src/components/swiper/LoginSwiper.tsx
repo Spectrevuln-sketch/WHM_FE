@@ -15,7 +15,9 @@ import './LoginSwiper.css';
 import { Box, Typography } from '@mui/material';
 import { A11y, Pagination } from 'swiper/modules';
 
-const LoginSwiper = () => {
+import React from 'react';
+
+const LoginSwiper: React.FC = () => {
   return (
     <Swiper
       modules={[Pagination, A11y]}

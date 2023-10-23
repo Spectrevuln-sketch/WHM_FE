@@ -1,11 +1,12 @@
 'use client';
 
 import { Button } from "@mui/material";
+import React from "react";
 
 interface CustomTextButtonInterface {
   label: string;
   isDisabled: boolean;
-  onClick: () => any;
+  onClick: () => void;
 }
 
 const CustomTextButton: React.FC<CustomTextButtonInterface> = ({label, isDisabled, onClick}) => {

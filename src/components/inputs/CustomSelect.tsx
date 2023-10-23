@@ -16,10 +16,10 @@ interface CustomSelectInterface {
   isDisabled: boolean;
   isError: boolean;
   textHelper: string;
-  onChange: (val: any) => any;
+  onChange: (val: string) => void;
 }
 
-const CustomSelect: React.FC<CustomSelectInterface> = ({label, value, options, isDisabled, isError, textHelper, onChange}) => {
+const CustomSelect: React.FC<CustomSelectInterface> = ({label, value, options, isDisabled, textHelper, onChange}) => {
   return(
     <FormControl fullWidth>
       {

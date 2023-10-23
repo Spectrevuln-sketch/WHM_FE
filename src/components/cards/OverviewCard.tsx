@@ -187,7 +187,11 @@ const OverviewCard: React.FC<OverviewCardInterface> = ({data, activeIndex, mater
               }}
             >
               <Box
+                component={'span'}
                 sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   width: '26px',
                   height: '26px',
                   borderRadius: '6px',
@@ -228,7 +232,11 @@ const OverviewCard: React.FC<OverviewCardInterface> = ({data, activeIndex, mater
               }}
             >
               <Box
+                component={'span'}
                 sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   width: '26px',
                   height: '26px',
                   borderRadius: '6px',
