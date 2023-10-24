@@ -6,6 +6,7 @@ import React from "react";
 
 interface CustomTextFieldInterface {
   label: string;
+  placeholder: string;
   value: string;
   isDisabled: boolean;
   isError: boolean;
@@ -13,7 +14,7 @@ interface CustomTextFieldInterface {
   onChange: (val: string) => void;
 }
 
-const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({label, value, textHelper, onChange}) => {
+const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({label, placeholder, value, textHelper, onChange}) => {
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -44,6 +45,7 @@ const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({label, value, 
         type={showPassword ? 'text' : 'password'}
         size="small"
         value={value}
+        placeholder={placeholder}
         id="custom-textfield"
         endAdornment={
           <InputAdornment position="end">

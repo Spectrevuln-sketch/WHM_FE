@@ -3,10 +3,11 @@
 import { FormControl, FormHelperText, InputAdornment, OutlinedInput, Typography } from "@mui/material";
 import React from "react";
 
-interface CustomTextFieldInterface {
+interface CustomTextareaFieldInterface {
   label: string;
   placeholder: string;
   endAdornment: string;
+  rows: number;
   value: string;
   isDisabled: boolean;
   isError: boolean;
@@ -14,7 +15,7 @@ interface CustomTextFieldInterface {
   onChange: (val: string) => void;
 }
 
-const CustomTextField: React.FC<CustomTextFieldInterface> = ({label, placeholder, endAdornment, value, textHelper, onChange}) => {
+const CustomTextareaField: React.FC<CustomTextareaFieldInterface> = ({label, placeholder, endAdornment, rows, value, textHelper, onChange}) => {
   return(
     <FormControl variant="outlined" fullWidth>
       {
@@ -34,6 +35,8 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({label, placeholder
       <OutlinedInput
         fullWidth
         size="small"
+        multiline
+        rows={rows}
         value={value}
         placeholder={placeholder}
         id="custom-textfield"
@@ -53,4 +56,4 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({label, placeholder
   )
 }
 
-export default CustomTextField;
+export default CustomTextareaField;

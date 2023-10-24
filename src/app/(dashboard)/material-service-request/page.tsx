@@ -8,6 +8,7 @@ import CustomTable, { CustomTableColumnInterface } from "@/components/tables/Cus
 import { TitleDashboardText } from "@/components/text/styledText";
 import FlexWrapper from "@/components/wrappers/FlexWrapper";
 import { Box, Grid, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export interface MsrData {
@@ -20,6 +21,8 @@ export interface MsrData {
 }
 
 const CreateMsr: React.FC = () => {
+
+  const router = useRouter();
 
   const msrHeader: CustomTableColumnInterface[] = [
     {
@@ -116,7 +119,7 @@ const CreateMsr: React.FC = () => {
           width: '150px'
         }}
       >
-        <CustomContainedButton label="Create MSR" isDisabled={false} onClick={() => console.log('create msr clicked')} />
+        <CustomContainedButton label="Create MSR" isDisabled={false} onClick={() => router.push('/material-service-request/create')} />
       </Box>
 
       {/* content */}

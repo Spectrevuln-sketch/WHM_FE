@@ -1,0 +1,22 @@
+.customSelectPlaceholder{
+  display: none;
+  height: 0;
+}
+
+.customSelectOption{
+  margin: 8px;
+  padding: 8px;
+  border-radius: 6px;
+}
+.customSelectOption:hover{
+  color: #fff;
+  background-color: #F7C113 !important;
+}
+.customSelectOption:checked{
+  color: #fff !important;
+  background-color: #F7C113 !important;
+}
+.customSelectOption:active{
+  color: #fff;
+  background-color: #F7C113;
+}

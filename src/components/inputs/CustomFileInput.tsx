@@ -1,22 +1,29 @@
 'use client';
 
+import { Upload } from "@mui/icons-material";
 import { FormControl, FormHelperText, InputAdornment, OutlinedInput, Typography } from "@mui/material";
 import React from "react";
 
-interface CustomTextFieldInterface {
+interface CustomFileInputInterface {
   label: string;
   placeholder: string;
-  endAdornment: string;
   value: string;
   isDisabled: boolean;
   isError: boolean;
   textHelper: string;
-  onChange: (val: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CustomTextField: React.FC<CustomTextFieldInterface> = ({label, placeholder, endAdornment, value, textHelper, onChange}) => {
+const CustomFileInput: React.FC<CustomFileInputInterface> = ({label, placeholder, value, textHelper, onChange}) => {
+
+  const fileInputRef= React.useRef<HTMLInputElement>(null);
+
   return(
-    <FormControl variant="outlined" fullWidth>
+    <FormControl
+      variant="outlined"
+      fullWidth
+      onClick={() => fileInputRef.current!.click()}
+    >
       {
         label !== ''
         ? <Typography
@@ -32,25 +39,34 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({label, placeholder
         : null
       }
       <OutlinedInput
+        disabled
         fullWidth
         size="small"
         value={value}
         placeholder={placeholder}
         id="custom-textfield"
-        endAdornment={<InputAdornment position="end">{endAdornment}</InputAdornment>}
+        endAdornment={<InputAdornment position="end" sx={{cursor: 'pointer !important'}}><Upload/></InputAdornment>}
         aria-describedby="custom-text-field-helper-text"
-        onChange={(e) => onChange(e.target.value)}
+        // onChange={(e) => onChange(e)}
         inputProps={{
           'aria-label': 'textfield',
         }}
         sx={{
           borderRadius: '6px',
-          color: '#A8AAAE'
+          color: '#A8AAAE',
+          cursor: 'pointer !important'
         }}
       />
       <FormHelperText id="custom-text-field-helper-text">{textHelper}</FormHelperText>
+      <input
+        ref={fileInputRef}
+        onChange={(e) => onChange(e)}
+        accept=".pdf,.jpg,.jpeg,.png"
+        type="file"
+        hidden
+      />
     </FormControl>
   )
 }
 
-export default CustomTextField;
+export default CustomFileInput;

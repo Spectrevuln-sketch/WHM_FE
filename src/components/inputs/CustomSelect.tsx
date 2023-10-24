@@ -4,22 +4,25 @@ import { FormControl, FormHelperText, MenuItem, Select, Typography } from "@mui/
 
 import React from 'react';
 
+import customOptionStyle from './CustomSelect.module.css';
+
 // Define the prop types for the component
-interface option {
+export interface SelectOption {
   value: string,
   label: string
 }
 interface CustomSelectInterface {
   label: string;
+  placeholder: string;
   value: string;
-  options: option[];
+  options: SelectOption[];
   isDisabled: boolean;
   isError: boolean;
   textHelper: string;
   onChange: (val: string) => void;
 }
 
-const CustomSelect: React.FC<CustomSelectInterface> = ({label, value, options, isDisabled, textHelper, onChange}) => {
+const CustomSelect: React.FC<CustomSelectInterface> = ({label, placeholder, value, options, isDisabled, textHelper, onChange}) => {
   return(
     <FormControl fullWidth>
       {
@@ -45,13 +48,24 @@ const CustomSelect: React.FC<CustomSelectInterface> = ({label, value, options, i
         onChange={(val) => onChange(val.target.value)}
         size="small"
         aria-describedby="custom-select-helper-text"
+        displayEmpty
         sx={{
           borderRadius: '6px',
           color: '#A8AAAE'
         }}
         >
+        <MenuItem className={customOptionStyle.customSelectPlaceholder} value="" disabled sx={{ visibility: 'hidden', height: '0px !important' }}>
+          <Typography
+            sx={{
+              fontWeight: 500,
+              color: 'rgba(75, 70, 92, 0.3)',
+          }}
+          >
+              {placeholder}
+          </Typography>
+        </MenuItem>
         {options?.map((option, index) => (
-          <MenuItem key={`custom-option-select-${index}`} value={option.value}>{option?.label}</MenuItem>
+          <MenuItem className={customOptionStyle.customSelectOption} key={`custom-option-select-${index}`} value={option.value}>{option?.label}</MenuItem>
         ))}
       </Select>
       <FormHelperText id="custom-select-helper-text">{textHelper}</FormHelperText>

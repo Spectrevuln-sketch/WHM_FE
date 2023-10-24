@@ -5,11 +5,13 @@ import React from "react";
 
 interface CustomTextButtonInterface {
   label: string;
+  icon: React.ReactNode;
+  color: string;
   isDisabled: boolean;
   onClick: () => void;
 }
 
-const CustomTextButton: React.FC<CustomTextButtonInterface> = ({label, isDisabled, onClick}) => {
+const CustomTextButton: React.FC<CustomTextButtonInterface> = ({label, icon, color, isDisabled, onClick}) => {
   return(
     <Button
       variant="text"
@@ -17,11 +19,12 @@ const CustomTextButton: React.FC<CustomTextButtonInterface> = ({label, isDisable
       onClick={() => onClick()}
       sx={{
         fontSize: '16px',
-        color: '#898790',
-        textTransform: 'none'
+        color: {color},
+        textTransform: 'none',
+        gap: '8px'
       }}
     >
-      {label}
+      {label}{icon}
     </Button>
   )
 }

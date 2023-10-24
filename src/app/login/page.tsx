@@ -80,6 +80,7 @@ export default function Login() {
           >
             <CustomSelect
               label=''
+              placeholder='language'
               value={selectedLanguage}
               isDisabled={false}
               isError={false}
@@ -134,6 +135,7 @@ export default function Login() {
             >
               <CustomTextField
                 label='username'
+                placeholder='username'
                 value={username}
                 isDisabled={false}
                 isError={false}
@@ -150,6 +152,7 @@ export default function Login() {
             >
               <CustomPasswordField
                 label='password'
+                placeholder='password'
                 value={password}
                 isDisabled={false}
                 isError={false}
@@ -169,7 +172,7 @@ export default function Login() {
 
           {/* privacy policy */}
           <Box>
-            <CustomTextButton label='Privacy Policy' isDisabled={false} onClick={() => handleClickPrivacyPolicy()} />
+            <CustomTextButton label='Privacy Policy' icon={<></>} color='#898790' isDisabled={false} onClick={() => handleClickPrivacyPolicy()} />
           </Box>
 
         </Grid>

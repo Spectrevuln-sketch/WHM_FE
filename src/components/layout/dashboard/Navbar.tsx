@@ -41,17 +41,17 @@ const sidebarItem = [
   {
     label: 'Create MSR',
     icon: <Image src={dashboardIcons.createMsrIcon} alt='create-msr-icon' width={24} height={24} />,
-    route: '/dashboard/material-service-request'
+    route: '/material-service-request'
   },
   {
     label: 'Delivering Product',
     icon: <Image src={dashboardIcons.deliveringProductIcon} alt='delivering-product-icon' width={24} height={24} />,
-    route: '/dashboard/delivering-product'
+    route: '/delivering-product'
   },
   {
     label: 'Product Delivered',
     icon: <Image src={dashboardIcons.productDeliveredIcon} alt='product-delivered-icon' width={24} height={24} />,
-    route: '/dashboard/product-delivered'
+    route: '/product-delivered'
   },
 ];
 
@@ -244,7 +244,7 @@ export default function DashboardNavbar({
             className='sidebar-list-item'
             >
               <ListItemButton
-                selected={pathname === item.route}
+                selected={pathname.includes(item.route)}
                 onClick={() => router.push(item.route)}
                 sx={{
                   minHeight: 48,
