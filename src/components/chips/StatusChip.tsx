@@ -39,6 +39,34 @@ const StatusChip: React.FC<StatusChipInterface> = ({status, short}) => {
         </Box>
       )
       break;
+    
+    case 'waitingPr':
+      return(
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            borderRadius: '4px',
+            paddingX: '10px',
+            paddingY: '5px',
+            backgroundColor: colorStyle.waitingForApproval.light
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: '13px',
+              fontWeight: 500,
+              lineHeight: '14px',
+              color: colorStyle.waitingForApproval.main
+            }}
+          >
+            {short ? 'Waiting for Approval' : 'Waiting for Approval from PR'}
+          </Typography>
+        </Box>
+      )
+      break;
   
     case 'approval':
       return(

@@ -1,0 +1,6 @@
+.separatorActive::before{
+  border-top: thin solid #27AE60;
+}
+.separatorActive::after{
+  border-top: thin solid #27AE60;
+}

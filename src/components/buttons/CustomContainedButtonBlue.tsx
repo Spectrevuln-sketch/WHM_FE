@@ -2,14 +2,9 @@
 
 import { Button } from "@mui/material";
 import React from "react";
+import { CustomContainedButtonInterface } from "./CustomContainedButton";
 
-export interface CustomContainedButtonInterface {
-  label: string;
-  isDisabled: boolean;
-  onClick: () => void;
-}
-
-const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label, isDisabled, onClick}) => {
+const CustomContainedButtonBlue: React.FC<CustomContainedButtonInterface> = ({label, isDisabled, onClick}) => {
   return(
     <Button
       fullWidth
@@ -20,7 +15,7 @@ const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label,
         fontSize: '16px',
         color: '#FFFFFF',
         textTransform: 'none',
-        background: 'linear-gradient(to right, #F7C113, #EDCD67) !important',
+        background: 'linear-gradient(to right, #263453, #3B4969) !important',
         boxShadow: 'none'
       }}
     >
@@ -29,4 +24,4 @@ const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label,
   )
 }
 
-export default CustomContainedButton;
+export default CustomContainedButtonBlue;

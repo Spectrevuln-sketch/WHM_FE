@@ -14,3 +14,16 @@ export const ButtonText = styled(Typography)(()=>({
   lineHeight: '18px',
   color: '#fff'
 }));
+
+export const DetailKeyText = styled(Typography)(() => ({
+  fontSize: '20px',
+  fontWeight: 400,
+  lineHeight: '24px',
+  color: '#000000'
+}));
+export const DetailValueText = styled(Typography)(() => ({
+  fontSize: '20px',
+  fontWeight: 600,
+  lineHeight: '24px',
+  color: '#000000'
+}));

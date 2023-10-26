@@ -12,6 +12,7 @@ import { TitleDashboardText } from "@/components/text/styledText";
 import { DeleteOutlineOutlined, EditOutlined } from "@mui/icons-material";
 import { Box, Grid, IconButton } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export interface SelectedMaterialServiceInterface{
@@ -24,6 +25,8 @@ export interface SelectedMaterialServiceInterface{
 }
 
 const CreateMsr: React.FC = () => {
+
+  const router = useRouter();
 
   const selectedProductColumn: CustomTableColumnInterface[] = [
     {
@@ -266,12 +269,25 @@ const CreateMsr: React.FC = () => {
         <Box
           sx={{width: '100%'}}
         >
-          <CustomTextField 
+          <CustomSelect 
             label="Suggested Supplier" 
             placeholder="Enter your Suggested Supplier"
             value={suggestedSupplier}
             onChange={(val) => setSuggestedSupplier(val)}
-            endAdornment=""
+            options={[
+              {
+                label: 'GABRIEL INTI MARINDO',
+                value: '1',
+              },
+              {
+                label: 'CAHAYA MULTI SENTOSA',
+                value: '2',
+              },
+              {
+                label: 'ASTON SISTEM INDONESIA',
+                value: '3',
+              },
+            ]}
             isDisabled={false}
             isError={false}
             textHelper=""
@@ -358,7 +374,7 @@ const CreateMsr: React.FC = () => {
           width: '375px'
         }}
       >
-        <CustomContainedButton label="Submit" isDisabled={false} onClick={() => console.log('submit clicked')} />
+        <CustomContainedButton label="Submit" isDisabled={false} onClick={() => router.push('/material-service-request')} />
       </Box>
 
     </Grid>
