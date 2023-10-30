@@ -79,37 +79,43 @@ const Dashboard = () => {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'waiting',
+                label: 'Waiting for Approval',
+                color: 0
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'approval',
+                label: 'Approval',
+                color: 1
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'waiting',
+                label: 'Waiting for Approval',
+                color: 0
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'waiting',
+                label: 'Waiting for Approval',
+                color: 0
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'waiting',
+                label: 'Waiting for Approval',
+                color: 0
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'waiting',
+                label: 'Waiting for Approval',
+                color: 0
               },
             ]}
           />
@@ -123,37 +129,43 @@ const Dashboard = () => {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivering',
+                label: 'Delivering',
+                color: 2
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivering',
+                label: 'Delivering',
+                color: 2
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivering',
+                label: 'Delivering',
+                color: 2
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivering',
+                label: 'Delivering',
+                color: 2
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivering',
+                label: 'Delivering',
+                color: 2
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivering',
+                label: 'Delivering',
+                color: 2
               },
             ]}
           />
@@ -167,37 +179,43 @@ const Dashboard = () => {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivered',
+                label: 'Delivered',
+                color: 3
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivered',
+                label: 'Delivered',
+                color: 3
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivered',
+                label: 'Delivered',
+                color: 3
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivered',
+                label: 'Delivered',
+                color: 3
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivered',
+                label: 'Delivered',
+                color: 3
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                status: 'delivered',
+                label: 'Delivered',
+                color: 3
               },
             ]}
           />

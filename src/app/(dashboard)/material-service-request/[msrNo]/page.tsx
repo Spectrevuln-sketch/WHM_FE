@@ -4,11 +4,13 @@ import CustomContainedButton from "@/components/buttons/CustomContainedButton";
 import CustomContainedButtonBlue from "@/components/buttons/CustomContainedButtonBlue";
 import StatusChip from "@/components/chips/StatusChip";
 import CustomTextareaField from "@/components/inputs/CustomTextareaField";
+import AddToInventoryModal from "@/components/modals/AddToInventoryModal";
 import CustomStepper from "@/components/steppers/CustomStepper";
 import CustomDetailsMsrTable from "@/components/tables/CustomDetailsMsrTable";
 import { DetailKeyText, DetailValueText, TitleDashboardText } from "@/components/text/styledText";
-import { FiberManualRecord } from "@mui/icons-material";
-import { Box, Grid, Typography } from "@mui/material";
+import { ArrowForward, FiberManualRecord, StoreOutlined } from "@mui/icons-material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export interface MaterialServiceItemInterface{
@@ -19,13 +21,51 @@ export interface MaterialServiceItemInterface{
   uom: string;
 }
 
+interface PRSummariesInterface {
+  vendorName: string;
+  msrNo: string;
+}
+
+const dummyPRSummaries: PRSummariesInterface[] = [
+  {
+    msrNo: '0869-ASM-000-PR-IX-2023',
+    vendorName: 'GABRIEL INTI MARINDO',
+  },
+  {
+    msrNo: '0869-ASM-000-PR-IX-2023',
+    vendorName: 'GABRIEL INTI MARINDO',
+  },
+  {
+    msrNo: '0869-ASM-000-PR-IX-2023',
+    vendorName: 'GABRIEL INTI MARINDO',
+  },
+  {
+    msrNo: '0869-ASM-000-PR-IX-2023',
+    vendorName: 'GABRIEL INTI MARINDO',
+  },
+]
+
 const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
+
+  const router = useRouter();
 
   const [status, setStatus] = React.useState('')
   const [notes, setNotes] = React.useState('')
 
+  const [PRSummaries, setPRSummaries] = React.useState<PRSummariesInterface[]>([]);
+
+  const [addToInventoryModalOpen, setAddToInventoryModalOpen] = React.useState(false)
+  
+  const handleOpenAddToInventoryModal = () => {
+    setAddToInventoryModalOpen(true)
+  }
+  const handleCloseAddToInventoryModal = () => {
+    setAddToInventoryModalOpen(false)
+  }
+
   React.useEffect(() => {
-    setStatus('waiting')
+    setStatus('approvalPo')
+    setPRSummaries(dummyPRSummaries)
   }, []);
   return (
     <Grid
@@ -33,6 +73,13 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
       direction={'column'}
       sx={{}}
     >
+
+      <AddToInventoryModal
+        isOpen={addToInventoryModalOpen}
+        onClose={handleCloseAddToInventoryModal}
+        msrNo="0869-ASM-000-PR-IX-2023"
+        qrCode={params.msrNo}
+      />
 
       {/* date & status */}
       <Grid
@@ -57,7 +104,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
           }}
         >Sunday, September 22 2023</Typography>
         <Box>
-          <StatusChip status={status} />
+          <StatusChip label="Approval from PO" color={1} />
         </Box>
       </Grid>
 
@@ -78,7 +125,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
             lineHeight: '24px',
             color: 'rgba(75, 70, 92, 1)'
           }}
-        >943</Typography>
+        >{params.msrNo}</Typography>
       </Grid>
 
       {/* order data detail */}
@@ -168,19 +215,32 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
       >
         <DetailKeyText>Edited By</DetailKeyText>
         <CustomStepper
-          activeStep={1}
+          activeStep={5}
           steps={[
             {
               label: '',
-              description: 'Project Manager'
+              description: 'Project Manager',
+              notes: []
             },
             {
               label: '',
-              description: 'Administration Check'
+              description: 'Administration Check',
+              notes: ['0869-ASM-000-PR-IX-2023 qty nya tidak cukup', '0869-ASM-000-PR-IX-2023 qty nya tidak cukup']
             },
             {
               label: '',
-              description: 'Waiting for Approval from PR'
+              description: 'Approval from PR',
+              notes: []
+            },
+            {
+              label: '',
+              description: 'Approval from SOQ',
+              notes: []
+            },
+            {
+              label: '',
+              description: 'Approval from PO',
+              notes: []
             },
           ]}
         />
@@ -267,6 +327,145 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
         />
       </Box>
 
+      {
+        PRSummaries.length >= 1
+        ?
+        <Grid
+          container
+          direction={'column'}
+          marginTop={'32px'}
+        >
+          {/* title */}
+          <DetailValueText>Purchase Request Summary</DetailValueText>
+          {/* items */}
+          <Grid
+            container
+            direction={'row'}
+            marginTop={'18px'}
+            columns={16}
+          >
+            {PRSummaries.map((summary, index) => (
+              <Box
+                key={`pr-summary-${index}`}
+                sx={{
+                  paddingX: '26px',
+                  paddingY: '13px',
+                  width: '50%'
+                }}
+              >
+                <Grid  
+                  component={Paper}
+                  elevation={2}
+                  padding={'26px'}
+                  width={'100%'}
+                  item
+                  xs={8}
+                  sm={8}
+                  md={8}
+                  lg={8}
+                  xl={8}
+                >
+
+                  {/* vendor name */}
+                  <Grid
+                    container
+                    direction={'row'}
+                    alignItems={'center'}
+                    justifyContent={'space-between'}
+                  >
+                    <Box display={'flex'} gap={'20px'}>
+                      <Box
+                        sx={{
+                          backgroundColor: '#F7C113',
+                          paddingY: '0px',
+                          paddingX: '6px'
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontWeight: 600,
+                            fontSize: '15px',
+                            lineHeight: '24px',
+                            color: '#fff'
+                          }}
+                        >
+                          Vendor
+                        </Typography>
+                      </Box>
+                      <Typography
+                        sx={{
+                          fontWeight: 400,
+                          fontSize: '15px',
+                          lineHeight: '24px',
+                          color: '#000'
+                        }}
+                      >
+                        {summary.vendorName}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <StoreOutlined sx={{color: '#4B465C'}} />
+                    </Box>
+                  </Grid>
+
+                  {/* msr number */}
+                  <Grid
+                    container
+                    direction={'column'}
+                    marginTop={'14px'}
+                    gap={'8px'}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: 400,
+                        fontSize: '15px',
+                        lineHeight: '18px',
+                        color: '#000'
+                      }}
+                    >
+                      Number MSR
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontWeight: 400,
+                        fontSize: '24px',
+                        lineHeight: '18px',
+                        color: '#000'
+                      }}
+                    >
+                      {summary.msrNo}
+                    </Typography>
+                  </Grid>
+
+                  {/* detail */}
+                  <Grid
+                    container
+                    direction={'row'}
+                    marginTop={'24px'}
+                    gap={'4px'}
+                    alignItems={'center'}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: 400,
+                        fontSize: '12px',
+                        lineHeight: '18px',
+                        color: '#000'
+                      }}
+                    >
+                      Details
+                    </Typography>
+                    <ArrowForward sx={{fontSize: '14px'}} />
+                  </Grid>
+
+                </Grid>
+              </Box>
+            ))}
+          </Grid>
+        </Grid>
+        : null
+      }
+
       <Grid
         container
         direction={'row'}
@@ -274,16 +473,30 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
         marginTop={'30px'}
       >
         {
-          ['approval', 'waitingPr'].includes(status)
-          ? <Box sx={{width: '235px'}}>
+          ['approvalPr'].includes(status)
+          ? <Box sx={{width: '240px'}}>
+              <CustomContainedButtonBlue label="Creating Purchase Request" isDisabled={false} onClick={() => router.push(`/material-service-request/create-pr/${params.msrNo}`)} />
+            </Box>
+          :null
+        }
+        {
+          ['approval'].includes(status)
+          ? <Box sx={{width: '240px'}}>
               <CustomContainedButtonBlue label="Waiting Purchase Request" isDisabled={false} onClick={() => console.log('Waiting Purchase Request')} />
             </Box>
           :null
         }
         {
-          ['approval', 'waiting'].includes(status)
+          ['approval', 'waiting', 'waitingPr'].includes(status)
           ? <Box sx={{width: '140px'}}>
               <CustomContainedButton label="Next" isDisabled={false} onClick={() => console.log('next')} />
+            </Box>
+          : null
+        }
+        {
+          ['approvalPo'].includes(status)
+          ? <Box sx={{width: '230px'}}>
+              <CustomContainedButton label="Add to inventory" isDisabled={false} onClick={() => handleOpenAddToInventoryModal()} />
             </Box>
           : null
         }

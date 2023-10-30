@@ -53,7 +53,7 @@ const ProductDelivered: React.FC = () => {
       reqBy: 'Andi Kumala',
       urgency: 'Normal',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="delivered" />,
+      status: <StatusChip label="Delivered" color={3} />,
       action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
     },
     {
@@ -61,7 +61,7 @@ const ProductDelivered: React.FC = () => {
       reqBy: 'Andi Kumala',
       urgency: 'Very Urgent',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="delivered" />,
+      status: <StatusChip label="Delivered" color={3} />,
       action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
     },
     {
@@ -69,7 +69,7 @@ const ProductDelivered: React.FC = () => {
       reqBy: 'Andi Kumala',
       urgency: 'Normal',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="delivered" />,
+      status: <StatusChip label="Delivered" color={3} />,
       action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
     },
     {
@@ -77,7 +77,7 @@ const ProductDelivered: React.FC = () => {
       reqBy: 'Andi Kumala',
       urgency: 'Very Urgent',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="delivered" />,
+      status: <StatusChip label="Delivered" color={3} />,
       action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
     },
     {
@@ -85,7 +85,7 @@ const ProductDelivered: React.FC = () => {
       reqBy: 'Andi Kumala',
       urgency: 'Normal',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="delivered" />,
+      status: <StatusChip label="Delivered" color={3} />,
       action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
     },
     {
@@ -93,7 +93,7 @@ const ProductDelivered: React.FC = () => {
       reqBy: 'Andi Kumala',
       urgency: 'Very Urgent',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="delivered" />,
+      status: <StatusChip label="Delivered" color={3} />,
       action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
     },
   ])

@@ -1,6 +1,6 @@
 import { SelectedMaterialServiceInterface } from "@/app/(dashboard)/material-service-request/create/page";
-import { AddCircleOutline } from "@mui/icons-material";
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { AddCircleOutline, DeleteOutlineOutlined, EditOutlined } from "@mui/icons-material";
+import { Box, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React from "react";
 import CustomTextButton from "../buttons/CustomTextButton";
 import { CustomTableColumnInterface } from "./CustomTable";
@@ -9,9 +9,11 @@ interface CustomCreateMsrTableInterface {
   column: CustomTableColumnInterface[];
   datas: SelectedMaterialServiceInterface[];
   onClickAdd: () => void;
+  onClickEdit: (index: number) => void;
+  onClickDelete: (index: number) => void;
 }
 
-const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, datas}) => {
+const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, datas, onClickDelete, onClickEdit, onClickAdd}) => {
 
   return(
     <TableContainer
@@ -109,6 +111,36 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
                   </TableCell>
                 ))
               }
+              <TableCell
+                component="th"
+                scope="row"
+                align="center"
+                sx={{
+                  borderBottom: 'none',
+                }}
+              >
+                <Box
+                  sx={{
+                    fontWeight: 500,
+                    fontSize: '14px',
+                    lineHeight: '20px',
+                  }}
+                >
+                  <Grid
+                    container
+                    direction={'row'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                  >
+                    <IconButton onClick={() => onClickEdit(index)}>
+                      <EditOutlined sx={{color: '#2F80ED'}} />
+                    </IconButton>
+                    <IconButton onClick={() => onClickDelete(index)}>
+                      <DeleteOutlineOutlined sx={{color: '#EB5757'}} />
+                    </IconButton>
+                  </Grid>
+                </Box>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -121,7 +153,7 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
           icon={<AddCircleOutline/>}
           color="#F7C113"
           isDisabled={false}
-          onClick={() => console.log('add new data clicked')}
+          onClick={onClickAdd}
         />
       </Box>
 

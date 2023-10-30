@@ -1,0 +1,4 @@
+.customSelectVendor{
+  cursor: pointer !important;
+  pointer-events: all;
+}

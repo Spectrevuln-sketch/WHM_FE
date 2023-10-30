@@ -166,6 +166,7 @@ export default function DashboardNavbar({
         <Toolbar>
           {/* hamburger button */}
           <IconButton
+            className='hamburger-button'
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -235,7 +236,19 @@ export default function DashboardNavbar({
               </IconButton>
             </DrawerHeader>
             </>
-            : <DrawerHeader />
+            : <DrawerHeader sx={{padding: '0'}}>
+              <IconButton
+                className='hamburger-button'
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                sx={{
+                }}
+              >
+                <MenuIcon sx={{color: 'rgba(0, 0, 0, 0.50)'}} />
+              </IconButton>
+            </DrawerHeader>
           }
         </Grid>
         <List sx={{paddingLeft: open ? '20px' : '0px'}}>

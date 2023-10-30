@@ -57,48 +57,48 @@ const CreateMsr: React.FC = () => {
       reqBy: 'Andi Kumala',
       urgency: 'Normal',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="approval" />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      status: <StatusChip label="Approval" color={1} />,
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
     },
     {
       msrNumber: 'QFE12345678910',
       reqBy: 'Andi Kumala',
       urgency: 'Very Urgent',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="waiting" />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      status: <StatusChip label="Waiting for Approval from PM" color={0} />,
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
     },
     {
       msrNumber: 'QFE12345678910',
       reqBy: 'Andi Kumala',
       urgency: 'Normal',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="approval" />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      status: <StatusChip label="Approval" color={1} />,
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
     },
     {
       msrNumber: 'QFE12345678910',
       reqBy: 'Andi Kumala',
       urgency: 'Very Urgent',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="waiting" />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      status: <StatusChip label="Waiting for Approval from PM" color={0} />,
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
     },
     {
       msrNumber: 'QFE12345678910',
       reqBy: 'Andi Kumala',
       urgency: 'Normal',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="approval" />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      status: <StatusChip label="Approval" color={1} />,
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
     },
     {
       msrNumber: 'QFE12345678910',
       reqBy: 'Andi Kumala',
       urgency: 'Very Urgent',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip status="waitingPr" />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      status: <StatusChip label="Waiting for Approval from PR" color={0} />,
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
     },
   ])
 

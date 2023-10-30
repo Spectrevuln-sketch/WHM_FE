@@ -6,11 +6,12 @@ import CustomFileInput from "@/components/inputs/CustomFileInput";
 import CustomSelect, { SelectOption } from "@/components/inputs/CustomSelect";
 import CustomTextField from "@/components/inputs/CustomTextField";
 import CustomTextareaField from "@/components/inputs/CustomTextareaField";
+import AddMsrProductModal from "@/components/modals/AddMsrProductModal";
+import EditMsrProductModal from "@/components/modals/EditMsrProductModal";
 import CustomCreateMsrTable from "@/components/tables/CustomCreateMsrTable";
 import { CustomTableColumnInterface } from "@/components/tables/CustomTable";
 import { TitleDashboardText } from "@/components/text/styledText";
-import { DeleteOutlineOutlined, EditOutlined } from "@mui/icons-material";
-import { Box, Grid, IconButton } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -21,7 +22,6 @@ export interface SelectedMaterialServiceInterface{
   name: string;
   reqBy: string;
   purpose: string;
-  action: React.ReactNode;
 }
 
 const CreateMsr: React.FC = () => {
@@ -99,29 +99,71 @@ const CreateMsr: React.FC = () => {
     ]
   )
   const [suggestedSupplier, setSuggestedSupplier] = React.useState('')
-  const [selectedProducts] = React.useState<SelectedMaterialServiceInterface[]>([
+  const [selectedProducts, setSelectedProducts] = React.useState<SelectedMaterialServiceInterface[]>([
     {
       qty: 100,
       uom: 'PCS',
       name: 'Epson Tinta Print',
       reqBy: 'Dept IT',
       purpose: 'Restocking',
-      action: 
-      <Grid
-        container
-        direction={'row'}
-        alignItems={'center'}
-        justifyContent={'center'}
-      >
-        <IconButton><EditOutlined sx={{color: '#2F80ED'}} /></IconButton>
-        <IconButton><DeleteOutlineOutlined sx={{color: '#EB5757'}} /></IconButton>
-      </Grid>
     }
   ])
   const [notes, setNotes] = React.useState('')
   const [acknowledgement, setAcknowledgement] = React.useState('')
   const [attachmentName, setAttachementName] = React.useState('')
   const [attachment, setAttachement] = React.useState({})
+
+  // modal state
+  const [addProductOpen, setAddProductOpen] = React.useState(false)
+  const [editProductOpen, setEditProductOpen] = React.useState(false)
+  const [editProductIndex, setEditProductIndex] = React.useState<number>(-1)
+  const [editedProduct, setEditedProduct] = React.useState<SelectedMaterialServiceInterface>({
+    name: '',
+    purpose: '',
+    qty: 0,
+    reqBy: '',
+    uom: ''
+  })
+
+  const handleAddProductModalOpen = () => {
+    setAddProductOpen(true);
+  }
+  const handleAddProductModalClose = () => {
+    setAddProductOpen(false);
+  }
+  const addProduct = (product: SelectedMaterialServiceInterface) => {
+    setSelectedProducts(selectedProducts => [...selectedProducts, product])
+  }
+  const deleteProduct = (i: number) => {
+    const newState = [...selectedProducts];
+    if (i > -1) {
+      newState.splice(i, 1);
+      setSelectedProducts(newState);
+    }
+  }
+  const handleEditProductModalOpen = (index: number) => {
+    setEditProductOpen(true);
+    setEditProductIndex(index);
+    setEditedProduct(selectedProducts[index]);
+  }
+  const handleEditProductModalClose = () => {
+    setEditProductOpen(false);
+    setEditProductIndex(-1);
+    setEditedProduct({
+      name: '',
+      purpose: '',
+      qty: 0,
+      reqBy: '',
+      uom: ''
+    });
+  }
+  const editProduct = (product: SelectedMaterialServiceInterface, index: number) => {
+    // setSelectedProducts(selectedProducts => [...selectedProducts, product])
+    const newState = selectedProducts.slice();
+    newState[index] = product
+    setSelectedProducts(newState);
+  }
+  
 
   const handleChangeAttachment = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -140,6 +182,20 @@ const CreateMsr: React.FC = () => {
         paddingLeft: '80px',
       }}
     >
+
+      {/* modal add & delete product */}
+      <AddMsrProductModal
+        isOpen={addProductOpen}
+        onClose={handleAddProductModalClose}
+        onSubmit={(product) => addProduct(product)}
+      />
+      <EditMsrProductModal
+        isOpen={editProductOpen}
+        productIndex={editProductIndex}
+        product={editedProduct}
+        onClose={handleEditProductModalClose}
+        onSubmit={(product, index) => editProduct(product, index)}
+      />
       
       {/* title & logo */}
       <Image src={mainImage.logoSmallYellow} width={44} height={44} alt="company-logo" />
@@ -301,7 +357,13 @@ const CreateMsr: React.FC = () => {
           marginTop: '50px'
         }}
       >
-        <CustomCreateMsrTable datas={selectedProducts} column={selectedProductColumn} onClickAdd={() => console.log('click add item')} />
+        <CustomCreateMsrTable
+          datas={selectedProducts}
+          column={selectedProductColumn}
+          onClickAdd={handleAddProductModalOpen}
+          onClickEdit={(i) => handleEditProductModalOpen(i)}
+          onClickDelete={(i) => deleteProduct(i)}
+        />
       </Box>
 
       {/* form 3 */}

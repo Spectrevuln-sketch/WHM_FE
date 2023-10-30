@@ -4,15 +4,21 @@ import colorStyle from "@/styles/colorStyle";
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
+export enum ChipColor{
+  'red' = 0,
+  'green' = 1,
+  'blue' = 2,
+  'yellow' = 3,
+}
 interface StatusChipInterface {
-  status: string;
-  short?: boolean;
+  label: string;
+  color: ChipColor;
 }
 
-const StatusChip: React.FC<StatusChipInterface> = ({status, short}) => {
+const StatusChip: React.FC<StatusChipInterface> = ({label, color}) => {
 
-  switch (status) {
-    case 'waiting':
+  switch (color) {
+    case 0:
       return(
         <Box
           sx={{
@@ -34,41 +40,13 @@ const StatusChip: React.FC<StatusChipInterface> = ({status, short}) => {
               color: colorStyle.waitingForApproval.main
             }}
           >
-            {short ? 'Waiting for Approval' : 'Waiting for Approval from PM'}
-          </Typography>
-        </Box>
-      )
-      break;
-    
-    case 'waitingPr':
-      return(
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            borderRadius: '4px',
-            paddingX: '10px',
-            paddingY: '5px',
-            backgroundColor: colorStyle.waitingForApproval.light
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: '13px',
-              fontWeight: 500,
-              lineHeight: '14px',
-              color: colorStyle.waitingForApproval.main
-            }}
-          >
-            {short ? 'Waiting for Approval' : 'Waiting for Approval from PR'}
+            {label}
           </Typography>
         </Box>
       )
       break;
   
-    case 'approval':
+    case 1:
       return(
         <Box
           sx={{
@@ -90,13 +68,13 @@ const StatusChip: React.FC<StatusChipInterface> = ({status, short}) => {
               color: colorStyle.approval.main
             }}
           >
-            {short ? 'Approval' : 'Approval from PM'}
+            {label}
           </Typography>
         </Box>
       )
       break;
   
-    case 'delivering':
+    case 2:
       return(
         <Box
           sx={{
@@ -118,13 +96,13 @@ const StatusChip: React.FC<StatusChipInterface> = ({status, short}) => {
               color: colorStyle.delivering.main
             }}
           >
-            Delivering
+            {label}
           </Typography>
         </Box>
       )
       break;
   
-    case 'delivered':
+    case 3:
       return(
         <Box
           sx={{
@@ -146,7 +124,7 @@ const StatusChip: React.FC<StatusChipInterface> = ({status, short}) => {
               color: colorStyle.delivered.main
             }}
           >
-            Delivered
+            {label}
           </Typography>
         </Box>
       )

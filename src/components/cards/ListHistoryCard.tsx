@@ -1,12 +1,13 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
-import StatusChip from "../chips/StatusChip";
+import StatusChip, { ChipColor } from "../chips/StatusChip";
 
 interface data {
   title: string;
   subtitle: string;
   link: string;
-  status: string;
+  label: string;
+  color: ChipColor;
 }
 
 interface ListHistoryCardInterface {
@@ -93,7 +94,7 @@ const ListHistoryCard: React.FC<ListHistoryCardInterface> = ({data, title, amoun
 
               {/* right */}
               <Box>
-                <StatusChip status={val.status} short/>
+                <StatusChip label={val.label} color={val.color}/>
               </Box>
 
             </Grid>
