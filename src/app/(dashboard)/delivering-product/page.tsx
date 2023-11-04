@@ -7,6 +7,7 @@ import CustomTable, { CustomTableColumnInterface } from "@/components/tables/Cus
 import { TitleDashboardText } from "@/components/text/styledText";
 import FlexWrapper from "@/components/wrappers/FlexWrapper";
 import { Box, Grid, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export interface MsrData {
@@ -19,6 +20,8 @@ export interface MsrData {
 }
 
 const DeliveringProduct: React.FC = () => {
+
+  const router = useRouter();
 
   const msrHeader: CustomTableColumnInterface[] = [
     {
@@ -54,7 +57,7 @@ const DeliveringProduct: React.FC = () => {
       urgency: 'Normal',
       creationDate: '27 Februari 2023 -  10:35:05',
       status: <StatusChip label="delivering" color={2} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/delivering-product/QFE12345678910')} />
     },
     {
       msrNumber: 'QFE12345678910',
@@ -62,7 +65,7 @@ const DeliveringProduct: React.FC = () => {
       urgency: 'Very Urgent',
       creationDate: '27 Februari 2023 -  10:35:05',
       status: <StatusChip label="delivering" color={2} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/delivering-product/QFE12345678910')} />
     },
     {
       msrNumber: 'QFE12345678910',
@@ -70,7 +73,7 @@ const DeliveringProduct: React.FC = () => {
       urgency: 'Normal',
       creationDate: '27 Februari 2023 -  10:35:05',
       status: <StatusChip label="delivering" color={2} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/delivering-product/QFE12345678910')} />
     },
     {
       msrNumber: 'QFE12345678910',
@@ -78,7 +81,7 @@ const DeliveringProduct: React.FC = () => {
       urgency: 'Very Urgent',
       creationDate: '27 Februari 2023 -  10:35:05',
       status: <StatusChip label="delivering" color={2} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/delivering-product/QFE12345678910')} />
     },
     {
       msrNumber: 'QFE12345678910',
@@ -86,7 +89,7 @@ const DeliveringProduct: React.FC = () => {
       urgency: 'Normal',
       creationDate: '27 Februari 2023 -  10:35:05',
       status: <StatusChip label="delivering" color={2} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/delivering-product/QFE12345678910')} />
     },
     {
       msrNumber: 'QFE12345678910',
@@ -94,7 +97,7 @@ const DeliveringProduct: React.FC = () => {
       urgency: 'Very Urgent',
       creationDate: '27 Februari 2023 -  10:35:05',
       status: <StatusChip label="delivering" color={2} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => console.log('view detail clicked')} />
+      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/delivering-product/QFE12345678910')} />
     },
   ])
 

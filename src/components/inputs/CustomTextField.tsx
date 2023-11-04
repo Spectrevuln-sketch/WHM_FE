@@ -14,7 +14,7 @@ interface CustomTextFieldInterface {
   onChange: (val: string) => void;
 }
 
-const CustomTextField: React.FC<CustomTextFieldInterface> = ({label, placeholder, endAdornment, value, textHelper, onChange}) => {
+const CustomTextField: React.FC<CustomTextFieldInterface> = ({isDisabled, label, placeholder, endAdornment, value, textHelper, onChange}) => {
   return(
     <FormControl variant="outlined" fullWidth>
       {
@@ -32,6 +32,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({label, placeholder
         : null
       }
       <OutlinedInput
+        disabled={isDisabled}
         fullWidth
         size="small"
         value={value}
@@ -48,7 +49,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({label, placeholder
           color: '#A8AAAE'
         }}
       />
-      <FormHelperText id="custom-text-field-helper-text">{textHelper}</FormHelperText>
+      <FormHelperText id="custom-text-field-helper-text" sx={{margin: 0}}>{textHelper}</FormHelperText>
     </FormControl>
   )
 }

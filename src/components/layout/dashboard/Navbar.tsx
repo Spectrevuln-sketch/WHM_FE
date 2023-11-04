@@ -26,8 +26,6 @@ import * as React from 'react';
 import { dashboardHeaderImages } from '@/assets/images/dashboard/header';
 import './Navbar.css';
 import BadgeAvatar from './buttons/BadgeAvatar';
-import DarkModeButton from './buttons/DarkModeButton';
-import LanguageButton from './buttons/LanguageButton';
 import NotificationButton from './buttons/NotificationButton';
 
 const drawerWidth = 260;
@@ -52,6 +50,11 @@ const sidebarItem = [
     label: 'Product Delivered',
     icon: <Image src={dashboardIcons.productDeliveredIcon} alt='product-delivered-icon' width={24} height={24} />,
     route: '/product-delivered'
+  },
+  {
+    label: 'Inventory',
+    icon: <Image src={dashboardIcons.inventoryIcon} alt='inventory-icon' width={24} height={24} />,
+    route: '/inventory'
   },
 ];
 
@@ -205,8 +208,8 @@ export default function DashboardNavbar({
                   gap: '10px'
                 }}
               >
-                <LanguageButton language='en' onClick={() => console.log('language clicked')} />
-                <DarkModeButton onClick={() => console.log('dark mode clicked')}/>
+                {/* <LanguageButton language='en' onClick={() => console.log('language clicked')} />
+                <DarkModeButton onClick={() => console.log('dark mode clicked')}/> */}
                 <NotificationButton unread={4} onClick={() => console.log('notifications clicked')} />
                 <BadgeAvatar isOnline={true} image={dashboardHeaderImages.avatar.src} onClick={() => console.log('avatar clicked')} />
               </Grid>

@@ -3,6 +3,7 @@ import { Box, Grid, Modal, Paper } from "@mui/material";
 import React from "react";
 import CustomContainedButton from "../buttons/CustomContainedButton";
 import CustomContainedButtonGrey from "../buttons/CustomContainedButtonGrey";
+import CustomSelect from "../inputs/CustomSelect";
 import CustomTextField from "../inputs/CustomTextField";
 
 interface EditProductInterface {
@@ -103,34 +104,34 @@ const EditMsrProductModal: React.FC<EditProductInterface> = ({isOpen, productInd
               paddingLeft: '13px',
             }}
           >
-            <CustomTextField
+            <CustomSelect
               label="Unit of Measure"
               placeholder="Unit of Measure"
-              endAdornment=""
               isDisabled={false}
               isError={false}
               textHelper=""
               value={uom}
+              options={[]}
               onChange={(val) => setUom(val)}
             />
           </Box>
         </Grid>
 
-        <CustomTextField
+        <CustomSelect
           label="Product Name"
           placeholder="Product Name"
-          endAdornment=""
           isDisabled={false}
           isError={false}
           textHelper=""
           value={name}
+          options={[]}
           onChange={(val) => setName(val)}
         />
         <CustomTextField
           label="Requested By"
           placeholder="Requested By"
           endAdornment=""
-          isDisabled={false}
+          isDisabled={true}
           isError={false}
           textHelper=""
           value={reqBy}

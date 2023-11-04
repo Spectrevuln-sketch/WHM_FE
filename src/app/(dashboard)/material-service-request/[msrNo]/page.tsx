@@ -229,17 +229,17 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
             },
             {
               label: '',
-              description: 'Approval from PR',
+              description: 'Approval form PR',
               notes: []
             },
             {
               label: '',
-              description: 'Approval from SOQ',
+              description: 'Approval form SOQ',
               notes: []
             },
             {
               label: '',
-              description: 'Approval from PO',
+              description: 'Approval form PO',
               notes: []
             },
           ]}
