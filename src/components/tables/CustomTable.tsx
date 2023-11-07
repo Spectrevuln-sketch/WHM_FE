@@ -1,4 +1,4 @@
-import { MsrData } from "@/app/(dashboard)/material-service-request/page";
+import { MsrData } from "@/app/(dashboard)/(withNavbar)/material-service-request/page";
 import { Box, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React, { ChangeEvent } from "react";
 

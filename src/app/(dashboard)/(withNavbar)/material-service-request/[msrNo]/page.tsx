@@ -1,5 +1,6 @@
 'use client';
 
+import { dashboardImages } from "@/assets/images/dashboard";
 import CustomContainedButton from "@/components/buttons/CustomContainedButton";
 import CustomContainedButtonBlue from "@/components/buttons/CustomContainedButtonBlue";
 import StatusChip from "@/components/chips/StatusChip";
@@ -9,7 +10,8 @@ import CustomStepper from "@/components/steppers/CustomStepper";
 import CustomDetailsMsrTable from "@/components/tables/CustomDetailsMsrTable";
 import { DetailKeyText, DetailValueText, TitleDashboardText } from "@/components/text/styledText";
 import { ArrowForward, FiberManualRecord, StoreOutlined } from "@mui/icons-material";
-import { Box, Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, IconButton, Paper, Typography } from "@mui/material";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -128,81 +130,133 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
         >{params.msrNo}</Typography>
       </Grid>
 
-      {/* order data detail */}
+      {/* order data detail & excel download */}
       <Grid
         container
-        direction={'column'}
-        sx={{
-          marginTop: '75px',
-          width: '60%',
-          gap: '14px'
-        }}
+        direction={'row'}
+        gap={'24px'}
+        alignItems={'center'}
+        marginTop={'75px'}
       >
+        {/* detail */}
         <Grid
           container
-          direction={'row'}
+          direction={'column'}
+          sx={{
+            width: '60%',
+            gap: '14px'
+          }}
         >
-          <Box sx={{width: '50%'}}>
-            <DetailKeyText>Vessel / Site / Dept</DetailKeyText>
-          </Box>
-          <Box sx={{width: '50%'}}>
-            <DetailValueText>IT Departement</DetailValueText>
-          </Box>
+          <Grid
+            container
+            direction={'row'}
+          >
+            <Box sx={{width: '50%'}}>
+              <DetailKeyText>Vessel / Site / Dept</DetailKeyText>
+            </Box>
+            <Box sx={{width: '50%'}}>
+              <DetailValueText>IT Departement</DetailValueText>
+            </Box>
+          </Grid>
+          <Grid
+            container
+            direction={'row'}
+          >
+            <Box sx={{width: '50%'}}>
+              <DetailKeyText>Work Location</DetailKeyText>
+            </Box>
+            <Box sx={{width: '50%'}}>
+              <DetailValueText>Jakarta Pusat, Sudirman</DetailValueText>
+            </Box>
+          </Grid>
+          <Grid
+            container
+            direction={'row'}
+          >
+            <Box sx={{width: '50%'}}>
+              <DetailKeyText>Project Code</DetailKeyText>
+            </Box>
+            <Box sx={{width: '50%'}}>
+              <DetailValueText>0705-ASM-020A-PR-VIII-2023</DetailValueText>
+            </Box>
+          </Grid>
+          <Grid
+            container
+            direction={'row'}
+          >
+            <Box sx={{width: '50%'}}>
+              <DetailKeyText>Delivery Date (within)</DetailKeyText>
+            </Box>
+            <Box sx={{width: '50%'}}>
+              <DetailValueText>Sunday, September 24 2023</DetailValueText>
+            </Box>
+          </Grid>
+          <Grid
+            container
+            direction={'row'}
+          >
+            <Box sx={{width: '50%'}}>
+              <DetailKeyText>Urgency</DetailKeyText>
+            </Box>
+            <Box sx={{width: '50%'}}>
+              <DetailValueText>Normal</DetailValueText>
+            </Box>
+          </Grid>
+          <Grid
+            container
+            direction={'row'}
+          >
+            <Box sx={{width: '50%'}}>
+              <DetailKeyText>Suggested Supplier</DetailKeyText>
+            </Box>
+            <Box sx={{width: '50%'}}>
+              <DetailValueText>SiTepat Tujuan</DetailValueText>
+            </Box>
+          </Grid>
         </Grid>
+        {/* excel */}
         <Grid
           container
           direction={'row'}
+          justifyContent={'space-between'}
+          width={'300px'}
         >
-          <Box sx={{width: '50%'}}>
-            <DetailKeyText>Work Location</DetailKeyText>
+          <Box
+            display={'flex'}
+            flexDirection={'row'}
+            gap={'20px'}
+            alignItems={'center'}
+          >
+            <Image src={dashboardImages.excelFileIcon} alt="excel-icon" width={35} height={40} />
+            <Grid
+              container
+              direction={'column'}
+              gap={'6px'}
+            >
+              <Typography
+                sx={{
+                  fontWeight: 400,
+                  fontSize: '14px',
+                  lineHeight: '16px'
+                }}
+              >
+                Product Document.xlsx
+              </Typography>
+              <Typography
+                sx={{
+                  fontWeight: 400,
+                  fontSize: '14px',
+                  lineHeight: '16px',
+                  color: '#707070'
+                }}
+              >
+                xlsx - 179MB
+              </Typography>
+            </Grid>
           </Box>
-          <Box sx={{width: '50%'}}>
-            <DetailValueText>Jakarta Pusat, Sudirman</DetailValueText>
-          </Box>
-        </Grid>
-        <Grid
-          container
-          direction={'row'}
-        >
-          <Box sx={{width: '50%'}}>
-            <DetailKeyText>Project Code</DetailKeyText>
-          </Box>
-          <Box sx={{width: '50%'}}>
-            <DetailValueText>0705-ASM-020A-PR-VIII-2023</DetailValueText>
-          </Box>
-        </Grid>
-        <Grid
-          container
-          direction={'row'}
-        >
-          <Box sx={{width: '50%'}}>
-            <DetailKeyText>Delivery Date (within)</DetailKeyText>
-          </Box>
-          <Box sx={{width: '50%'}}>
-            <DetailValueText>Sunday, September 24 2023</DetailValueText>
-          </Box>
-        </Grid>
-        <Grid
-          container
-          direction={'row'}
-        >
-          <Box sx={{width: '50%'}}>
-            <DetailKeyText>Urgency</DetailKeyText>
-          </Box>
-          <Box sx={{width: '50%'}}>
-            <DetailValueText>Normal</DetailValueText>
-          </Box>
-        </Grid>
-        <Grid
-          container
-          direction={'row'}
-        >
-          <Box sx={{width: '50%'}}>
-            <DetailKeyText>Suggested Supplier</DetailKeyText>
-          </Box>
-          <Box sx={{width: '50%'}}>
-            <DetailValueText>SiTepat Tujuan</DetailValueText>
-          </Box>
+          <IconButton>
+            <Image src={dashboardImages.fileDownloadIcon} alt="dl" width={24} height={24} />
+          </IconButton>
         </Grid>
       </Grid>
 

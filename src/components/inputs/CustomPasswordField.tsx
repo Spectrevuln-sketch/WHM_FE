@@ -4,17 +4,29 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { FormControl, FormHelperText, IconButton, InputAdornment, OutlinedInput, Typography } from "@mui/material";
 import React from "react";
 
+
+type colorOptions = 'transparent' | 'white';
 interface CustomTextFieldInterface {
   label: string;
   placeholder: string;
   value: string;
-  isDisabled: boolean;
-  isError: boolean;
-  textHelper: string;
+  isDisabled?: boolean;
+  isError?: boolean;
+  textHelper?: string;
+  color?: colorOptions;
   onChange: (val: string) => void;
 }
 
-const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({label, placeholder, value, textHelper, onChange}) => {
+const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({
+  label,
+  placeholder,
+  value,
+  textHelper = '',
+  isDisabled = false,
+  isError = false,
+  color = 'transparent',
+  onChange
+}) => {
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -33,7 +45,7 @@ const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({label, placeho
           sx={{
             marginBottom: '4px',
             fontSize: '13px',
-            color: '#4B465C'
+            color: color === 'white' ? '#fff' : '#4B465C'
           }}
         >
           {label}
@@ -41,6 +53,8 @@ const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({label, placeho
         : null
       }
       <OutlinedInput
+        disabled={isDisabled}
+        error={isError}
         fullWidth
         type={showPassword ? 'text' : 'password'}
         size="small"
@@ -66,7 +80,8 @@ const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({label, placeho
         }}
         sx={{
           borderRadius: '6px',
-          color: '#A8AAAE'
+          color: '#A8AAAE',
+          backgroundColor: color === 'white' ? '#fff' : undefined
         }}
       />
       <FormHelperText id="custom-text-field-helper-text">{textHelper}</FormHelperText>

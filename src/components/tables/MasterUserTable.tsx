@@ -1,5 +1,6 @@
 import { DeleteOutlineOutlined, EditOutlined } from "@mui/icons-material";
 import { Box, Grid, IconButton, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React from "react";
 import CustomContainedButton from "../buttons/CustomContainedButton";
 import CustomSearchField from "../inputs/CustomSearchField";
@@ -61,6 +62,8 @@ const dummyDatas: MasterUserTableInterface[] =[
 
 const MasterUserTable: React.FC = () => {
 
+  const router = useRouter();
+
   const [column, setColumn] = React.useState<MasterUserTableColumnInterface[]>([])
   const [datas, setDatas] = React.useState<MasterUserTableInterface[]>([])
 
@@ -76,7 +79,7 @@ const MasterUserTable: React.FC = () => {
     console.log('edit', index)
   }
   const onClickCreate = () => {
-    console.log('create')
+    router.push('/dashboard/admin/create-user');
   }
 
   // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - datas.length) : 0;

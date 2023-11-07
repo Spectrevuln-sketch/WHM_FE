@@ -4,7 +4,7 @@ import { Box, FormControl, FormHelperText, MenuItem, Select, Typography } from "
 
 import React from 'react';
 
-import { PurchaseRequestItemInterface } from "@/app/(dashboard)/material-service-request/create-pr/[msrNoSlug]/page";
+import { PurchaseRequestItemInterface } from "@/app/(dashboard)/(withNavbar)/material-service-request/create-pr/[msrNoSlug]/page";
 import SelectVendorModal from "../modals/SelectVendorModal";
 import customStyle from './CustomSelectVendor.module.css';
 

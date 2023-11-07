@@ -5,11 +5,11 @@ import React from "react";
 
 export interface CustomContainedButtonInterface {
   label: string;
-  isDisabled: boolean;
+  isDisabled?: boolean;
   onClick: () => void;
 }
 
-const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label, isDisabled, onClick}) => {
+const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label, isDisabled = false, onClick}) => {
   return(
     <Button
       fullWidth

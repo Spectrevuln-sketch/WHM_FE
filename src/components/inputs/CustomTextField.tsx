@@ -3,18 +3,31 @@
 import { FormControl, FormHelperText, InputAdornment, OutlinedInput, Typography } from "@mui/material";
 import React from "react";
 
+type colorOptions = 'transparent' | 'white';
+
 interface CustomTextFieldInterface {
   label: string;
   placeholder: string;
-  endAdornment: string;
+  endAdornment?: string;
   value: string;
-  isDisabled: boolean;
-  isError: boolean;
-  textHelper: string;
+  isDisabled?: boolean;
+  isError?: boolean;
+  textHelper?: string;
+  color?: colorOptions;
   onChange: (val: string) => void;
 }
 
-const CustomTextField: React.FC<CustomTextFieldInterface> = ({isDisabled, label, placeholder, endAdornment, value, textHelper, onChange}) => {
+const CustomTextField: React.FC<CustomTextFieldInterface> = ({
+  isDisabled = false,
+  isError = false,
+  label,
+  placeholder,
+  endAdornment = '',
+  value,
+  textHelper = '',
+  color = 'transparent',
+  onChange,
+}) => {
   return(
     <FormControl variant="outlined" fullWidth>
       {
@@ -24,7 +37,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({isDisabled, label,
           sx={{
             marginBottom: '4px',
             fontSize: '13px',
-            color: '#4B465C'
+            color: color === 'white' ? '#fff' : '#4B465C'
           }}
         >
           {label}
@@ -33,6 +46,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({isDisabled, label,
       }
       <OutlinedInput
         disabled={isDisabled}
+        error={isError}
         fullWidth
         size="small"
         value={value}
@@ -46,7 +60,8 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({isDisabled, label,
         }}
         sx={{
           borderRadius: '6px',
-          color: '#A8AAAE'
+          color: '#A8AAAE',
+          backgroundColor: color === 'white' ? '#fff' : undefined,
         }}
       />
       <FormHelperText id="custom-text-field-helper-text" sx={{margin: 0}}>{textHelper}</FormHelperText>

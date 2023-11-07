@@ -3,6 +3,7 @@
 import { mainImage } from "@/assets/images";
 import CustomContainedButton from "@/components/buttons/CustomContainedButton";
 import CustomContainedButtonBlue from "@/components/buttons/CustomContainedButtonBlue";
+import StatusChip from "@/components/chips/StatusChip";
 import CustomSelect, { SelectOption } from "@/components/inputs/CustomSelect";
 import CustomSelectVendor from "@/components/inputs/CustomSelectVendor";
 import CustomTextField from "@/components/inputs/CustomTextField";
@@ -48,7 +49,7 @@ const dummySelectedProducts: PurchaseRequestItemInterface[] = [
   },
 ];
 
-const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
+const CreateSoq = ({ params }: { params: { msrNoSlug: string } }) => {
 
   const [msrNoOptions, setMsrNoOptions] = React.useState<SelectOption[]>([])
   // const [products, setProducts] = React.useState<MaterialServiceItemInterface[]>([])
@@ -152,7 +153,7 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
         alignItems={'center'}
         marginTop={'16px'}
       >
-        <TitleDashboardText>Creating Purchase Request</TitleDashboardText>
+        <TitleDashboardText>Creating Summary Of Quotation</TitleDashboardText>
         <FiberManualRecord sx={{fontSize: '5px', color: 'rgba(0, 0, 0, 0.56)'}} />
         <Typography
           sx={{
@@ -162,6 +163,26 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
             color: 'rgba(75, 70, 92, 1)'
           }}
         >{params.msrNoSlug}</Typography>
+      </Grid>
+      <Grid
+        container
+        direction={'row'}
+        justifyContent={'space-between'}
+      >
+        <Box sx={{width: '300px', marginTop: '24px'}}>
+          <StatusChip color={0} label="Waiting for Creating Summary Of Quotation" />
+        </Box>
+        <Box
+          sx={{
+            width: '200px'
+          }}
+        >
+          <CustomContainedButton
+            isDisabled={false}
+            label="Add New Product"
+            onClick={() => console.log('add new product')}
+          />
+        </Box>
       </Grid>
 
       {/* form purchase request */}
@@ -183,77 +204,57 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
               <Grid
                 container
                 direction={'column'}
-                width={'60%'}
+                width={'40%'}
+                gap={'32px'}
               >
-                <Grid
-                  container
-                  direction={'row'}
-                >
-                  <Box
-                    sx={{width: '50%', paddingRight: '10px'}}
-                  >
-                    <CustomSelect 
-                      label="Nomor MSR" 
-                      placeholder="Pilih Nomor MSR"
-                      value={product.msrNo}
-                      onChange={(val) => changeDataSelectedProducts('msrNo', val, index)}
-                      options={msrNoOptions}
-                      isDisabled={false}
-                      isError={false}
-                      textHelper=""
-                    />
-                  </Box>
-                  <Box
-                    sx={{width: '50%', paddingLeft: '10px'}}
-                  >
-                    <CustomTextField 
-                      label="Product Name" 
-                      placeholder="Enter your Product Name"
-                      value={product.name}
-                      onChange={(val) => changeDataSelectedProducts('name', val, index)}
-                      endAdornment=""
-                      isDisabled={false}
-                      isError={false}
-                      textHelper=""
-                    />
-                  </Box>
-                </Grid>
-                <Grid
-                  container
-                  direction={'row'}
-                  sx={{
-                    marginTop: '30px'
-                  }}
-                >
-                  <Box
-                    sx={{width: '50%', paddingRight: '10px'}}
-                  >
-                    <CustomTextField 
-                      label="Quantity" 
-                      placeholder="Enter your Quantity"
-                      value={product.qty.toString()}
-                      onChange={(val) => changeDataSelectedProducts('qty', val, index)}
-                      endAdornment=""
-                      isDisabled={false}
-                      isError={false}
-                      textHelper=""
-                    />
-                  </Box>
-                  <Box
-                    sx={{width: '50%', paddingLeft: '10px'}}
-                  >
-                    <CustomTextField 
-                      label="Unit of Measure" 
-                      placeholder="Enter your Unit of Measure"
-                      value={product.uom}
-                      onChange={(val) => changeDataSelectedProducts('uom', val, index)}
-                      endAdornment=""
-                      isDisabled={false}
-                      isError={false}
-                      textHelper=""
-                    />
-                  </Box>
-                </Grid>
+                <Box>
+                  <CustomSelect 
+                    label="Nomor MSR" 
+                    placeholder="Pilih Nomor MSR"
+                    value={product.msrNo}
+                    onChange={(val) => changeDataSelectedProducts('msrNo', val, index)}
+                    options={msrNoOptions}
+                    isDisabled={false}
+                    isError={false}
+                    textHelper=""
+                  />
+                </Box>
+                <Box>
+                  <CustomTextField 
+                    label="Product Name" 
+                    placeholder="Enter your Product Name"
+                    value={product.name}
+                    onChange={(val) => changeDataSelectedProducts('name', val, index)}
+                    endAdornment=""
+                    isDisabled={false}
+                    isError={false}
+                    textHelper=""
+                  />
+                </Box>
+                <Box>
+                  <CustomTextField 
+                    label="Quantity" 
+                    placeholder="Enter your Quantity"
+                    value={product.qty.toString()}
+                    onChange={(val) => changeDataSelectedProducts('qty', val, index)}
+                    endAdornment=""
+                    isDisabled={false}
+                    isError={false}
+                    textHelper=""
+                  />
+                </Box>
+                <Box>
+                  <CustomTextField 
+                    label="Unit of Measure" 
+                    placeholder="Enter your Unit of Measure"
+                    value={product.uom}
+                    onChange={(val) => changeDataSelectedProducts('uom', val, index)}
+                    endAdornment=""
+                    isDisabled={false}
+                    isError={false}
+                    textHelper=""
+                  />
+                </Box>
               </Grid>
 
               {/* price */}
@@ -261,14 +262,77 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
                 container
                 direction={'column'}
                 width={'40%'}
-                justifyContent={'flex-end'}
+                justifyContent={'flex-start'}
                 alignItems={'flex-start'}
+                paddingLeft={'32px'}
               >
+
+                <Grid
+                  container
+                  direction={'row'}
+                  alignItems={'center'}
+                  gap={'14px'}
+                  marginTop={'40px'}
+                >
+                  <Box
+                    sx={{
+                      backgroundColor: '#F7C113',
+                      paddingY: '4px',
+                      paddingX: '8px'
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: 600,
+                        fontSize: '15px',
+                        lineHeight: '24px',
+                        color: '#fff'
+                      }}
+                    >
+                      Recommendation Vendor
+                    </Typography>
+                  </Box>
+                  <Typography>GABRIEL INTI MARINDO</Typography>
+                </Grid>
+
+                <Grid
+                  container
+                  direction={'row'}
+                  marginTop={'30px'}
+                  gap={'18px'}
+                  alignItems={'center'}
+                >
+                  <Store sx={{
+                    fontSize: '52px'
+                  }} />
+                  <Box
+                    sx={{
+                      width: '300px'
+                    }}
+                  >
+                    <CustomSelectVendor
+                      isError={false}
+                      label="Recommendation Vendor"
+                      placeholder="GABRIEL INTI MARINDO"
+                      value={product.vendor}
+                      onChange={(val) => changeDataSelectedProducts('vendor', val, index)}
+                      options={[
+                        {
+                          label: product.vendor,
+                          value: product.vendor
+                        }
+                      ]}
+                      textHelper=""
+                      product={product}
+                    />
+                  </Box>
+                </Grid>
+
                 <Grid
                   container
                   direction={'row'}
                   justifyContent={'space-between'}
-                  padding={'32px'}
+                  marginTop={'32px'}
                 >
 
                   {/* price key */}
@@ -348,67 +412,6 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
               
             </Grid>
 
-            <Grid
-              container
-              direction={'row'}
-              alignItems={'center'}
-              gap={'14px'}
-              marginTop={'40px'}
-            >
-              <Box
-                sx={{
-                  backgroundColor: '#F7C113',
-                  paddingY: '4px',
-                  paddingX: '8px'
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: 600,
-                    fontSize: '15px',
-                    lineHeight: '24px',
-                    color: '#fff'
-                  }}
-                >
-                  Recommendation Vendor
-                </Typography>
-              </Box>
-              <Typography>GABRIEL INTI MARINDO</Typography>
-            </Grid>
-
-            <Grid
-              container
-              direction={'row'}
-              marginTop={'30px'}
-              gap={'18px'}
-            >
-              <Store sx={{
-
-                fontSize: '52px'
-              }} />
-              <Box
-                sx={{
-                  width: '300px'
-                }}
-              >
-                <CustomSelectVendor
-                  isError={false}
-                  label="Recommendation Vendor"
-                  placeholder="GABRIEL INTI MARINDO"
-                  value={product.vendor}
-                  onChange={(val) => changeDataSelectedProducts('vendor', val, index)}
-                  options={[
-                    {
-                      label: product.vendor,
-                      value: product.vendor
-                    }
-                  ]}
-                  textHelper=""
-                  product={product}
-                />
-              </Box>
-            </Grid>
-
           </Grid>
         ))
       }
@@ -432,21 +435,10 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
             onClick={() => console.log('submit')}
           />
         </Box>
-        <Box
-          sx={{
-            width: '200px'
-          }}
-        >
-          <CustomContainedButton
-            isDisabled={false}
-            label="Add New Product"
-            onClick={() => console.log('add new product')}
-          />
-        </Box>
       </Grid>
 
     </Grid>
   )
 }
 
-export default CreatePr;
+export default CreateSoq;

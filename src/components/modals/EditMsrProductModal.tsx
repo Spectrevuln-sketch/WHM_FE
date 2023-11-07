@@ -1,4 +1,4 @@
-import { SelectedMaterialServiceInterface } from "@/app/(dashboard)/material-service-request/create/page";
+import { SelectedMaterialServiceInterface } from "@/app/(dashboard)/(withNavbar)/material-service-request/create/page";
 import { Box, Grid, Modal, Paper } from "@mui/material";
 import React from "react";
 import CustomContainedButton from "../buttons/CustomContainedButton";

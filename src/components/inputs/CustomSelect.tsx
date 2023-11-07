@@ -11,18 +11,31 @@ export interface SelectOption {
   value: string,
   label: string
 }
+
+type colorOptions = 'transparent' | 'white';
 interface CustomSelectInterface {
   label: string;
   placeholder: string;
   value: string;
   options: SelectOption[];
-  isDisabled: boolean;
-  isError: boolean;
-  textHelper: string;
+  isDisabled?: boolean;
+  isError?: boolean;
+  textHelper?: string;
+  color?: colorOptions;
   onChange: (val: string) => void;
 }
 
-const CustomSelect: React.FC<CustomSelectInterface> = ({label, placeholder, value, options, isDisabled, textHelper, onChange}) => {
+const CustomSelect: React.FC<CustomSelectInterface> = ({
+  label,
+  placeholder,
+  value,
+  options,
+  isDisabled = false,
+  isError = false,
+  textHelper = '',
+  color= 'transparent',
+  onChange
+}) => {
   return(
     <FormControl fullWidth>
       {
@@ -32,7 +45,7 @@ const CustomSelect: React.FC<CustomSelectInterface> = ({label, placeholder, valu
           sx={{
             marginBottom: '4px',
             fontSize: '13px',
-            color: '#4B465C'
+            color: color === 'white' ? '#fff' : '#4B465C'
           }}
         >
           {label}
@@ -41,6 +54,7 @@ const CustomSelect: React.FC<CustomSelectInterface> = ({label, placeholder, valu
       }
       <Select
         disabled={isDisabled}
+        error={isError}
         variant="outlined"
         id="custom-select"
         labelId="custom-select-label"
@@ -51,7 +65,8 @@ const CustomSelect: React.FC<CustomSelectInterface> = ({label, placeholder, valu
         displayEmpty
         sx={{
           borderRadius: '6px',
-          color: '#A8AAAE'
+          color: '#A8AAAE',
+          backgroundColor: color === 'white' ? '#fff' : undefined
         }}
         >
         <MenuItem className={customOptionStyle.customSelectPlaceholder} value="" disabled sx={{ visibility: 'hidden', height: '0px !important' }}>

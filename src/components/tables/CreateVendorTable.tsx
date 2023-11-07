@@ -1,19 +1,25 @@
-import { SelectedMaterialServiceInterface } from "@/app/(dashboard)/(withNavbar)/material-service-request/create/page";
 import { AddCircleOutline, DeleteOutlineOutlined, EditOutlined } from "@mui/icons-material";
 import { Box, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React from "react";
 import CustomTextButton from "../buttons/CustomTextButton";
 import { CustomTableColumnInterface } from "./CustomTable";
 
-interface CustomCreateMsrTableInterface {
+export interface CreateVendorProductInterface{
+  name: string;
+  qty: number;
+  uom: string;
+  price: number;
+}
+
+interface CreateVendorTableInterface {
   column: CustomTableColumnInterface[];
-  datas: SelectedMaterialServiceInterface[];
+  datas: CreateVendorProductInterface[];
   onClickAdd: () => void;
   onClickEdit: (index: number) => void;
   onClickDelete: (index: number) => void;
 }
 
-const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, datas, onClickDelete, onClickEdit, onClickAdd}) => {
+const CreateVendorTable: React.FC<CreateVendorTableInterface> = ({column, datas, onClickDelete, onClickEdit, onClickAdd}) => {
 
   return(
     <TableContainer
@@ -161,4 +167,4 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
   )
 }
 
-export default CustomCreateMsrTable;
+export default CreateVendorTable;

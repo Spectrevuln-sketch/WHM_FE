@@ -1,4 +1,4 @@
-import { MaterialServiceItemInterface } from "@/app/(dashboard)/material-service-request/[msrNo]/page";
+import { MaterialServiceItemInterface } from "@/app/(dashboard)/(withNavbar)/material-service-request/[msrNo]/page";
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React from "react";
 import { CustomTableColumnInterface } from "./CustomTable";

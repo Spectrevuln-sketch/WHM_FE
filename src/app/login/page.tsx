@@ -7,22 +7,34 @@ import CustomPasswordField from '@/components/inputs/CustomPasswordField';
 import CustomSelect from '@/components/inputs/CustomSelect';
 import CustomTextField from '@/components/inputs/CustomTextField';
 import LoginSwiper from '@/components/swiper/LoginSwiper';
+import { apiRequest } from '@/config/api';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 export default function Login() {
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const [selectedLanguage, setSelectedLanguage] = React.useState('en');
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
+  const [disabledButton, setDisabledButton] = React.useState(true);
+
+  const validator = ['', null, undefined, false, 0, '0'];
+
+  const checkForm = () => {
+    if (!validator.includes(username) && !validator.includes(password)) {
+      setDisabledButton(false)
+    } else {
+      setDisabledButton(true)
+    }
+  }
+
   const handleChangeLanguage = (val: string) => {
-    setSelectedLanguage(val)
+    setSelectedLanguage(val);
   }
   const handleChangeUsername = (val: string) => {
     setUsername(val)
@@ -35,9 +47,24 @@ export default function Login() {
     console.log('privacy policy clicked')
   }
 
-  const handleClickSignIn = () => {
-    router.push('/dashboard');
+  const handleClickSignIn = async () => {
+    try {
+      const response = await apiRequest.v1.post('/login', {
+        username,
+        password
+      });
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
+
+  React.useEffect(() => {
+    checkForm()
+  }, [
+    username,
+    password
+  ])
 
   return (
     <Grid
@@ -166,7 +193,7 @@ export default function Login() {
                 width: '100%'
               }}
             >
-              <CustomContainedButton isDisabled={false} label='Sign In' onClick={handleClickSignIn} />
+              <CustomContainedButton isDisabled={disabledButton} label='Sign In' onClick={handleClickSignIn} />
             </Box>
           </Grid>
 

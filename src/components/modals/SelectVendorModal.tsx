@@ -1,4 +1,4 @@
-import { PurchaseRequestItemInterface } from "@/app/(dashboard)/material-service-request/create-pr/[msrNoSlug]/page";
+import { PurchaseRequestItemInterface } from "@/app/(dashboard)/(withNavbar)/material-service-request/create-pr/[msrNoSlug]/page";
 import { thousandSeparator } from "@/helpers/numericHelper";
 import { FiberManualRecord } from "@mui/icons-material";
 import { Box, Grid, Modal, Paper, Typography } from "@mui/material";
