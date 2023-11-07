@@ -20,6 +20,7 @@ const CreateUser: React.FC = () => {
       alignItems={'center'}
       height={'100vh'}
       width={'100vw'}
+      paddingBottom={'46px'}
       sx={{
         backgroundImage: `url('/images/auth/auth-banner.png')`,
         backgroundPosition: 'center',
