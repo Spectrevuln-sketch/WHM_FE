@@ -3,9 +3,53 @@ import { Box, Grid, Modal, Paper } from "@mui/material";
 import React from "react";
 import CustomContainedButton from "../buttons/CustomContainedButton";
 import CustomContainedButtonGrey from "../buttons/CustomContainedButtonGrey";
-import CustomSelect from "../inputs/CustomSelect";
+import CustomSelect, { SelectOption } from "../inputs/CustomSelect";
 import CustomTextField from "../inputs/CustomTextField";
+import SelectProductModal from "./SelectProductModal";
+import SelectUomModal from "./SelectUomModal";
 
+
+export interface ProductInterface {
+  id: string;
+  name: string;
+}
+export interface UomInterface {
+  id: string;
+  name: string;
+}
+
+const dummyProductOptions: ProductInterface[] = [
+  {
+    id: '1',
+    name: 'Fresh Water YASHIMA',
+  },
+  {
+    id: '2',
+    name: 'Fresh Water BIANCA-8',
+  },
+  {
+    id: '3',
+    name: 'RAM SODIMM 8GB DDR4 3200MHZ',
+  },
+  {
+    id: '4',
+    name: 'HARDISK EXTERNAL 1TB WD',
+  },
+]
+const dummyUomOptions: UomInterface[] = [
+  {
+    id: '1',
+    name: 'PCS',
+  },
+  {
+    id: '2',
+    name: 'KG',
+  },
+  {
+    id: '3',
+    name: 'L',
+  },
+]
 interface AddProductModalInterface {
   isOpen: boolean;
   onSubmit: (val: SelectedMaterialServiceInterface) => void;
@@ -17,9 +61,27 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({isOpen, onSubmi
 
   const [qty, setQty] = React.useState<number>(0);
   const [uom, setUom] = React.useState<string>('');
+  const [uomOptions, setUomOptions] = React.useState<UomInterface[]>([]);
   const [name, setName] = React.useState<string>('');
+  const [nameOptions, setNameOptions] = React.useState<ProductInterface[]>([]);
   const [reqBy, setReqBy] = React.useState<string>('this_user');
   const [purpose, setPurpose] = React.useState<string>('');
+
+  const [selectProductOpen, setSelectProductOpen] = React.useState(false);
+  const [selectUomOpen, setSelectUomOpen] = React.useState(false);
+
+  const handleOpenSelectProduct = () => {
+    setSelectProductOpen(true)
+  }
+  const handleCloseSelectProduct = () => {
+    setSelectProductOpen(false)
+  }
+  const handleOpenSelectUom = () => {
+    setSelectUomOpen(true)
+  }
+  const handleCloseSelectUom = () => {
+    setSelectUomOpen(false)
+  }
 
   const handleSubmit = () => {
 
@@ -46,8 +108,16 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({isOpen, onSubmi
 
   }
 
+  const convertProductToSelect = (input: ProductInterface[]): SelectOption[] => {
+    return input.map(product => ({value: product.id, label: product.name}))
+  }
+  const convertUomToSelect = (input: UomInterface[]): SelectOption[] => {
+    return input.map(uom => ({value: uom.id, label: uom.name}))
+  }
+
   React.useEffect(() => {
-    //
+    setNameOptions(dummyProductOptions)
+    setUomOptions(dummyUomOptions)
   }, [])
 
   return(
@@ -69,6 +139,19 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({isOpen, onSubmi
         gap={'16px'}
       >
 
+        <SelectProductModal
+          isOpen={selectProductOpen}
+          options={nameOptions}
+          onClose={handleCloseSelectProduct}
+          onChange={(val) => setName(val)}
+        />
+        <SelectUomModal
+          isOpen={selectUomOpen}
+          options={uomOptions}
+          onClose={handleCloseSelectUom}
+          onChange={(val) => setUom(val)}
+        />
+        
         <Grid
           container
           direction={'row'}
@@ -98,29 +181,32 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({isOpen, onSubmi
               paddingLeft: '13px',
             }}
           >
-            <CustomSelect
-              label="Unit of Measure"
-              placeholder="Unit of Measure"
-              isDisabled={false}
-              isError={false}
-              textHelper=""
-              value={uom}
-              options={[]}
-              onChange={(val) => setUom(val)}
-            />
+            <Box onClick={handleOpenSelectUom}>
+              <CustomSelect
+                label="Unit of Measure"
+                placeholder="Unit of Measure"
+                isDisabled={true}
+                isError={false}
+                textHelper=""
+                value={uom}
+                options={convertUomToSelect(uomOptions)}
+                onChange={(val) => console.log(val)}
+              />
+            </Box>
           </Box>
         </Grid>
-
-        <CustomSelect
-          label="Product Name"
-          placeholder="Product Name"
-          isDisabled={false}
-          isError={false}
-          textHelper=""
-          value={name}
-          options={[]}
-          onChange={(val) => setName(val)}
-        />
+        <Box onClick={handleOpenSelectProduct}>
+          <CustomSelect
+            label="Product Name"
+            placeholder="Product Name"
+            isDisabled={true}
+            isError={false}
+            textHelper=""
+            value={name}
+            options={convertProductToSelect(nameOptions)}
+            onChange={(val) => console.log(val)}
+          />
+        </Box>
         <CustomTextField
           label="Requested By"
           placeholder="Requested By"

@@ -9,6 +9,7 @@ export enum ChipColor{
   'green' = 1,
   'blue' = 2,
   'yellow' = 3,
+  'yellow2' = 4
 }
 interface StatusChipInterface {
   label: string;
@@ -122,6 +123,34 @@ const StatusChip: React.FC<StatusChipInterface> = ({label, color}) => {
               fontWeight: 500,
               lineHeight: '14px',
               color: colorStyle.delivered.main
+            }}
+          >
+            {label}
+          </Typography>
+        </Box>
+      )
+      break;
+    
+    case 4:
+      return(
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            borderRadius: '4px',
+            paddingX: '10px',
+            paddingY: '5px',
+            backgroundColor: '#F7C113'
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: '13px',
+              fontWeight: 500,
+              lineHeight: '14px',
+              color: '#fff'
             }}
           >
             {label}

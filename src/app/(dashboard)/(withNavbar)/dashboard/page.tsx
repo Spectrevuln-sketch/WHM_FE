@@ -79,42 +79,42 @@ const Dashboard = () => {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                label: 'Waiting for Approval',
+                label: 'Close',
                 color: 0
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                label: 'Approval',
+                label: 'Open',
                 color: 1
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                label: 'Waiting for Approval',
+                label: 'Close',
                 color: 0
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                label: 'Waiting for Approval',
+                label: 'Close',
                 color: 0
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                label: 'Waiting for Approval',
+                label: 'Close',
                 color: 0
               },
               {
                 title: 'Direct Source',
                 subtitle: 'Direct link click',
                 link: '/dashboard',
-                label: 'Waiting for Approval',
+                label: 'Close',
                 color: 0
               },
             ]}

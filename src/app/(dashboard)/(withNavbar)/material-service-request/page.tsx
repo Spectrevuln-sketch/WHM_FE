@@ -65,7 +65,7 @@ const CreateMsr: React.FC = () => {
       reqBy: 'Andi Kumala',
       urgency: 'Very Urgent',
       creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip label="Waiting for Approval from PM" color={0} />,
+      status: <StatusChip label="Rejected form Logistik" color={4} />,
       action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
     },
     {
