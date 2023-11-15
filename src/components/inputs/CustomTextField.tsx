@@ -14,6 +14,7 @@ interface CustomTextFieldInterface {
   isError?: boolean;
   textHelper?: string;
   color?: colorOptions;
+  type?: string;
   onChange: (val: string) => void;
 }
 
@@ -26,6 +27,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
   value,
   textHelper = '',
   color = 'transparent',
+  type = 'text',
   onChange,
 }) => {
   return(
@@ -46,6 +48,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
       }
       <OutlinedInput
         disabled={isDisabled}
+        type={type}
         error={isError}
         fullWidth
         size="small"

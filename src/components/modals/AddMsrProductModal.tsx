@@ -1,9 +1,10 @@
 import { SelectedMaterialServiceInterface } from "@/app/(dashboard)/(withNavbar)/material-service-request/create/page";
+import { convertProductToSelect, convertUomToSelect } from "@/helpers/converterHelper";
 import { Box, Grid, Modal, Paper } from "@mui/material";
 import React from "react";
 import CustomContainedButton from "../buttons/CustomContainedButton";
 import CustomContainedButtonGrey from "../buttons/CustomContainedButtonGrey";
-import CustomSelect, { SelectOption } from "../inputs/CustomSelect";
+import CustomSelect from "../inputs/CustomSelect";
 import CustomTextField from "../inputs/CustomTextField";
 import SelectProductModal from "./SelectProductModal";
 import SelectUomModal from "./SelectUomModal";
@@ -82,7 +83,6 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({isOpen, onSubmi
   const handleCloseSelectUom = () => {
     setSelectUomOpen(false)
   }
-
   const handleSubmit = () => {
 
     // submit add product
@@ -108,12 +108,30 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({isOpen, onSubmi
 
   }
 
-  const convertProductToSelect = (input: ProductInterface[]): SelectOption[] => {
-    return input.map(product => ({value: product.id, label: product.name}))
-  }
-  const convertUomToSelect = (input: UomInterface[]): SelectOption[] => {
-    return input.map(uom => ({value: uom.id, label: uom.name}))
-  }
+  // form validation
+  const validator = ['', null, undefined, false, 0, '0'];
+  
+  const submitConditionArray = [
+    validator?.includes(qty),
+    validator?.includes(uom),
+    validator?.includes(name),
+    validator?.includes(reqBy),
+    validator?.includes(purpose),
+  ]
+
+  const disableSubmit = React.useMemo(() => {
+    if (!submitConditionArray?.includes(true)) {
+      return false;
+    } else {
+      return true;
+    }
+  }, [
+    qty,
+    uom,
+    name,
+    reqBy,
+    purpose,
+  ]);
 
   React.useEffect(() => {
     setNameOptions(dummyProductOptions)
@@ -172,6 +190,7 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({isOpen, onSubmi
               isError={false}
               textHelper=""
               value={String(qty)}
+              type="number"
               onChange={(val) => setQty(Number(val))}
             />
           </Box>
@@ -241,7 +260,7 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({isOpen, onSubmi
             }}
           >
             <CustomContainedButton
-              isDisabled={false}
+              isDisabled={disableSubmit}
               label="Submit"
               onClick={handleSubmit}
             />

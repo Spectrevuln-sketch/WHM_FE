@@ -129,9 +129,24 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
     setSelectedProducts(dummySelectedProducts);
   }, [])
 
-  React.useEffect(() => {
-    //
-  }, []);
+  // form validation
+  const validator = ['', null, undefined, false, 0, '0'];
+  const createPrValidation = () => {
+    const con = selectedProducts.map((obj) => (
+      Object.entries(obj).map((value) => (validator?.includes(value[1])))
+    ));
+    return con.flat();
+  };
+  const disableSubmit = React.useMemo(() => {
+    console.log(createPrValidation())
+    if (!createPrValidation().includes(true)) {
+      return false;
+    } else {
+      return true;
+    }
+  }, [
+    selectedProducts,
+  ]);
   return (
     <Grid
       container
@@ -430,7 +445,7 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
           }}
         >
           <CustomContainedButtonBlue
-            isDisabled={false}
+            isDisabled={disableSubmit}
             label={`Submit ${selectedProducts.length} Products`}
             onClick={() => console.log('submit')}
           />

@@ -11,6 +11,7 @@ import EditMsrProductModal from "@/components/modals/EditMsrProductModal";
 import CustomCreateMsrTable from "@/components/tables/CustomCreateMsrTable";
 import { CustomTableColumnInterface } from "@/components/tables/CustomTable";
 import { TitleDashboardText } from "@/components/text/styledText";
+import { isFile } from "@/helpers/generalHelper";
 import { Box, Grid } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -111,7 +112,7 @@ const CreateMsr: React.FC = () => {
   const [notes, setNotes] = React.useState('')
   const [acknowledgement, setAcknowledgement] = React.useState('')
   const [attachmentName, setAttachementName] = React.useState('')
-  const [attachment, setAttachement] = React.useState({})
+  const [attachment, setAttachement] = React.useState<File>()
 
   // modal state
   const [addProductOpen, setAddProductOpen] = React.useState(false)
@@ -163,15 +164,54 @@ const CreateMsr: React.FC = () => {
     newState[index] = product
     setSelectedProducts(newState);
   }
-  
 
   const handleChangeAttachment = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     const selectedFiles = files as FileList;
     setAttachement(selectedFiles?.[0]);
     setAttachementName(selectedFiles?.[0].name)
-    console.log(attachment)
+    // console.log(attachment)
   }
+
+  // form validation
+  const validator = ['', null, undefined, false, 0, '0'];
+  
+  const submitConditionArray = [
+    validator?.includes(msrNo),
+    validator?.includes(workLocation),
+    validator?.includes(vessel),
+    validator?.includes(projectCode),
+    validator?.includes(deliveryDate),
+    validator?.includes(urgency),
+    validator?.includes(suggestedSupplier),
+    // validator?.includes(selectedProducts),
+    selectedProducts.length <= 0,
+    validator?.includes(notes),
+    validator?.includes(acknowledgement),
+    // validator?.includes(attachment),
+    // Object.keys(attachment).length <= 0,
+    !isFile(attachment)
+  ]
+
+  const disableSubmit = React.useMemo(() => {
+    if (!submitConditionArray?.includes(true)) {
+      return false;
+    } else {
+      return true;
+    }
+  }, [
+    msrNo,
+    workLocation,
+    vessel,
+    projectCode,
+    deliveryDate,
+    urgency,
+    suggestedSupplier,
+    selectedProducts,
+    notes,
+    acknowledgement,
+    attachment,
+  ]);
 
   return (
     <Grid
@@ -436,7 +476,7 @@ const CreateMsr: React.FC = () => {
           width: '375px'
         }}
       >
-        <CustomContainedButton label="Submit" isDisabled={false} onClick={() => router.push('/material-service-request')} />
+        <CustomContainedButton label="Submit" isDisabled={disableSubmit} onClick={() => router.push('/material-service-request')} />
       </Box>
 
     </Grid>
