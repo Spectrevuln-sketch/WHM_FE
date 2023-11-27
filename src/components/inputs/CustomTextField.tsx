@@ -15,7 +15,8 @@ interface CustomTextFieldInterface {
   textHelper?: string;
   color?: colorOptions;
   type?: string;
-  onChange: (val: string) => void;
+  name?: string;
+  onChange: (val: string, e?: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 const CustomTextField: React.FC<CustomTextFieldInterface> = ({
@@ -28,6 +29,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
   textHelper = '',
   color = 'transparent',
   type = 'text',
+  name = '',
   onChange,
 }) => {
   return(
@@ -53,11 +55,12 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
         fullWidth
         size="small"
         value={value}
+        name={name}
         placeholder={placeholder}
         id="custom-textfield"
         endAdornment={<InputAdornment position="end">{endAdornment}</InputAdornment>}
         aria-describedby="custom-text-field-helper-text"
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value, e)}
         inputProps={{
           'aria-label': 'textfield',
         }}

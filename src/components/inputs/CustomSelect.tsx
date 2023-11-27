@@ -1,6 +1,6 @@
 'use client';
 
-import { FormControl, FormHelperText, MenuItem, Select, Typography } from "@mui/material";
+import { FormControl, FormHelperText, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 
 import React from 'react';
 
@@ -22,7 +22,8 @@ interface CustomSelectInterface {
   isError?: boolean;
   textHelper?: string;
   color?: colorOptions;
-  onChange: (val: string) => void;
+  name?: string;
+  onChange: (val: string, e?: SelectChangeEvent<string>) => void;
 }
 
 const CustomSelect: React.FC<CustomSelectInterface> = ({
@@ -33,7 +34,8 @@ const CustomSelect: React.FC<CustomSelectInterface> = ({
   isDisabled = false,
   isError = false,
   textHelper = '',
-  color= 'transparent',
+  color = 'transparent',
+  name = '',
   onChange
 }) => {
   return(
@@ -54,12 +56,13 @@ const CustomSelect: React.FC<CustomSelectInterface> = ({
       }
       <Select
         disabled={isDisabled}
+        name={name}
         error={isError}
         variant="outlined"
         id="custom-select"
         labelId="custom-select-label"
         value={value}
-        onChange={(val) => onChange(val.target.value)}
+        onChange={(e) => onChange(e.target.value, e)}
         size="small"
         aria-describedby="custom-select-helper-text"
         displayEmpty

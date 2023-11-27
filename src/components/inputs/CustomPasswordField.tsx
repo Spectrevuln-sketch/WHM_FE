@@ -14,7 +14,8 @@ interface CustomTextFieldInterface {
   isError?: boolean;
   textHelper?: string;
   color?: colorOptions;
-  onChange: (val: string) => void;
+  name?: string;
+  onChange: (val: string, e?: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({
@@ -25,6 +26,7 @@ const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({
   isDisabled = false,
   isError = false,
   color = 'transparent',
+  name = 'password',
   onChange
 }) => {
 
@@ -54,6 +56,7 @@ const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({
       }
       <OutlinedInput
         disabled={isDisabled}
+        name={name}
         error={isError}
         fullWidth
         type={showPassword ? 'text' : 'password'}
@@ -74,7 +77,7 @@ const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({
           </InputAdornment>
         }
         aria-describedby="custom-text-field-helper-text"
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value, e)}
         inputProps={{
           'aria-label': 'textfield',
         }}

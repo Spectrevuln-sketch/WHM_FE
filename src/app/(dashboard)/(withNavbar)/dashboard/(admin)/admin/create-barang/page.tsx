@@ -5,21 +5,88 @@ import { mainImage } from "@/assets/images";
 import CustomContainedButton from "@/components/buttons/CustomContainedButton";
 import CustomContainedButtonGrey from "@/components/buttons/CustomContainedButtonGrey";
 import CustomDatePicker from "@/components/inputs/CustomDatePicker";
-import CustomSelect from "@/components/inputs/CustomSelect";
+import CustomSelect, { SelectOption } from "@/components/inputs/CustomSelect";
 import CustomSelectVendor from "@/components/inputs/CustomSelectVendor";
 import CustomTextField from "@/components/inputs/CustomTextField";
 import GenerateQrCodeModal from "@/components/modals/GenerateQrCodeModal";
 import { TitleDashboardText } from "@/components/text/styledText";
 import { thousandSeparator } from "@/helpers/numericHelper";
 import { Store } from "@mui/icons-material";
-import { Box, Grid, Radio, Typography } from "@mui/material";
+import { Box, Grid, Radio, SelectChangeEvent, Typography } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 
+type FormBarang = {
+  productName: string;
+  price: number;
+  qty: number;
+  storageLoc: string
+  uom: string;
+  purchaseDate: string;
+  deliverWith: string;
+}
+
+const dummyProductNameOptions: SelectOption[] = [
+  {
+    value: '1',
+    label: 'Lem Korea'
+  }
+]
+
 const CreateBarang: React.FC = () => {
   const [generateQrModalOpen, setGenerateQrModalOpen] = React.useState(false)
-
   const [deliverWith, setDeliverWith] = React.useState('')
+  const [formBarang, setFormBarang] = React.useState<FormBarang>({
+    productName: '',
+    price: 0,
+    qty: 0,
+    storageLoc: '',
+    uom: '',
+    purchaseDate: '',
+    deliverWith: '',
+  })
+  const [productNameOptions, setProductNameOptions] = React.useState<SelectOption[]>([])
+
+  const handleChangeForm = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) => {
+    setFormBarang({
+      ...formBarang,
+      [e!.currentTarget.name]: e!.currentTarget.value
+    })
+  }
+
+  const handleChangeSelectForm = (e: SelectChangeEvent<string> | undefined) => {
+    setFormBarang({
+      ...formBarang,
+      [e!.target.name]: e!.target.value
+    })
+  }
+
+  // form validation
+  const validator = ['', null, undefined, false, 0, '0'];
+  
+  const submitConditionArray = [
+    validator?.includes(formBarang.productName),
+    validator?.includes(formBarang.price),
+    validator?.includes(formBarang.qty),
+    validator?.includes(formBarang.storageLoc),
+    validator?.includes(formBarang.uom),
+    validator?.includes(formBarang.purchaseDate),
+    validator?.includes(formBarang.deliverWith),
+  ]
+
+  const disableSubmit = React.useMemo(() => {
+    if (!submitConditionArray?.includes(true)) {
+      return false;
+    } else {
+      return true;
+    }
+  }, [
+    formBarang
+  ]);
+
+  React.useEffect(() => {
+    setProductNameOptions(dummyProductNameOptions)
+  }, [])
   return (
     <Grid
       container
@@ -55,23 +122,26 @@ const CreateBarang: React.FC = () => {
                 isDisabled={false}
                 isError={false}
                 label="Product Name"
+                name="productName"
                 placeholder="Enter your Product Name"
                 textHelper=""
                 value={''}
-                options={[]}
-                onChange={(val) => console.log(val)}
+                options={productNameOptions}
+                onChange={(val, e) => handleChangeSelectForm(e)}
               />
             </Box>
             <Box sx={{width: '50%', paddingLeft: '18px'}}>
               <CustomTextField
                 isDisabled={false}
+                name="price"
                 isError={false}
                 label="Price"
+                type="number"
                 placeholder="Enter your Price"
                 textHelper="Note: Select Supplier Information"
                 endAdornment=""
                 value={''}
-                onChange={(val) => console.log(val)}
+                onChange={(val, e) => handleChangeForm(e)}
               />
             </Box>
           </Grid>
@@ -440,7 +510,7 @@ const CreateBarang: React.FC = () => {
         >
           <CustomContainedButton
             label="Create Master Barang"
-            isDisabled={false}
+            isDisabled={disableSubmit}
             onClick={() => console.log('create')}
           />
         </Box>
