@@ -234,7 +234,7 @@ const ProductDeliveredDetail = ({ params }: { params: { msrNo: string } }) => {
       >
         <Box
           sx={{
-            backgroundColor: '#F7C113',
+            backgroundColor: '#365486',
             width: '200px',
             display: 'flex',
             justifyContent: 'center',

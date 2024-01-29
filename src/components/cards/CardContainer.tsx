@@ -5,8 +5,10 @@ import * as React from 'react';
 const CardContainer = (
   {
     children,
+    maxWidth,
   }: {
-    children: React.ReactNode
+    children: React.ReactNode,
+    maxWidth?: string,
   }
 ) => {
   return (
@@ -16,7 +18,8 @@ const CardContainer = (
         border: '1px solid #DBDADE',
         borderRadius: '6px',
         padding: '24px',
-        flexGrow: 1
+        flexGrow: 1,
+        maxWidth: maxWidth
       }}
     >
       {children}

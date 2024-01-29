@@ -142,7 +142,7 @@ const StatusChip: React.FC<StatusChipInterface> = ({label, color}) => {
             borderRadius: '4px',
             paddingX: '10px',
             paddingY: '5px',
-            backgroundColor: '#F7C113'
+            backgroundColor: '#365486'
           }}
         >
           <Typography

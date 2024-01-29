@@ -4,9 +4,6 @@ import Image from 'next/image';
 import * as React from 'react';
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
-import colorStyle from '@/styles/colorStyle';
-import { AccessTime, CheckCircleOutline } from '@mui/icons-material';
-import CardContainer from './CardContainer';
 import './OverviewCard.css';
 
 interface data {
@@ -16,14 +13,11 @@ interface data {
 interface OverviewCardInterface {
   data: data[];
   activeIndex: number;
-  materialServiceRequest: number;
-  deliveringProduct: number;
-  productDelivered: number;
 }
 
-const OverviewCard: React.FC<OverviewCardInterface> = ({data, activeIndex, materialServiceRequest, deliveringProduct, productDelivered}) => {
+const OverviewCard: React.FC<OverviewCardInterface> = ({data, activeIndex}) => {
 
-  const chartColor = data.map((a, index) => index == activeIndex ? '#F7C113' : '#F3E3AF');
+  const chartColor = data.map((a, index) => index == activeIndex ? '#365486' : '#365486');
   
   return (
     <Grid
@@ -131,7 +125,7 @@ const OverviewCard: React.FC<OverviewCardInterface> = ({data, activeIndex, mater
       </Grid>
 
       {/* bottom */}
-      <CardContainer>
+      {/* <CardContainer>
 
         <Grid
           container
@@ -262,7 +256,7 @@ const OverviewCard: React.FC<OverviewCardInterface> = ({data, activeIndex, mater
           </Box>
         </Grid>
         
-      </CardContainer>
+      </CardContainer> */}
 
     </Grid>
   );

@@ -125,14 +125,13 @@ const CustomTable: React.FC<CustomTableInterface> = ({column, datas, page, rowsP
             '& .MuiPaginationItem-root': {
               '&.Mui-selected': {
                 background: 'white',
-                color: '#F7C113',
-                border: 'solid 1px #F7C113',
+                border: 'solid 1px #365486',
                 fontWeight: 600,
               },
             },
             '& .MuiButtonBase-root': {
               '&.MuiPaginationItem-previousNext': {
-                background: '#F7C113',
+                background: '#365486',
                 color: 'white',
               },
             },

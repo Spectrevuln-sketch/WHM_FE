@@ -38,7 +38,7 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
       >
         <TableHead
           sx={{
-            backgroundColor: '#F7C113',
+            backgroundColor: '#365486',
           }}
         >
           <TableRow>
@@ -151,7 +151,7 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
         <CustomTextButton
           label="Add New Data"
           icon={<AddCircleOutline/>}
-          color="#F7C113"
+          color="#365486"
           isDisabled={false}
           onClick={onClickAdd}
         />

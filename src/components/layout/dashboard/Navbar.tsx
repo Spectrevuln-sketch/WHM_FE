@@ -24,6 +24,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 
 import { dashboardHeaderImages } from '@/assets/images/dashboard/header';
+import CustomContainedButtonRed from '@/components/buttons/CustomContainedButtonRed';
+import { Logout } from '@mui/icons-material';
 import './Navbar.css';
 import BadgeAvatar from './buttons/BadgeAvatar';
 import NotificationButton from './buttons/NotificationButton';
@@ -61,6 +63,7 @@ const sidebarItem = [
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   boxShadow: '1px 4px 4px 0px #00000040',
+  backgroundColor: '#365486',
   zIndex: 500,
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
@@ -77,6 +80,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   overflowX: 'hidden',
   boxShadow: '1px 4px 4px 0px #00000040',
   zIndex: 500,
+  backgroundColor: '#365486',
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
@@ -193,7 +197,7 @@ export default function DashboardNavbar({
             {/* header left */}
             <Box>
               <Typography variant="h6" noWrap component="div">
-                <Image src={mainImage.logoSmallYellow} width={44} height={44} alt='company-logo'/>
+                <Image src={mainImage.logoSmall} width={44} height={44} alt='company-logo'/>
               </Typography>
             </Box>
             {/* header right */}
@@ -232,7 +236,9 @@ export default function DashboardNavbar({
           {
             open
             ? <>
-            <Image src={mainImage.logoSmallYellow} width={44} height={44} alt='company-logo' />
+            <Box>
+              <Image src={mainImage.logoSmall} width={44} height={44} alt='company-logo' style={{borderRadius: '8px'}}/>
+            </Box>
             <DrawerHeader>
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -254,7 +260,7 @@ export default function DashboardNavbar({
             </DrawerHeader>
           }
         </Grid>
-        <List sx={{paddingLeft: open ? '20px' : '0px'}}>
+        <List sx={{paddingLeft: open ? '20px' : '0px', paddingRight: open ? '20px' : '0px'}}>
           {sidebarItem.map((item) => (
             <ListItem key={item.label} disablePadding sx={{ display: 'block' }}
             className='sidebar-list-item'
@@ -282,6 +288,20 @@ export default function DashboardNavbar({
             </ListItem>
           ))}
         </List>
+        <Grid
+          container
+          direction={'column'}
+          height={'100%'}
+          justifyContent={'flex-end'}
+          alignItems={'center'}
+          padding={'20px'}
+        >
+          <CustomContainedButtonRed
+            label='logout'
+            icon={<Logout />}
+            onClick={() => {}}
+          />
+        </Grid>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: '20px'}}>
         <DrawerHeader />

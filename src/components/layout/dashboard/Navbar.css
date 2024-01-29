@@ -1,12 +1,12 @@
 .sidebar-list-item{
   margin-top: 15px;
   margin-bottom: 15px;
-  color: #4B465C;
+  color: #fff !important;
   cursor: pointer !important;
 }
 
 .sidebar-list-item > .Mui-selected{
-  color: #fff;
-  background: linear-gradient(92.18deg, #F7C113 7.55%, rgba(247, 193, 19, 0) 89.4%);
+  color: #000;
+  background: #fff;
   border-radius: 6px;
 }

@@ -325,7 +325,7 @@ const Inventory: React.FC = () => {
                 >
                   <Box
                     sx={{
-                      backgroundColor: '#F7C113',
+                      backgroundColor: '#365486',
                       paddingY: '4px',
                       paddingX: '8px'
                     }}
@@ -433,7 +433,7 @@ const Inventory: React.FC = () => {
                         fontWeight: 600,
                         fontSize: '15px',
                         lineHeight: '24px',
-                        color: '#F7C113'
+                        color: '#365486'
                       }}
                     >
                       Rp. {thousandSeparator(275000)}
@@ -443,7 +443,7 @@ const Inventory: React.FC = () => {
                         fontWeight: 600,
                         fontSize: '15px',
                         lineHeight: '24px',
-                        color: '#F7C113'
+                        color: '#365486'
                       }}
                     >
                       Rp. {thousandSeparator(825000)}

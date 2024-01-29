@@ -6,10 +6,11 @@ import React from "react";
 export interface CustomContainedButtonInterface {
   label: string;
   isDisabled?: boolean;
+  icon?: React.ReactNode;
   onClick: () => void;
 }
 
-const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label, isDisabled = false, onClick}) => {
+const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label, isDisabled = false, icon, onClick}) => {
   return(
     <Button
       fullWidth
@@ -20,11 +21,11 @@ const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label,
         fontSize: '16px',
         color: '#FFFFFF',
         textTransform: 'none',
-        background: 'linear-gradient(to right, #F7C113, #EDCD67) !important',
+        background: '#365486',
         boxShadow: 'none'
       }}
     >
-      {label}
+      {icon} {label}
     </Button>
   )
 }

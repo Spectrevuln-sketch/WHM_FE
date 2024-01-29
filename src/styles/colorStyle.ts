@@ -1,4 +1,13 @@
 const colorStyle = {
+  main: {
+    lightest: '#6d8ec4',
+    light: '#4971b5',
+    main: '#365486',
+    dark: '#2b446d',
+    darkest: '#1d2d48',
+    text: '#ddd',
+    contrasText: '#fff',
+  },
   waitingForApproval: {
     light: '#FCE4E4',
     main: '#EA5455'
