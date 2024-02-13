@@ -1,0 +1,9 @@
+############### Notulen ###############
+
+- Semi Data Di mastering 
+- Akan di kirimkan data barrang
+- data inventory
+- request msg by group code barang dan di dept ada group code nya group code bisa banyak
+- Page PR hilangkan
+- PO meliputi banyak MSR
+- Jika Barang di input belum ada di master barang  user dengan role procurement sahib create barang terlebih dahulu
