@@ -7,11 +7,10 @@ import CustomPasswordField from '@/components/inputs/CustomPasswordField';
 import CustomSelect from '@/components/inputs/CustomSelect';
 import CustomTextField from '@/components/inputs/CustomTextField';
 import LoginSwiper from '@/components/swiper/LoginSwiper';
-import { apiRequest } from '@/config/api';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Image from 'next/image';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { useLogin } from './@usecase';
 
 export default function Login(): React.JSX.Element {

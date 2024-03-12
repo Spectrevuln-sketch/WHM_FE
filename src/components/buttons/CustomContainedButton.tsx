@@ -7,7 +7,7 @@ export interface CustomContainedButtonInterface {
   label: string;
   isDisabled?: boolean;
   icon?: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label, isDisabled = false, icon, onClick}) => {
@@ -16,7 +16,7 @@ const CustomContainedButton: React.FC<CustomContainedButtonInterface> = ({label,
       fullWidth
       variant="contained"
       disabled={isDisabled}
-      onClick={() => onClick()}
+      onClick={() => onClick?.()}
       sx={{
         fontSize: '16px',
         color: '#FFFFFF',

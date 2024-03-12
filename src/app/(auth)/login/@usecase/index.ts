@@ -43,7 +43,6 @@ export const useLogin = () : HILogin =>{
   const checkForm = () => {
     for ( const key in payload ) {
       if (payload[key] !== ''){
-        console.log(payload[key])
         return setInitalState({
           ...initialState,
           disabledButton: false
