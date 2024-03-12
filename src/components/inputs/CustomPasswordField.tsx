@@ -9,7 +9,6 @@ type colorOptions = 'transparent' | 'white';
 interface CustomTextFieldInterface {
   label: string;
   placeholder: string;
-  value: string;
   isDisabled?: boolean;
   isError?: boolean;
   textHelper?: string;
@@ -21,7 +20,6 @@ interface CustomTextFieldInterface {
 const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({
   label,
   placeholder,
-  value,
   textHelper = '',
   isDisabled = false,
   isError = false,
@@ -61,7 +59,6 @@ const CustomPasswordField: React.FC<CustomTextFieldInterface> = ({
         fullWidth
         type={showPassword ? 'text' : 'password'}
         size="small"
-        value={value}
         placeholder={placeholder}
         id="custom-textfield"
         endAdornment={

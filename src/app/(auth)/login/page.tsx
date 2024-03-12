@@ -11,60 +11,13 @@ import { apiRequest } from '@/config/api';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Image from 'next/image';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import { useLogin } from './@usecase';
 
-export default function Login() {
+export default function Login(): React.JSX.Element {
 
   // const router = useRouter();
-
-  const [selectedLanguage, setSelectedLanguage] = React.useState('en');
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-
-  const [disabledButton, setDisabledButton] = React.useState(true);
-
-  const validator = ['', null, undefined, false, 0, '0'];
-
-  const checkForm = () => {
-    if (!validator.includes(username) && !validator.includes(password)) {
-      setDisabledButton(false)
-    } else {
-      setDisabledButton(true)
-    }
-  }
-
-  const handleChangeLanguage = (val: string) => {
-    setSelectedLanguage(val);
-  }
-  const handleChangeUsername = (val: string) => {
-    setUsername(val)
-  }
-  const handleChangePassword = (val: string) => {
-    setPassword(val)
-  }
-
-  const handleClickPrivacyPolicy = () => {
-    console.log('privacy policy clicked')
-  }
-
-  const handleClickSignIn = async () => {
-    try {
-      const response = await apiRequest.v1.post('/login', {
-        username,
-        password
-      });
-      console.log(response.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  React.useEffect(() => {
-    checkForm()
-  }, [
-    username,
-    password
-  ])
+  const {initialState, setInitalState, payload, handleClickPrivacyPolicy, setPayload, handleClickSignIn} = useLogin();
 
   return (
     <Grid
@@ -108,7 +61,7 @@ export default function Login() {
             <CustomSelect
               label=''
               placeholder='language'
-              value={selectedLanguage}
+              value={initialState.lang}
               isDisabled={false}
               isError={false}
               textHelper=''
@@ -122,7 +75,10 @@ export default function Login() {
                   label: 'Indonesia'
                 }
               ]}
-              onChange={(e) => handleChangeLanguage(e)}
+              onChange={(e) => setInitalState({
+                ...initialState,
+                lang:e
+              })}
             />
           </Box>
 
@@ -163,12 +119,14 @@ export default function Login() {
               <CustomTextField
                 label='username'
                 placeholder='username'
-                value={username}
                 isDisabled={false}
                 isError={false}
                 textHelper=''
                 endAdornment=''
-                onChange={(val) => handleChangeUsername(val)}
+                onChange={(val) => setPayload({
+                  ...payload,
+                  username:val
+                })}
               />
             </Box>
             <Box
@@ -180,11 +138,13 @@ export default function Login() {
               <CustomPasswordField
                 label='password'
                 placeholder='password'
-                value={password}
                 isDisabled={false}
                 isError={false}
                 textHelper=''
-                onChange={(val) => handleChangePassword(val)}
+                onChange={(val) =>setPayload({
+                  ...payload,
+                  password:val
+                })}
               />
             </Box>
             <Box
@@ -193,7 +153,7 @@ export default function Login() {
                 width: '100%'
               }}
             >
-              <CustomContainedButton isDisabled={disabledButton} label='Sign In' onClick={handleClickSignIn} />
+              <CustomContainedButton isDisabled={initialState.disabledButton} label='Sign In' onClick={()=>handleClickSignIn(payload)} />
             </Box>
           </Grid>
 

@@ -9,7 +9,6 @@ interface CustomTextFieldInterface {
   label: string;
   placeholder: string;
   endAdornment?: string;
-  value: string;
   isDisabled?: boolean;
   isError?: boolean;
   textHelper?: string;
@@ -25,7 +24,6 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
   label,
   placeholder,
   endAdornment = '',
-  value,
   textHelper = '',
   color = 'transparent',
   type = 'text',
@@ -54,7 +52,6 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
         error={isError}
         fullWidth
         size="small"
-        value={value}
         name={name}
         placeholder={placeholder}
         id="custom-textfield"
