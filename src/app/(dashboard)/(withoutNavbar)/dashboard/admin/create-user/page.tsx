@@ -74,7 +74,7 @@ const CreateUser: React.FC = () => {
 
   // form validation
   const validator = ['', null, undefined, false, 0, '0'];
-  
+
   const submitConditionArray = [
     validator?.includes(userForm.fullname),
     validator?.includes(userForm.username),
@@ -93,7 +93,7 @@ const CreateUser: React.FC = () => {
   }, [
     userForm
   ]);
-  
+
   return (
     <Grid
       container
@@ -117,7 +117,7 @@ const CreateUser: React.FC = () => {
         alignItems={'center'}
       >
 
-        <Image width={68} height={68} src={mainImage.logoSmallYellow} alt='company-logo' />
+        {/* <Image width={68} height={68} src={mainImage.logoSmall} alt='company-logo' /> */}
         <TitleDashboardText sx={{color: '#fff', marginTop: '25px'}}>Create a new account</TitleDashboardText>
 
         <Grid

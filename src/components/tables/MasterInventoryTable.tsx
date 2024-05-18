@@ -121,7 +121,7 @@ const MasterInventoryTable: React.FC = () => {
           <CustomContainedButton label="Create Inventory" isDisabled={false} onClick={onClickCreate} />
         </Box>
       </Grid>
-      
+
       <TableContainer
         component={Paper}
         elevation={3}

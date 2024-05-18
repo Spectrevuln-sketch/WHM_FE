@@ -31,5 +31,7 @@ module.exports = {
         "react"
     ],
     "rules": {
+        "no-prototype-builtins": "warn",
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
     }
 }

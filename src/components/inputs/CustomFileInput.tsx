@@ -7,7 +7,7 @@ import React from "react";
 interface CustomFileInputInterface {
   label: string;
   placeholder: string;
-  value: string;
+  value?: string;
   isDisabled: boolean;
   isError: boolean;
   textHelper: string;

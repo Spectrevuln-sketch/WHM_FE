@@ -178,7 +178,7 @@ const CreateInventory: React.FC = () => {
                   borderRadius: '6px'
                 }}
               >
-                <Image src={mainImage.logoSmallYellow} alt="logo-asm" width={44} height={44} />
+                <Image src={mainImage.logoSmall} alt="logo-asm" width={44} height={44} />
               </Box>
               <Grid
                 display={'flex'}
@@ -415,7 +415,7 @@ const CreateInventory: React.FC = () => {
                       Rp. {thousandSeparator(825000)}
                     </Typography>
                   </Grid>
-                  
+
                 </Grid>
               </>
               : null

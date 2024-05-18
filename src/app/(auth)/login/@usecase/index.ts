@@ -1,7 +1,12 @@
-import { apiRequest } from "@/config/api";
+"use client";
 import React, { useEffect, useState } from "react";
+import { SigninHandler } from "./handler";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/store/store";
+import { setCurrentUserLogin } from "@/store/users/slice";
+import { getCurrentUser } from "@/helpers/tokenChecker";
 
-type IPayload = {
+export type IPayload = {
   login:{
     [key :string]: string;
     // password: string;
@@ -22,6 +27,8 @@ export interface HILogin {
 
 
 export const useLogin = () : HILogin =>{
+  const router = useRouter()
+  const dispatch = useAppDispatch()
   const [initialState, setInitalState] = useState({
     lang: 'en',
     disabledButton: true,
@@ -32,12 +39,13 @@ export const useLogin = () : HILogin =>{
   });
 
   const handleClickSignIn = async (payload: IPayload['login']) => {
-    try {
-      const response = await apiRequest.v1.post('/v1/login', payload);
-      console.log(response.data)
-    } catch (error) {
-      console.log(error)
-    }
+    const login = await SigninHandler(payload);
+    if (login.responseCode === '99') return;
+    const getUsers = await getCurrentUser();
+    dispatch(setCurrentUserLogin({
+      ...getUsers.data
+    }))
+    return await router.replace('/dashboard');
   }
 
   const checkForm = () => {

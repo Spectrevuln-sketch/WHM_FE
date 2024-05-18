@@ -1,10 +1,21 @@
-import { SelectedMaterialServiceInterface } from "@/app/(dashboard)/(withNavbar)/material-service-request/create/page";
 import { AddCircleOutline, DeleteOutlineOutlined, EditOutlined } from "@mui/icons-material";
 import { Box, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CustomTextButton from "../buttons/CustomTextButton";
 import { CustomTableColumnInterface } from "./CustomTable";
+import { useAppSelector } from "@/store/store";
+import { SelectedMaterialServiceInterface } from "@/app/(dashboard)/(withNavbar)/material-service-request/@usecase/handle";
 
+export interface IState {
+  qty: number;
+  uom: string;
+  name: string;
+  requested_by: string;
+  purpose: string;
+  coaCode: string;
+  groupCode: string;
+  productCode: string;
+}
 interface CustomCreateMsrTableInterface {
   column: CustomTableColumnInterface[];
   datas: SelectedMaterialServiceInterface[];
@@ -14,13 +25,36 @@ interface CustomCreateMsrTableInterface {
 }
 
 const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, datas, onClickDelete, onClickEdit, onClickAdd}) => {
+  const {uoms, product, coaCodes, groupCodes} = useAppSelector((state) => state.msr.selected)
+  const [item, setItem] = useState<SelectedMaterialServiceInterface[]>([])
+  const ChangeViewTable = ()=>{
 
+   const initialData =  datas.map((item: SelectedMaterialServiceInterface)=>{
+    if (item.isManual) return {
+      ...item,
+      name: item.isManual ? item.name : product.filter(data=> data.id === item.name)[0].ItemName,
+      uom: uoms.filter(data => data.id === item.uom)[0].name,
+      coaCode: coaCodes.filter(data => data.id === item.coaCode)[0].coa_name,
+      groupCode: groupCodes.filter(data => data.id === item.groupCode)[0].name
+  }
+  return {
+    ...item,
+    name: item.isManual ? item.name : product.filter(data=> data.id === item.name)[0].ItemName,
+    uom: uoms.filter(data => data.id === item.uom)[0].name,
+}
+   })
+    setItem(initialData)
+  }
+  useEffect(()=>{
+    ChangeViewTable()
+  },[datas])
   return(
     <TableContainer
       component={Paper}
       elevation={3}
       sx={{
         display: 'flex',
+        flex :1,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
@@ -48,7 +82,7 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
                   key={`column-header-${index}`}
                   align="center"
                   sx={{
-                    borderBottom: 'none'
+                    borderBottom: 'none',
                   }}
                 >
                   <Typography
@@ -67,10 +101,11 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
           </TableRow>
         </TableHead>
         <TableBody>
-          {datas.map((data, index) => (
-            <TableRow key={Object.values(data)[0]}>
+          {item.map((data, index) => (
+            <TableRow key={`row-${index}`}>
+              {/* Index cell */}
               <TableCell
-                key={`${data.name}-${index}`}
+                key={`index-${index}`}
                 component="th"
                 scope="row"
                 align="center"
@@ -85,33 +120,40 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
                     lineHeight: '20px',
                   }}
                 >
-                  {index+1}
+                  {index + 1}
                 </Box>
               </TableCell>
-              {
-                Object.entries(data).map(([key, value]) => (
+
+              {/* Data cells */}
+              {column.filter(head=> head.id !== 'action' && head.id !== 'no').map((col, colIndex) => {
+                return(
                   <TableCell
-                  key={`${key}-${value}`}
-                    component="th"
-                    scope="row"
-                    align="center"
+                  key={`cell-${index}-${colIndex}`}
+                  component="th"
+                  scope="row"
+                  align="center"
+                  sx={{
+                    borderBottom: 'none',
+                  }}
+                >
+                  <Box
                     sx={{
-                      borderBottom: 'none',
+                      fontWeight: 500,
+                      fontSize: '14px',
+                      lineHeight: '20px',
                     }}
                   >
-                    <Box
-                      sx={{
-                        fontWeight: 500,
-                        fontSize: '14px',
-                        lineHeight: '20px',
-                      }}
-                    >
-                      {value}
-                    </Box>
-                  </TableCell>
-                ))
-              }
+                    {data[col.id]}
+                  </Box>
+                </TableCell>
+                )
+
+
+              })}
+
+              {/* Action cell */}
               <TableCell
+                key={`actions-${index}`}
                 component="th"
                 scope="row"
                 align="center"
@@ -133,10 +175,10 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
                     justifyContent={'center'}
                   >
                     <IconButton onClick={() => onClickEdit(index)}>
-                      <EditOutlined sx={{color: '#2F80ED'}} />
+                      <EditOutlined sx={{ color: '#2F80ED' }} />
                     </IconButton>
                     <IconButton onClick={() => onClickDelete(index)}>
-                      <DeleteOutlineOutlined sx={{color: '#EB5757'}} />
+                      <DeleteOutlineOutlined sx={{ color: '#EB5757' }} />
                     </IconButton>
                   </Grid>
                 </Box>
@@ -144,6 +186,7 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
             </TableRow>
           ))}
         </TableBody>
+
       </Table>
 
       {/* add button */}

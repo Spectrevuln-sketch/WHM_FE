@@ -4,15 +4,16 @@ import { Button } from "@mui/material";
 import React from "react";
 
 interface RoundedContainedButtonInterface {
+  fullWidth?: boolean;
   label: string;
   isDisabled: boolean;
   onClick: () => void;
 }
 
-const RoundedContainedButton: React.FC<RoundedContainedButtonInterface> = ({label, isDisabled, onClick}) => {
+const RoundedContainedButton: React.FC<RoundedContainedButtonInterface> = ({fullWidth = true, label, isDisabled, onClick}) => {
   return(
     <Button
-      fullWidth
+      fullWidth={fullWidth}
       variant="contained"
       disabled={isDisabled}
       onClick={() => onClick()}

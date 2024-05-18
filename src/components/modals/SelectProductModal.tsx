@@ -26,7 +26,6 @@ const SelectProductModal: React.FC<SelectProductInterface> = ({isOpen, options, 
   }
 
   React.useEffect(() => {
-    //
   }, [])
   return(
     <Modal
@@ -75,13 +74,13 @@ const SelectProductModal: React.FC<SelectProductInterface> = ({isOpen, options, 
           gap={'10px'}
           maxHeight={'250px'}
           sx={{
-            overflow: '-moz-scrollbars-vertical', 
+            overflow: '-moz-scrollbars-vertical',
             overflowY: 'scroll',
           }}
         >
         {
-          options.filter((value) => value.name.toLowerCase().includes(search.toLowerCase()) ).map((product, index) => (
-            
+          options.filter((value) => value.ItemName.toLowerCase().includes(search.toLowerCase()) ).map((product, index) => (
+
               <Grid
               key={`product-option-${index}`}
               className={customStyle.productOptions}
@@ -106,7 +105,7 @@ const SelectProductModal: React.FC<SelectProductInterface> = ({isOpen, options, 
                       color: '#000'
                     }}
                   >
-                    {product.name}
+                    {product.ItemName}
                   </Typography>
                 </Grid>
 
@@ -124,7 +123,7 @@ const SelectProductModal: React.FC<SelectProductInterface> = ({isOpen, options, 
           ))
         }
         </Grid>
-        
+
       </Grid>
     </Modal>
   )

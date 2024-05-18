@@ -15,6 +15,7 @@ interface CustomTextFieldInterface {
   color?: colorOptions;
   type?: string;
   name?: string;
+  value?: string;
   onChange: (val: string, e?: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
@@ -28,6 +29,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
   color = 'transparent',
   type = 'text',
   name = '',
+  value = '',
   onChange,
 }) => {
   return(
@@ -46,7 +48,9 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
         </Typography>
         : null
       }
-      <OutlinedInput
+      {isDisabled ? (
+
+        <OutlinedInput
         disabled={isDisabled}
         type={type}
         error={isError}
@@ -57,6 +61,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
         id="custom-textfield"
         endAdornment={<InputAdornment position="end">{endAdornment}</InputAdornment>}
         aria-describedby="custom-text-field-helper-text"
+        value={value}
         onChange={(e) => onChange(e.target.value, e)}
         inputProps={{
           'aria-label': 'textfield',
@@ -66,7 +71,30 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
           color: '#A8AAAE',
           backgroundColor: color === 'white' ? '#fff' : undefined,
         }}
-      />
+        />
+        ): (
+          <OutlinedInput
+          disabled={isDisabled}
+          type={type}
+          error={isError}
+          fullWidth
+          size="small"
+          name={name}
+          placeholder={placeholder}
+          id="custom-textfield"
+          endAdornment={<InputAdornment position="end">{endAdornment}</InputAdornment>}
+          aria-describedby="custom-text-field-helper-text"
+          onChange={(e) => onChange(e.target.value, e)}
+          inputProps={{
+            'aria-label': 'textfield',
+          }}
+          sx={{
+            borderRadius: '6px',
+            color: '#A8AAAE',
+            backgroundColor: color === 'white' ? '#fff' : undefined,
+          }}
+          />
+        )}
       <FormHelperText id="custom-text-field-helper-text" sx={{margin: 0}}>{textHelper}</FormHelperText>
     </FormControl>
   )

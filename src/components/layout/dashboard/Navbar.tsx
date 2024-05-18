@@ -22,44 +22,19 @@ import { CSSObject, Theme, styled, useTheme } from '@mui/material/styles';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
-
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { dashboardHeaderImages } from '@/assets/images/dashboard/header';
 import CustomContainedButtonRed from '@/components/buttons/CustomContainedButtonRed';
 import { Logout } from '@mui/icons-material';
 import './Navbar.css';
 import BadgeAvatar from './buttons/BadgeAvatar';
 import NotificationButton from './buttons/NotificationButton';
+import {SidebarSub} from './components';
+import { menu } from '@/config/route';
 
 const drawerWidth = 260;
-
-const sidebarItem = [
-  {
-    label: 'Dashboard',
-    icon: <Image src={dashboardIcons.dashboardIcon} alt='dashboard-icon' width={24} height={24} />,
-    route: '/dashboard'
-  },
-  {
-    label: 'Create MSR',
-    icon: <Image src={dashboardIcons.createMsrIcon} alt='create-msr-icon' width={24} height={24} />,
-    route: '/material-service-request'
-  },
-  {
-    label: 'Delivering Product',
-    icon: <Image src={dashboardIcons.deliveringProductIcon} alt='delivering-product-icon' width={24} height={24} />,
-    route: '/delivering-product'
-  },
-  {
-    label: 'Product Delivered',
-    icon: <Image src={dashboardIcons.productDeliveredIcon} alt='product-delivered-icon' width={24} height={24} />,
-    route: '/product-delivered'
-  },
-  {
-    label: 'Inventory',
-    icon: <Image src={dashboardIcons.inventoryIcon} alt='inventory-icon' width={24} height={24} />,
-    route: '/inventory'
-  },
-];
-
+const {sidebarItem} = menu(dashboardIcons)
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   boxShadow: '1px 4px 4px 0px #00000040',
@@ -136,17 +111,25 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+const ToolbarNav = styled(Toolbar)({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: 'white',
+})
 export default function DashboardNavbar({
   children,
 }: {
   children: React.ReactNode
 }) {
+
   // router & pathname
   const router = useRouter();
   const pathname = usePathname();
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const [drawerOpen, setDrawerOpen] = React.useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -157,7 +140,7 @@ export default function DashboardNavbar({
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', paddingY: '2em'}}>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -170,7 +153,7 @@ export default function DashboardNavbar({
         }}
       >
         {/* header */}
-        <Toolbar>
+        <ToolbarNav>
           {/* hamburger button */}
           <IconButton
             className='hamburger-button'
@@ -219,7 +202,7 @@ export default function DashboardNavbar({
               </Grid>
             </Box>
           </Grid>
-        </Toolbar>
+        </ToolbarNav>
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <Grid
@@ -262,30 +245,38 @@ export default function DashboardNavbar({
         </Grid>
         <List sx={{paddingLeft: open ? '20px' : '0px', paddingRight: open ? '20px' : '0px'}}>
           {sidebarItem.map((item) => (
+            <>
             <ListItem key={item.label} disablePadding sx={{ display: 'block' }}
             className='sidebar-list-item'
             >
               <ListItemButton
-                selected={pathname.includes(item.route)}
-                onClick={() => router.push(item.route)}
+                selected={item.hasOwnProperty('route') && item.route ? pathname.includes(item.route) : false}
+                onClick={() => item.hasOwnProperty('route') && item.route ? router.push(item.route) : setDrawerOpen(!drawerOpen)}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
-              >
+                >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
                   }}
-                >
+                  >
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.label} sx={{ opacity: open ? 1 : 0 }} />
+                {item.hasOwnProperty('children') &&(
+                  <>
+                  { drawerOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
+                  </>
+                )}
               </ListItemButton>
             </ListItem>
+            {item.hasOwnProperty('children')? <SidebarSub open={drawerOpen} items={item?.children || undefined}/> : <></>}
+            </>
           ))}
         </List>
         <Grid

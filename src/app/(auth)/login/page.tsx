@@ -93,7 +93,7 @@ export default function Login(): React.JSX.Element {
             }}
           >
             <Box>
-              <Image width={68} height={68} src={mainImage.logoSmallYellow} alt='company-logo' />
+              <Image width={68} height={68} src={mainImage.logoSmall} alt='company-logo' />
             </Box>
             <Box
               sx={{

@@ -60,65 +60,65 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
     switch (key) {
       case 'msrNo':
         setSelectedProducts(
-          newState.map((item, i) => 
-            i === index 
+          newState.map((item, i) =>
+            i === index
             ? {...item, msrNo: String(value)}
-            : item 
+            : item
           )
         )
         break;
-    
+
       case 'name':
         setSelectedProducts(
-          newState.map((item, i) => 
-            i === index 
+          newState.map((item, i) =>
+            i === index
             ? {...item, name: String(value)}
-            : item 
+            : item
           )
         )
         break;
-    
+
       case 'qty':
         setSelectedProducts(
-          newState.map((item, i) => 
-            i === index 
+          newState.map((item, i) =>
+            i === index
             ? {...item, qty: Number(value)}
-            : item 
+            : item
           )
         )
         break;
-    
+
       case 'unitPrice':
         setSelectedProducts(
-          newState.map((item, i) => 
-            i === index 
+          newState.map((item, i) =>
+            i === index
             ? {...item, unitPrice: Number(value)}
-            : item 
+            : item
           )
         )
         break;
-    
+
       case 'uom':
         setSelectedProducts(
-          newState.map((item, i) => 
-            i === index 
+          newState.map((item, i) =>
+            i === index
             ? {...item, uom: String(value)}
-            : item 
+            : item
           )
         )
         break;
-    
+
       case 'vendor':
         console.log(value)
         setSelectedProducts(
-          newState.map((item, i) => 
-            i === index 
+          newState.map((item, i) =>
+            i === index
             ? {...item, vendor: String(value)}
-            : item 
+            : item
           )
         )
         break;
-    
+
       default:
         break;
     }
@@ -147,7 +147,7 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
   }, [
     selectedProducts,
   ]);
-  
+
   return (
     <Grid
       container
@@ -156,10 +156,10 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
         paddingTop: '50px',
         paddingLeft: '80px',
       }}
-    >      
+    >
 
       {/* logo */}
-      <Image src={mainImage.logoSmallYellow} width={44} height={44} alt="company-logo" />
+      {/* <Image src={mainImage.logoSmall} width={44} height={44} alt="company-logo" /> */}
 
       {/* title */}
       <Grid
@@ -210,7 +210,7 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
             direction={'column'}
             marginTop={'140px'}
           >
-            
+
             <Grid
               container
               direction={'row'}
@@ -224,8 +224,8 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
                 gap={'32px'}
               >
                 <Box>
-                  <CustomSelect 
-                    label="Nomor MSR" 
+                  <CustomSelect
+                    label="Nomor MSR"
                     placeholder="Pilih Nomor MSR"
                     value={product.msrNo}
                     onChange={(val) => changeDataSelectedProducts('msrNo', val, index)}
@@ -236,8 +236,8 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
                   />
                 </Box>
                 <Box>
-                  <CustomTextField 
-                    label="Product Name" 
+                  <CustomTextField
+                    label="Product Name"
                     placeholder="Enter your Product Name"
                     value={product.name}
                     onChange={(val) => changeDataSelectedProducts('name', val, index)}
@@ -248,8 +248,8 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
                   />
                 </Box>
                 <Box>
-                  <CustomTextField 
-                    label="Quantity" 
+                  <CustomTextField
+                    label="Quantity"
                     placeholder="Enter your Quantity"
                     value={product.qty.toString()}
                     onChange={(val) => changeDataSelectedProducts('qty', val, index)}
@@ -260,8 +260,8 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
                   />
                 </Box>
                 <Box>
-                  <CustomTextField 
-                    label="Unit of Measure" 
+                  <CustomTextField
+                    label="Unit of Measure"
                     placeholder="Enter your Unit of Measure"
                     value={product.uom}
                     onChange={(val) => changeDataSelectedProducts('uom', val, index)}
@@ -422,10 +422,10 @@ const CreatePr = ({ params }: { params: { msrNoSlug: string } }) => {
                       Rp. {thousandSeparator(product.unitPrice*product.qty)}
                     </Typography>
                   </Grid>
-                  
+
                 </Grid>
               </Grid>
-              
+
             </Grid>
 
           </Grid>
