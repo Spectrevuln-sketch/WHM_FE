@@ -172,7 +172,7 @@ export const getMsr = async ({page=1, limit=10} :IParamsGet) =>{
         headerName: HeaderFilter(key, idx),
         // headerName: key[idx],
         sortable: true,
-        width: 160,
+        width: 120,
         editable: false,
         hide: false,
         // headerAlign: 'center',

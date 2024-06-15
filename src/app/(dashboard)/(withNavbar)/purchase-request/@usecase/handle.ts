@@ -47,19 +47,31 @@ export const getPr = async ({page=1, limit=10} :IParamsGet) =>{
   let rows : TInitialData['rows'] = [];
   if(result.data.data.length){
     const key = Object.keys(result.data.data[0]).filter((keyData: string)=>keyData !== 'depts' && keyData !== 'list_of_items' && keyData !== 'dept_id' && keyData !== 'qty_on_hand' && keyData !== 'msr_index' && keyData !== 'MsrIndex' && keyData !== 'work_location' && keyData !== 'id' && keyData !== 'suggest_supplayer' && keyData !== 'updated_at' && keyData !== 'msrData' && keyData !== 'msrID' && keyData !== 'PrIndex' )
-    console.log('key data', key)
     columns = key.map((val, idx)=>{
-
-      return {
-        field: val,
-        headerName: HeaderFilter(key, idx),
-        // headerName: key[idx],
-        sortable: true,
-        width: 160,
-        editable: false,
-        hide: false,
-        // headerAlign: 'center',
+      if(val === 'status'){
+        return {
+          field: val,
+          headerName: HeaderFilter(key, idx),
+          // headerName: key[idx],
+          sortable: true,
+          width: 300,
+          editable: false,
+          hide: false,
+          // headerAlign: 'center',
         }
+      }else{
+
+        return {
+          field: val,
+          headerName: HeaderFilter(key, idx),
+          // headerName: key[idx],
+          sortable: true,
+          width: 150,
+          editable: false,
+          hide: false,
+          // headerAlign: 'center',
+        }
+      }
     })
           rows= result.data.data.map(row => {
             return {

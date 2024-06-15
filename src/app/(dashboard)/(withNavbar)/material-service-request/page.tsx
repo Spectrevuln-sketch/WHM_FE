@@ -157,21 +157,11 @@ const CreateMsr: React.FC = () => {
             editable: false,
             hide: false,
             headerAlign: 'center',
-            flex: 1,
             resizable: true,
-            width: 160,
-            // align: 'center',
-            // display: 'flex' as const,
+            width: 300,
             renderCell: ({ row }) => {
-              console.log('STATUS >>> ', user.data.roles.name)
-              console.log('STATUS CHECK >>> ', StatusChecker(user.data.roles.name, ['cost_control', 'admin']))
               return (
-                <Box sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}>
+                <Box>
                   {StatusChecker(user.data.roles.name, ['admin', 'procurement', 'am_manager']) && (
                     <>
                     {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_FOR_VAL_FORM_COST_CONTROL', 'WAITING_FOR_VAL_FORM_WAREHOUSE_LOGISTIK']) && (

@@ -124,21 +124,13 @@ const PurchaseRequest: React.FC = () => {
             editable: false,
             hide: false,
             headerAlign: 'center',
-            flex: 1,
             resizable: true,
-            width: 160,
+            width: 300,
             // align: 'center',
             // display: 'flex' as const,
             renderCell: ({ row }) => {
-              console.log('STATUS >>> ', user.data.roles.name)
-              console.log('STATUS CHECK >>> ', StatusChecker(user.data.roles.name, ['cost_control', 'admin']))
               return (
-                <Box sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}>
+                <Box>
                   {StatusChecker(user.data.roles.name, ['admin', 'procurement', 'am_manager']) && (
                     <>
                     {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_APPROVE_PM', 'WAITING_APPROVE_AM_MANAGER', 'WAITING_APPROVE_PROCUREMENT']) && (
