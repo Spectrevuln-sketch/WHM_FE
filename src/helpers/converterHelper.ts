@@ -13,3 +13,9 @@ export const convertCoaCodeToSelect = (input: any[]): SelectOption[] => {
 export const convertToSelect = (input: any[], filter:string[]): SelectOption[] => {
   return input?.map(data => ({value: data[filter[0]], label: data[filter[1]]}))
 }
+export const convertToCapitalcase = (text: string): string =>{
+  if (typeof text !== 'string') return ''
+  // change string  uppercase to capital
+  const capitalCase =  text.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})
+  return capitalCase.replaceAll("_", " ")
+}

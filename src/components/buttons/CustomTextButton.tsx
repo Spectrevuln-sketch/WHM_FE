@@ -10,20 +10,23 @@ interface CustomTextButtonInterface {
   bgcolor?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
   isDisabled: boolean;
   variant?: 'text'| 'contained' | 'outlined';
-  onClick: () => void;
+  type?: 'button' | 'submit';
+  onClick?: () => void;
 }
 
-const CustomTextButton: React.FC<CustomTextButtonInterface> = ({label, icon, color, bgcolor, isDisabled, variant='text', onClick}) => (
+const CustomTextButton: React.FC<CustomTextButtonInterface> = ({label, icon, type, color, bgcolor, isDisabled, variant='text', onClick}) => (
   <Button
     variant={variant}
     disabled={isDisabled}
-    onClick={() => onClick()}
+    onClick={() => onClick?.()}
     color={bgcolor}
+    type={type ?? 'button'}
     sx={{
-      fontSize: '16px',
+      fontSize: '12px',
       color: { color },
       textTransform: 'none',
       gap: '8px',
+      overflow: 'auto'
     }}
   >
     {label}{icon}

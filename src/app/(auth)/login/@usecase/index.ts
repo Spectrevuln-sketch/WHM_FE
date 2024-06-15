@@ -40,7 +40,8 @@ export const useLogin = () : HILogin =>{
 
   const handleClickSignIn = async (payload: IPayload['login']) => {
     const login = await SigninHandler(payload);
-    if (login.responseCode === '99') return;
+    if (login.responseCode === '99')
+      return alert(login.responseMessage);
     const getUsers = await getCurrentUser();
     dispatch(setCurrentUserLogin({
       ...getUsers.data

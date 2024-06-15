@@ -2,7 +2,7 @@
 
 import { AccessTime } from "@mui/icons-material";
 import { FormControl, FormHelperText, IconButton, InputAdornment, Typography } from "@mui/material";
-import { DateTimePicker } from "@mui/x-date-pickers";
+// import { DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -43,8 +43,8 @@ const CustomDatePicker: React.FC<CustomDatePickerInterface> = ({isDisabled, isEr
         : null
       }
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DateTimePicker
-          views={['year', 'month', 'day', 'hours', 'minutes']}
+        <DatePicker
+          views={['year', 'month', 'day']}
           open={open}
           onClose={() => setOpen(false)}
           onChange={(val: Dayjs | null) => onChangeHandler(val)}

@@ -10,17 +10,17 @@ import FlexWrapper from "@/components/wrappers/FlexWrapper";
 import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { ApproveMsr, getMsr, IParamsGet, updateStatus } from "./@usecase/handle";
+import { getMsr, getPurchaseOrder, IParamsGet } from "./@usecase/handle";
 import { DemoTreeDataValue } from "@mui/x-data-grid-generator/services/tree-data-generator";
 import { TInitialData } from "../(master)/@interface";
 import CustomTextButton from "@/components/buttons/CustomTextButton";
 import { Checklist, DeleteForever, EditNoteOutlined, RemoveRedEye } from "@mui/icons-material";
-import { blue, green, grey, red } from "@mui/material/colors";
+import { blue, green, red } from "@mui/material/colors";
 import MasterTableGrid from "@/components/tables/MasterTableGrid";
 import { useDispatch } from "react-redux";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { StatusChecker } from "@/helpers/checker";
-import { convertToCapitalcase } from "@/helpers/converterHelper";
+import { ApproveMsr, updateStatusDoc } from "../material-service-request/@usecase/handle";
 
 export interface MsrData {
   msrNumber: string,
@@ -31,7 +31,7 @@ export interface MsrData {
   action: React.ReactElement,
 }
 
-const CreateMsr: React.FC = () => {
+const PurchaseOrder: React.FC = () => {
 
   const router = useRouter();
   const user = useAppSelector((state)=> state.users.currentUser)
@@ -126,14 +126,9 @@ const CreateMsr: React.FC = () => {
 
   const [search, setSearch] = React.useState('');
   const [page, setPage] = React.useState(1);
-
-
-
-
-
   useEffect(()=>{
     const fetchData = async () =>{
-      const res = await getMsr({page});
+      const res = await getPurchaseOrder({page});
       if (res === undefined){
         return setData({
           columns: [],
@@ -174,14 +169,14 @@ const CreateMsr: React.FC = () => {
                 }}>
                   {StatusChecker(user.data.roles.name, ['admin', 'procurement', 'am_manager']) && (
                     <>
-                    {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_FOR_VAL_FORM_COST_CONTROL', 'WAITING_FOR_VAL_FORM_WAREHOUSE_LOGISTIK']) && (
+                    {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_APPROVE_PM', 'WAITING_APPROVE_AM_MANAGER', 'WAITING_APPROVE_PROCUREMENT']) && (
                       <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={() => {
-                        updateStatus(row.id);
+                        updateStatusDoc('/update-status-po', row.id);
                         return window.location.reload();
                               }} />
                       )}
                       {/* <CustomTextButton icon={<DeleteForever/>} color={red[300]} isDisabled={false} onClick={()=> console.log('Delete')}/> */}
-                      {row.status === 'APPROVE_MSR' && StatusChecker(user.data.roles.name, ['cost_control', 'admin']) &&  (
+                      {row.status === 'SEND_TO_SUPPLYER' && StatusChecker(user.data.roles.name, ['cost_control', 'admin']) &&  (
                         <>
                           {StatusChecker(user.data.roles.name, ['cost_control', 'admin']) && (
                             <CustomTextButton color={green[300]} icon={<Checklist/>} isDisabled={false} onClick={() =>{ ApproveMsr({
@@ -215,6 +210,65 @@ const CreateMsr: React.FC = () => {
     }
     fetchData()
   },[])
+  useEffect(()=>{
+    const fetchData = async () =>{
+      const res = await getPurchaseOrder({page});
+      if (res === undefined){
+        return setData({
+          columns: [],
+          initialState:{
+            columns:{
+              columnVisibilityModel:{
+                id: false
+              }
+            }
+          },
+          rows: []
+        })
+      }
+      if (res.columns.length > 0){
+        if(user.data.roles.name === 'admin'){
+
+          res?.columns?.push({
+            field: "action",
+            headerName: 'ACTIONS',
+          sortable: false,
+          width: 160,
+          editable: false,
+          hide: false,
+          headerAlign: 'center',
+          renderCell: ({row}) => {
+            return (
+              <>
+                {user.data.roles.name === 'admin' && (
+                  <>
+                    <CustomTextButton icon={<DeleteForever/>} color={red[300]} isDisabled={false} onClick={()=> console.log('Delete')}/>
+                    {row.status === 'WAITING_FOR_VAL_FORM_PM' && user.data.roles.name === 'am_manager' && user.data.roles.name === 'admin'  (
+                      <CustomTextButton variant="text" label="Approve" color={blue[300]} isDisabled={false} onClick={()=> console.log('status user')}/>
+                    )}
+                  </>
+                )}
+                <CustomTextButton icon={<EditNoteOutlined/>} color={blue[300]} isDisabled={false} onClick={()=> console.log('Details')}/>
+              </>
+            );
+          }
+      });
+    }
+    }
+    setData({
+      columns: res?.columns,
+        initialState:{
+          columns:{
+            columnVisibilityModel:{
+              id: false,
+            }
+          }
+        },
+        rows: res?.rows,
+      })
+    }
+    fetchData()
+  },[])
   return(
     <Grid
       container
@@ -222,24 +276,41 @@ const CreateMsr: React.FC = () => {
       sx={{}}
     >
 
-      <TitleDashboardText>Material Services Request</TitleDashboardText>
+      <TitleDashboardText>Purchase Order</TitleDashboardText>
       <Box
         sx={{
           marginTop: '24px',
           width: '150px'
         }}
       >
-        <CustomContainedButton label="Create MSR" isDisabled={false} onClick={() => router.push('/material-service-request/create')} />
+        <CustomContainedButton label="Create Pr" isDisabled={false} onClick={() => router.push('/material-service-request/create')} />
       </Box>
 
       {/* content */}
-      <FlexWrapper direction="column" justifyContent="center" alignItems="center" padding="1em">
+      <FlexWrapper direction="column" justifyContent="center" alignItems="center">
         {
           msrData && msrData.length > 0
           ?
-          // <Grid>
+          <Grid
+            container
+            direction={'column'}
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: '10px',
+              padding: '1.5em',
+              marginTop: '72px'
+            }}
+          >
+            {/* <CustomSearchField
+              placeholder="Search MSR Number"
+              isDisabled={false}
+              isError={false}
+              onChange={(val) => setSearch(val)}
+              textHelper=""
+              value={search}
+            /> */}
              <MasterTableGrid initialData={data}/>
-          //  </Grid>
+          </Grid>
           : <Box
             sx={{
               display: 'flex',
@@ -276,4 +347,4 @@ const CreateMsr: React.FC = () => {
   );
 }
 
-export default CreateMsr
+export default PurchaseOrder

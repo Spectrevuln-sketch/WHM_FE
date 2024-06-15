@@ -28,17 +28,29 @@ export const menu = (dashboardIcons: Iicons) =>{
       route: '/material-service-request'
     },
     {
-      name:'delivery',
-      label: 'Delivering Product',
-      icon: <Image src={dashboardIcons.deliveringProductIcon} alt='delivering-product-icon' width={24} height={24} />,
-      route: '/delivering-product'
+      name:'purchase-request',
+      label: 'Purchase Request',
+      icon: <Image src={dashboardIcons.createMsrIcon} alt='create-msr-icon' width={24} height={24} />,
+      route: '/purchase-request'
     },
     {
-      name:'delivered',
-      label: 'Product Delivered',
-      icon: <Image src={dashboardIcons.productDeliveredIcon} alt='product-delivered-icon' width={24} height={24} />,
-      route: '/product-delivered'
+      name:'purchase-order',
+      label: 'Purchase Order',
+      icon: <Image src={dashboardIcons.createMsrIcon} alt='create-msr-icon' width={24} height={24} />,
+      route: '/purchase-order'
     },
+    {
+      name:'soq',
+      label: 'SOQ',
+      icon: <Image src={dashboardIcons.deliveringProductIcon} alt='delivering-product-icon' width={24} height={24} />,
+      route: '/soq'
+    },
+    // {
+    //   name:'delivered',
+    //   label: 'Product Delivered',
+    //   icon: <Image src={dashboardIcons.productDeliveredIcon} alt='product-delivered-icon' width={24} height={24} />,
+    //   route: '/product-delivered'
+    // },
     {
       name: 'inventory',
       label: 'Inventory',

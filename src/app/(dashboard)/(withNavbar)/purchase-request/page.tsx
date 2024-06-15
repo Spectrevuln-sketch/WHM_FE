@@ -1,26 +1,22 @@
-'use client';
-
-import CustomContainedButton from "@/components/buttons/CustomContainedButton";
+'use client'
 import RoundedContainedButton from "@/components/buttons/RoundedContainedButton";
 import StatusChip from "@/components/chips/StatusChip";
-import CustomSearchField from "@/components/inputs/CustomSearchField";
-import CustomTable, { CustomTableColumnInterface } from "@/components/tables/CustomTable";
+import { CustomTableColumnInterface } from "@/components/tables/CustomTable";
 import { TitleDashboardText } from "@/components/text/styledText";
 import FlexWrapper from "@/components/wrappers/FlexWrapper";
 import { Box, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { ApproveMsr, getMsr, IParamsGet, updateStatus } from "./@usecase/handle";
 import { DemoTreeDataValue } from "@mui/x-data-grid-generator/services/tree-data-generator";
 import { TInitialData } from "../(master)/@interface";
 import CustomTextButton from "@/components/buttons/CustomTextButton";
-import { Checklist, DeleteForever, EditNoteOutlined, RemoveRedEye } from "@mui/icons-material";
-import { blue, green, grey, red } from "@mui/material/colors";
+import { Checklist, RemoveRedEye } from "@mui/icons-material";
+import { blue, green, red } from "@mui/material/colors";
 import MasterTableGrid from "@/components/tables/MasterTableGrid";
-import { useDispatch } from "react-redux";
-import { useAppDispatch, useAppSelector } from "@/store/store";
+import {  useAppSelector } from "@/store/store";
+import { ApprovePr, getPr } from "./@usecase/handle";
+import { updateStatusDoc } from "../material-service-request/@usecase/handle";
 import { StatusChecker } from "@/helpers/checker";
-import { convertToCapitalcase } from "@/helpers/converterHelper";
 
 export interface MsrData {
   msrNumber: string,
@@ -31,37 +27,12 @@ export interface MsrData {
   action: React.ReactElement,
 }
 
-const CreateMsr: React.FC = () => {
+const PurchaseRequest: React.FC = () => {
 
   const router = useRouter();
   const user = useAppSelector((state)=> state.users.currentUser)
 
-  const msrHeader: CustomTableColumnInterface[] = [
-    {
-      id: 'msrNumber',
-      label: 'MSR Number',
-    },
-    {
-      id: 'reqBy',
-      label: 'Requested By',
-    },
-    {
-      id: 'urgent',
-      label: 'Urgent',
-    },
-    {
-      id: 'creationDate',
-      label: 'Creation Date',
-    },
-    {
-      id: 'status',
-      label: 'Status',
-    },
-    {
-      id: 'aksi',
-      label: 'Aksi',
-    },
-  ]
+
   const [data, setData] = useState<TInitialData | DemoTreeDataValue>({
     columns: [],
     initialState:{
@@ -127,13 +98,9 @@ const CreateMsr: React.FC = () => {
   const [search, setSearch] = React.useState('');
   const [page, setPage] = React.useState(1);
 
-
-
-
-
   useEffect(()=>{
     const fetchData = async () =>{
-      const res = await getMsr({page});
+      const res = await getPr({page});
       if (res === undefined){
         return setData({
           columns: [],
@@ -174,22 +141,24 @@ const CreateMsr: React.FC = () => {
                 }}>
                   {StatusChecker(user.data.roles.name, ['admin', 'procurement', 'am_manager']) && (
                     <>
-                    {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_FOR_VAL_FORM_COST_CONTROL', 'WAITING_FOR_VAL_FORM_WAREHOUSE_LOGISTIK']) && (
-                      <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={() => {
-                        updateStatus(row.id);
-                        return window.location.reload();
+                    {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_APPROVE_PM', 'WAITING_APPROVE_AM_MANAGER', 'WAITING_APPROVE_PROCUREMENT']) && (
+                      <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={async () => {
+                        const res = await updateStatusDoc('/update-status-pr', row.id);
+                        if(res.resp_code === "00")
+                          return window.location.reload();
+
                               }} />
                       )}
                       {/* <CustomTextButton icon={<DeleteForever/>} color={red[300]} isDisabled={false} onClick={()=> console.log('Delete')}/> */}
-                      {row.status === 'APPROVE_MSR' && StatusChecker(user.data.roles.name, ['cost_control', 'admin']) &&  (
+                      {row.status === 'SEND_TO_SUPPLYER' && StatusChecker(user.data.roles.name, ['cost_control', 'admin']) &&  (
                         <>
                           {StatusChecker(user.data.roles.name, ['cost_control', 'admin']) && (
-                            <CustomTextButton color={green[300]} icon={<Checklist/>} isDisabled={false} onClick={() =>{ ApproveMsr({
-                              msrId: row.id
-                              })
+                            <CustomTextButton color={green[300]} icon={<Checklist/>} isDisabled={false} onClick={() =>{ ApprovePr({
+                              pr_id: row.id
+                            })
                               return window.location.reload();
-                              }} />
-                              )}
+                            }} />
+                            )}
                         </>
                       )}
                     </>
@@ -215,6 +184,7 @@ const CreateMsr: React.FC = () => {
     }
     fetchData()
   },[])
+
   return(
     <Grid
       container
@@ -222,24 +192,41 @@ const CreateMsr: React.FC = () => {
       sx={{}}
     >
 
-      <TitleDashboardText>Material Services Request</TitleDashboardText>
-      <Box
+      <TitleDashboardText>Purchase Request</TitleDashboardText>
+      {/* <Box
         sx={{
           marginTop: '24px',
           width: '150px'
         }}
       >
-        <CustomContainedButton label="Create MSR" isDisabled={false} onClick={() => router.push('/material-service-request/create')} />
-      </Box>
+        <CustomContainedButton label="Create Pr" isDisabled={false} onClick={() => router.push('/material-service-request/create')} />
+      </Box> */}
 
       {/* content */}
-      <FlexWrapper direction="column" justifyContent="center" alignItems="center" padding="1em">
+      <FlexWrapper direction="column" justifyContent="center" alignItems="center">
         {
           msrData && msrData.length > 0
           ?
-          // <Grid>
+          <Grid
+            container
+            direction={'column'}
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: '10px',
+              padding: '1.5em',
+              marginTop: '72px'
+            }}
+          >
+            {/* <CustomSearchField
+              placeholder="Search MSR Number"
+              isDisabled={false}
+              isError={false}
+              onChange={(val) => setSearch(val)}
+              textHelper=""
+              value={search}
+            /> */}
              <MasterTableGrid initialData={data}/>
-          //  </Grid>
+          </Grid>
           : <Box
             sx={{
               display: 'flex',
@@ -276,4 +263,4 @@ const CreateMsr: React.FC = () => {
   );
 }
 
-export default CreateMsr
+export default PurchaseRequest

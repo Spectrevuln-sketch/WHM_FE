@@ -19,9 +19,9 @@ export interface IState {
 interface CustomCreateMsrTableInterface {
   column: CustomTableColumnInterface[];
   datas: SelectedMaterialServiceInterface[];
-  onClickAdd: () => void;
-  onClickEdit: (index: number) => void;
-  onClickDelete: (index: number) => void;
+  onClickAdd?: () => void;
+  onClickEdit?: (index: number) => void;
+  onClickDelete?: (index: number) => void;
 }
 
 const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, datas, onClickDelete, onClickEdit, onClickAdd}) => {
@@ -174,10 +174,10 @@ const CustomCreateMsrTable: React.FC<CustomCreateMsrTableInterface> = ({column, 
                     alignItems={'center'}
                     justifyContent={'center'}
                   >
-                    <IconButton onClick={() => onClickEdit(index)}>
+                    <IconButton onClick={() => onClickEdit?.(index)}>
                       <EditOutlined sx={{ color: '#2F80ED' }} />
                     </IconButton>
-                    <IconButton onClick={() => onClickDelete(index)}>
+                    <IconButton onClick={() => onClickDelete?.(index)}>
                       <DeleteOutlineOutlined sx={{ color: '#EB5757' }} />
                     </IconButton>
                   </Grid>

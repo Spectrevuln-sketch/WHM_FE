@@ -4,12 +4,13 @@ import { apiRequest } from "@/config/api";
 import { Dayjs } from "dayjs";
 import moment from "moment-timezone";
 import { cookies } from "next/headers";
-import { TInitialData } from "../../(master)/@interface";
+import { TInitialData } from "../../@interface";
 import { HeaderFilter } from "../../(master)/@usecase";
 import { getCurrentUser } from "@/helpers/tokenChecker";
+import { convertToCapitalcase } from "@/helpers/converterHelper";
 
 export interface SelectedMaterialServiceInterface{
-  isManual: boolean;
+  isManual?: boolean;
   qty: number;
   uom: string;
   name: string;
@@ -20,7 +21,7 @@ export interface SelectedMaterialServiceInterface{
   productCode?: string;
 }
 
-interface IPayload {
+export interface IPayload {
   msr_number: string;
   work_location: string;
   vessel: string;
@@ -32,10 +33,18 @@ interface IPayload {
   acknowledgement: string;
   attachment?: File;
 }
+export interface IPayloadPr{
+  msrId: string;
+  qty: number;
+  description: string;
+  uom: string;
+  supplayerID: string;
+}
 export interface IRequest {
   date_time: string | Dayjs;
   dept_id: string;
   urgentcy: string;
+  suggestedSupplier: string;
   // list_of_items: {
   //   description: string;
   //   product_code: string;
@@ -114,6 +123,31 @@ export const getStatusMsr = async () =>{
   return statusMsr.data
 }
 
+// global update status
+export const updateStatusDoc = async (url: string, id: string) =>{
+  await getCurrentUser()
+  const token = cookies().get('token')?.value;
+  const result = await apiRequest.v1.patch(`${url}/${id}`,{},{
+    headers:{
+      'Authorization': 'Bearer ' + token
+    }
+  })
+  console.log('result.data\n\n',result.data)
+  return  result.data
+}
+
+
+export const updateStatus = async (id: string) =>{
+  await getCurrentUser()
+  const token = cookies().get('token')?.value;
+  const result = await apiRequest.v1.patch(`/update-status-msr/${id}`,{},{
+    headers:{
+      'Authorization': 'Bearer ' + token
+    }
+  })
+  return  result.data
+}
+
 
 export const getMsr = async ({page=1, limit=10} :IParamsGet) =>{
   await getCurrentUser()
@@ -127,34 +161,35 @@ export const getMsr = async ({page=1, limit=10} :IParamsGet) =>{
       'Authorization': 'Bearer ' + token
     }
   })
-  const columns : TInitialData['columns'] = result.data.data?.map((val, idx)=>{
-    const key = Object.keys(val)
-    return key.map((col, idxCol)=>{
-      if (col !== 'depts' && col !== 'list_of_items' && col !== 'dept_id' && col !== 'qty_on_hand' && col !== 'MsrIndex'){
-        return {
-          field: col,
-          headerName: HeaderFilter(key, idxCol),
-          // headerName: key[idx],
-          sortable: true,
-          width: 160,
-          editable: false,
-          hide: false,
-          // headerAlign: 'center',
-        }
-      }
-    })
-  })
-  const rows: TInitialData['rows'] = result.data.data.map(row => {
-    return {
-      ...row,
-      delivered_at: moment.utc(row.delivered_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
-      created_at: moment.utc(row.created_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
-      updated_at: moment.utc(row.updated_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
-    };
-  })
+  let columns : TInitialData['columns'] = [];
+  let rows : TInitialData['rows'] = [];
+  if(result.data.data.length){
+    const key = Object.keys(result.data.data[0]).filter((keyData: string)=>keyData !== 'depts' && keyData !== 'list_of_items' && keyData !== 'dept_id' && keyData !== 'qty_on_hand' && keyData !== 'msr_index' && keyData !== 'MsrIndex' && keyData !== 'work_location' && keyData !== 'id' && keyData !== 'suggest_supplayer' && keyData !== 'updated_at' )
+    columns = key.map((val, idx)=>{
 
+      return {
+        field: val,
+        headerName: HeaderFilter(key, idx),
+        // headerName: key[idx],
+        sortable: true,
+        width: 160,
+        editable: false,
+        hide: false,
+        // headerAlign: 'center',
+        }
+    })
+          rows= result.data.data.map(row => {
+            return {
+                ...row,
+                // status: convertToCapitalcase(row.status),
+                delivered_at: moment.utc(row.delivered_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
+                created_at: moment.utc(row.created_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
+                updated_at: moment.utc(row.updated_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
+              };
+            })
+    }
   return {
-    columns: columns[0],
+    columns: columns.filter(column => column.field !== undefined),
     rows
   }
 }
@@ -203,4 +238,20 @@ export const createMsr = async (payload: IRequest) =>{
     return err.response.data
   }
 
+}
+
+
+export interface IPayloadApproveMsr{
+  msrId: string
+}
+// Approve MSR
+export const ApproveMsr = async (payload: IPayloadApproveMsr) =>{
+  await getCurrentUser()
+  const token = cookies().get('token')?.value;
+  const result = await apiRequest.v1.post('/purchase-request',payload, {
+    headers:{
+      'Authorization': 'Bearer ' + token
+    }
+  })
+  console.log('resultDAta >>',  result)
 }

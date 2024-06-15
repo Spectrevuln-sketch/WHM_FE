@@ -9,7 +9,6 @@ interface CustomDetailsMsrTableInterface {
 }
 
 const CustomDetailsMsrTable: React.FC<CustomDetailsMsrTableInterface> = ({column, datas}) => {
-
   return(
     <TableContainer
       component={Paper}
@@ -27,9 +26,6 @@ const CustomDetailsMsrTable: React.FC<CustomDetailsMsrTableInterface> = ({column
       {/* table */}
       <Table
         aria-label="custom pagination table"
-        sx={{
-          minWidth: 500,
-        }}
       >
         <TableHead
           sx={{
@@ -62,7 +58,7 @@ const CustomDetailsMsrTable: React.FC<CustomDetailsMsrTableInterface> = ({column
           </TableRow>
         </TableHead>
         <TableBody>
-          {datas.map((data) => (
+          {datas?.map((data) => (
             <TableRow key={Object.values(data)[0]}>
               {
                 Object.entries(data).map(([key, value]) => (

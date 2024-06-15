@@ -19,7 +19,7 @@ interface IProps {
 const SelectSearchInputModal : React.FC<IProps> = ({
   isOpen = false,
   filterBy,
-  options,
+  options = [],
   subtext= '',
   placeholder = '',
   label = '',

@@ -14,20 +14,24 @@ export const getMasterVendor =  async ()=>{
         'Authorization': 'Bearer ' + token
       }
     })
-    const columns : TInitialData['columns'] = result.data.data?.map((val, idx)=>{
-      const key = Object.keys(val).filter((keyData: string)=>keyData !== 'coa')
-        return {
-          field: key[idx],
-          headerName: HeaderFilter(key, idx),
-          // headerName: key[idx],
-          sortable: true,
-          width: 160,
-          editable: false,
-          hide: false,
-          // headerAlign: 'center',
-        }
-    })
-    const rows: TInitialData['rows'] = result.data.data
+    let columns : TInitialData['columns'] = [];
+    let rows : TInitialData['rows'] = [];
+    if(result.data.data.length){
+      const key = Object.keys(result.data.data[0]).filter((keyData: string)=>keyData !== 'coa' )
+      columns = key.map((val, idx)=>{
+          return {
+            field: val,
+            headerName: HeaderFilter(key, idx),
+            // headerName: key[idx],
+            sortable: true,
+            width: 160,
+            editable: false,
+            hide: false,
+            // headerAlign: 'center',
+          }
+      })
+      rows = result.data.data
+    }
     return {
       columns: columns.filter(column => column.field !== undefined),
       rows

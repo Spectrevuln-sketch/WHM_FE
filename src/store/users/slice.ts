@@ -4,6 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 export interface IState {
   value: number
   currentUser: {
+      data: any;
       id: string;
       fullname: string;
       username: string;

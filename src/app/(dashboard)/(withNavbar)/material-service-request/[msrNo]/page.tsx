@@ -13,14 +13,22 @@ import { ArrowForward, FiberManualRecord, StoreOutlined } from "@mui/icons-mater
 import { Box, Grid, IconButton, Paper, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import { Msr, getCurrentMsr } from "./@usecase/handle";
+import moment from "moment";
+import { convertToCapitalcase } from "@/helpers/converterHelper";
+import MasterTableGrid from "@/components/tables/MasterTableGrid";
+import CustomCreateMsrTable from "@/components/tables/CustomCreateMsrTable";
+import { CustomTableColumnInterface } from "@/components/tables/CustomTable";
 
 export interface MaterialServiceItemInterface{
-  nomor: string;
-  description: string;
-  unitPrice: string;
-  qty: number;
-  uom: string;
+  qty_on_hand: number,
+  qty: number,
+  uom: string,
+  description: string,
+  requested_by: string,
+  purpose: string,
+  product_code: string
 }
 
 interface PRSummariesInterface {
@@ -47,8 +55,66 @@ const dummyPRSummaries: PRSummariesInterface[] = [
   },
 ]
 
-const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
+const selectedProductColumn: CustomTableColumnInterface[] = [
+  {
+    id: 'no',
+    label: 'No',
+  },
+  {
+    id: 'qty',
+    label: 'QTY',
+  },
+  {
+    id: 'uom',
+    label: 'UOM',
+  },
+  {
+    id: 'name',
+    label: 'Product Name',
+  },
+  {
+    id: 'requested_by',
+    label: 'Requested By',
+  },
+  {
+    id: 'purpose',
+    label: 'Purpose',
+  },
+]
 
+const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
+  const initialMSRState: Msr = {
+    id: "",
+    created_at: "",
+    updated_at: "",
+    MsrIndex: 0,
+    msr_number: "",
+    work_location: "",
+    dept_id: "",
+    depts: {
+        id: "",
+        created_at: "",
+        updated_at: "",
+        dept_name: ""
+    },
+    project_code: "",
+    delivered_at: "",
+    status: "",
+    qty_on_hand: "",
+    list_of_items: [
+        {
+            qty_on_hand: 0,
+            qty: 0,
+            uom: "",
+            description: "",
+            requested_by: "",
+            purpose: "",
+            product_code: ""
+        }
+    ],
+    urgentcy: ""
+};
+  const [msrstate, setMsrstate] = useState<Msr>(initialMSRState)
   const router = useRouter();
 
   const [status, setStatus] = React.useState('')
@@ -57,7 +123,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
   const [PRSummaries, setPRSummaries] = React.useState<PRSummariesInterface[]>([]);
 
   const [addToInventoryModalOpen, setAddToInventoryModalOpen] = React.useState(false)
-  
+
   const handleOpenAddToInventoryModal = () => {
     setAddToInventoryModalOpen(true)
   }
@@ -68,7 +134,14 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
   React.useEffect(() => {
     setStatus('approvalPo')
     setPRSummaries(dummyPRSummaries)
+    fatchData()
   }, []);
+
+
+  const fatchData =  async () =>{
+    const res :Msr = await getCurrentMsr(params.msrNo)
+    setMsrstate(res)
+  }
   return (
     <Grid
       container
@@ -79,7 +152,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
       <AddToInventoryModal
         isOpen={addToInventoryModalOpen}
         onClose={handleCloseAddToInventoryModal}
-        msrNo="0869-ASM-000-PR-IX-2023"
+        msrNo={msrstate.msr_number}
         qrCode={params.msrNo}
       />
 
@@ -104,7 +177,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
             fontSize: '20px',
             lineHeight: '24px'
           }}
-        >Sunday, September 22 2023</Typography>
+        >{moment(msrstate.created_at).format('dddd, MMMM D YYYY')}</Typography>
         <Box>
           <StatusChip label="Approval from PO" color={1} />
         </Box>
@@ -113,13 +186,13 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
       {/* title */}
       <Grid
         container
-        direction={'row'}
+        direction={'column'}
         gap={'10px'}
-        alignItems={'center'}
+        alignItems={'start'}
         marginTop={'16px'}
       >
         <TitleDashboardText>Details Material Services Request</TitleDashboardText>
-        <FiberManualRecord sx={{fontSize: '5px', color: 'rgba(0, 0, 0, 0.56)'}} />
+        {/* <FiberManualRecord sx={{fontSize: '5px', color: 'rgba(0, 0, 0, 0.56)'}} /> */}
         <Typography
           sx={{
             fontWeight: 400,
@@ -127,7 +200,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
             lineHeight: '24px',
             color: 'rgba(75, 70, 92, 1)'
           }}
-        >{params.msrNo}</Typography>
+        >{msrstate.msr_number}</Typography>
       </Grid>
 
       {/* order data detail & excel download */}
@@ -155,7 +228,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
               <DetailKeyText>Vessel / Site / Dept</DetailKeyText>
             </Box>
             <Box sx={{width: '50%'}}>
-              <DetailValueText>IT Departement</DetailValueText>
+              <DetailValueText>{convertToCapitalcase(msrstate.depts.dept_name)}</DetailValueText>
             </Box>
           </Grid>
           <Grid
@@ -166,7 +239,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
               <DetailKeyText>Work Location</DetailKeyText>
             </Box>
             <Box sx={{width: '50%'}}>
-              <DetailValueText>Jakarta Pusat, Sudirman</DetailValueText>
+              <DetailValueText>{convertToCapitalcase(msrstate.work_location)}</DetailValueText>
             </Box>
           </Grid>
           <Grid
@@ -177,7 +250,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
               <DetailKeyText>Project Code</DetailKeyText>
             </Box>
             <Box sx={{width: '50%'}}>
-              <DetailValueText>0705-ASM-020A-PR-VIII-2023</DetailValueText>
+              <DetailValueText>{msrstate.project_code}</DetailValueText>
             </Box>
           </Grid>
           <Grid
@@ -188,7 +261,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
               <DetailKeyText>Delivery Date (within)</DetailKeyText>
             </Box>
             <Box sx={{width: '50%'}}>
-              <DetailValueText>Sunday, September 24 2023</DetailValueText>
+              <DetailValueText>{moment(msrstate.delivered_at).format('dddd, MMMM D YYYY')}</DetailValueText>
             </Box>
           </Grid>
           <Grid
@@ -199,18 +272,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
               <DetailKeyText>Urgency</DetailKeyText>
             </Box>
             <Box sx={{width: '50%'}}>
-              <DetailValueText>Normal</DetailValueText>
-            </Box>
-          </Grid>
-          <Grid
-            container
-            direction={'row'}
-          >
-            <Box sx={{width: '50%'}}>
-              <DetailKeyText>Suggested Supplier</DetailKeyText>
-            </Box>
-            <Box sx={{width: '50%'}}>
-              <DetailValueText>SiTepat Tujuan</DetailValueText>
+              <DetailValueText>{convertToCapitalcase(msrstate.urgentcy)}</DetailValueText>
             </Box>
           </Grid>
         </Grid>
@@ -307,59 +369,13 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
         }}
       >
         <CustomDetailsMsrTable
-          column={[
-            {
-              id: 'nomor',
-              label: 'Nomor',
-            },
-            {
-              id: 'description',
-              label: 'Description',
-            },
-            {
-              id: 'unitPrice',
-              label: 'Unit Price',
-            },
-            {
-              id: 'qty',
-              label: 'Qty',
-            },
-            {
-              id: 'uom',
-              label: 'UOM',
-            },
-          ]}
-          datas={[
-            {
-              nomor: '0869-ASM-000-PR-IX-2023',
-              description: 'EPSON INK BOTTLE 008 BLACK',
-              unitPrice: 'Rp. 275.000',
-              qty: 5,
-              uom: 'PCS'
-            },
-            {
-              nomor: '0869-ASM-000-PR-IX-2023',
-              description: 'EPSON INK BOTTLE 008 MAGENTA',
-              unitPrice: 'Rp. 275.000',
-              qty: 5,
-              uom: 'PCS'
-            },
-            {
-              nomor: '0869-ASM-000-PR-IX-2023',
-              description: 'RAM SODIMM 8GB DDR4 3200MHZ',
-              unitPrice: 'Rp. 275.000',
-              qty: 5,
-              uom: 'PCS'
-            },
-            {
-              nomor: '0869-ASM-000-PR-IX-2023',
-              description: 'EPSON INK BOTTLE 008 BLACK',
-              unitPrice: 'Rp. 275.000',
-              qty: 5,
-              uom: 'PCS'
-            },
-          ]}
+          column={selectedProductColumn}
+          datas={msrstate.list_of_items}
         />
+         {/* <CustomCreateMsrTable
+          datas={msrstate.list_of_items}
+          column={selectedProductColumn}
+        /> */}
       </Box>
 
       {/* notes */}
@@ -381,144 +397,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
         />
       </Box>
 
-      {
-        PRSummaries.length >= 1
-        ?
-        <Grid
-          container
-          direction={'column'}
-          marginTop={'32px'}
-        >
-          {/* title */}
-          <DetailValueText>Purchase Request Summary</DetailValueText>
-          {/* items */}
-          <Grid
-            container
-            direction={'row'}
-            marginTop={'18px'}
-            columns={16}
-          >
-            {PRSummaries.map((summary, index) => (
-              <Box
-                key={`pr-summary-${index}`}
-                sx={{
-                  paddingX: '26px',
-                  paddingY: '13px',
-                  width: '50%'
-                }}
-              >
-                <Grid  
-                  component={Paper}
-                  elevation={2}
-                  padding={'26px'}
-                  width={'100%'}
-                  item
-                  xs={8}
-                  sm={8}
-                  md={8}
-                  lg={8}
-                  xl={8}
-                >
 
-                  {/* vendor name */}
-                  <Grid
-                    container
-                    direction={'row'}
-                    alignItems={'center'}
-                    justifyContent={'space-between'}
-                  >
-                    <Box display={'flex'} gap={'20px'}>
-                      <Box
-                        sx={{
-                          backgroundColor: '#F7C113',
-                          paddingY: '0px',
-                          paddingX: '6px'
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            fontWeight: 600,
-                            fontSize: '15px',
-                            lineHeight: '24px',
-                            color: '#fff'
-                          }}
-                        >
-                          Vendor
-                        </Typography>
-                      </Box>
-                      <Typography
-                        sx={{
-                          fontWeight: 400,
-                          fontSize: '15px',
-                          lineHeight: '24px',
-                          color: '#000'
-                        }}
-                      >
-                        {summary.vendorName}
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <StoreOutlined sx={{color: '#4B465C'}} />
-                    </Box>
-                  </Grid>
-
-                  {/* msr number */}
-                  <Grid
-                    container
-                    direction={'column'}
-                    marginTop={'14px'}
-                    gap={'8px'}
-                  >
-                    <Typography
-                      sx={{
-                        fontWeight: 400,
-                        fontSize: '15px',
-                        lineHeight: '18px',
-                        color: '#000'
-                      }}
-                    >
-                      Number MSR
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontWeight: 400,
-                        fontSize: '24px',
-                        lineHeight: '18px',
-                        color: '#000'
-                      }}
-                    >
-                      {summary.msrNo}
-                    </Typography>
-                  </Grid>
-
-                  {/* detail */}
-                  <Grid
-                    container
-                    direction={'row'}
-                    marginTop={'24px'}
-                    gap={'4px'}
-                    alignItems={'center'}
-                  >
-                    <Typography
-                      sx={{
-                        fontWeight: 400,
-                        fontSize: '12px',
-                        lineHeight: '18px',
-                        color: '#000'
-                      }}
-                    >
-                      Details
-                    </Typography>
-                    <ArrowForward sx={{fontSize: '14px'}} />
-                  </Grid>
-
-                </Grid>
-              </Box>
-            ))}
-          </Grid>
-        </Grid>
-        : null
-      }
 
       <Grid
         container

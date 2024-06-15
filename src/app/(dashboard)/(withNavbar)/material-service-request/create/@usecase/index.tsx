@@ -1,4 +1,5 @@
 "use client"
+
 import { SelectOption } from "@/components/inputs/CustomSelect";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
@@ -225,14 +226,15 @@ export const useCreateMsr = (): IReturn =>{
   const handleSubmitForm = async () =>{
     const getToken = await getCurrentUser()
     const req : IRequest={
-          date_time: moment(payload.deliveryDate.toString()).utc().format('YYYY-MM-DDTHH:mm:ss[Z]'),
+          date_time: moment(payload.deliveryDate).utc().format('YYYY-MM-DD'),
           dept_id: getToken.data.data.dept_id,
           list_of_items: selectedProducts,
           msr_number: payload.msr_number,
           project_code: payload.project_code,
-          status: "WAITING_FOR_VAL_FORM_PM",
+          status: "WAITING_FOR_VAL_FORM_COST_CONTROL",
           urgentcy: payload.urgency.toUpperCase(),
           work_location: payload.work_location,
+          suggestedSupplier: payload.suggestedSupplier
         }
     const res = await createMsr(req)
     if (res.responseCode === "99") return setError(res)
@@ -261,10 +263,10 @@ export const useCreateMsr = (): IReturn =>{
   useEffect(() => {
     setDisabledBtn(disableSubmit(payload));
   }, [payload]);
-
   useEffect(()=>{
   SelectedInitialData()
   },[])
+
   return {
     groupCodes,
     uoms,

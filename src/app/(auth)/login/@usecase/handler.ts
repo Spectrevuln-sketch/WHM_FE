@@ -16,10 +16,10 @@ export const SigninHandler = async (payload: IPayload['login']) =>{
       responseMessage: 'Success Login'
     }
   } catch (err) {
-    console.log(err);
+    // console.log(err.response.data);
     return {
       responseCode: '99',
-      responseMessage: 'Filed Login'
+      responseMessage: err.response.data.message
     }
   }
 }

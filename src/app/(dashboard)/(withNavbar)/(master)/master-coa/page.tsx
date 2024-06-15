@@ -11,12 +11,14 @@ import { DemoTreeDataValue } from '@mui/x-data-grid-generator/services/tree-data
 import { DeleteForever, EditNoteOutlined } from '@mui/icons-material';
 import { blue, red } from '@mui/material/colors';
 import { Box } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
   masterCoa: object | null
 }
 
 const MasterCoa = () => {
+  const router = useRouter()
   const [data, setData] = useState<TInitialData | DemoTreeDataValue>({
     columns: [],
     initialState:{
@@ -79,9 +81,6 @@ const MasterCoa = () => {
   const handleChange = async() =>{
     console.log('change')
   }
-  const clickRedirect = async() =>{
-    console.log('addcoa')
-  }
   return (
     <PEMasterCoa>
       <BoxCompo>
@@ -140,7 +139,7 @@ const MasterCoa = () => {
             </Col>
           </Row>
         </Col>
-        <CustomTextButton label='Add COA' icon={<></>} color='#FFFFF' isDisabled={false} onClick={clickRedirect} bgcolor={'secondary'} variant={'contained'} />
+        <CustomTextButton label='Add COA' icon={<></>} color='#FFFFF' isDisabled={false} onClick={()=>router.push('/master-inventory/add')} bgcolor={'secondary'} variant={'contained'} />
       </BoxCompo>
       <BoxCompo>
         <Col>

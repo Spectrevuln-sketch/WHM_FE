@@ -1,5 +1,5 @@
 import { SelectedMaterialServiceInterface } from "@/app/(dashboard)/(withNavbar)/material-service-request/create/page";
-import { convertCoaCodeToSelect, convertProductToSelect, convertUomToSelect } from "@/helpers/converterHelper";
+import { convertCoaCodeToSelect, convertProductToSelect, convertToSelect, convertUomToSelect } from "@/helpers/converterHelper";
 import { Box, Grid, Modal, Paper } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
 import CustomContainedButton from "../buttons/CustomContainedButton";
@@ -21,7 +21,7 @@ export interface ProductInterface {
   GROUPITEM: string;
   ITEM: string;
   ITEMCODE: string;
-  ItemName: string;
+  ItemName?: string;
   ProductCode: string;
   PurchasePrice: string;
   QTY: number;
@@ -111,6 +111,7 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
       })
     })
   },[isOpen, payload.isManual])
+  console.log('payload data >>', payload)
   return(
     <Modal
       open={isOpen}
@@ -131,7 +132,7 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
       >
         <SelectSearchInputModal
           isOpen={modalOpen.groupCodeModal}
-          filterBy="name"
+          filterBy="group_name"
           placeholder="Search Group Code"
           subtext="group_code"
           options={groupOption}
@@ -162,7 +163,7 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
 
         <SelectSearchInputModal
           isOpen={modalOpen.productModal}
-          filterBy="ItemName"
+          filterBy="item_name"
           placeholder="Search Product"
           subtext="QTY"
           label="QTY On Hand"
@@ -314,7 +315,7 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
             isError={false}
             textHelper=""
             value={payload.groupCode ?? ''}
-            options={convertCoaCodeToSelect(groupOption)}
+            options={convertToSelect(groupOption, ['id', 'group_name'])}
             onChange={(val) => setPayload({
               ...payload,
               groupCode:val

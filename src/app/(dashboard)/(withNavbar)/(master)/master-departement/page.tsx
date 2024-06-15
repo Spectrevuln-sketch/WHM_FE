@@ -10,11 +10,13 @@ import { DeleteForever, EditNoteOutlined } from '@mui/icons-material';
 import { blue, red } from '@mui/material/colors';
 import { TInitialData } from '../@interface';
 import { DemoTreeDataValue } from '@mui/x-data-grid-generator/services/tree-data-generator';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
   masterDept : object | null
 }
 export default function MasterDepartement() {
+  const router = useRouter()
   const [data, setData] = useState<TInitialData | DemoTreeDataValue>({
     columns: [],
     initialState:{
@@ -85,7 +87,7 @@ export default function MasterDepartement() {
         </div>
       </BoxCompo>
       <ColEnd>
-        <RoundedContainedButton fullWidth={false} label='Add Departement' isDisabled={false} onClick={()=> console.log('add departement')} />
+        <RoundedContainedButton fullWidth={false} label='Add Departement' isDisabled={false} onClick={()=> router.push('/master-departement/add')} />
       </ColEnd>
       <BoxTable>
         <Col>

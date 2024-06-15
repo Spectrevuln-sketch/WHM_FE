@@ -15,6 +15,7 @@ import { useCreateMsr } from './@usecase';
 import CustomAlert from '@/components/alert';
 import SelectSearchInputModal from '@/components/modals/SelectSearchInputModal';
 import { convertToSelect } from '@/helpers/converterHelper';
+import moment from 'moment';
 
 
 const CreateMsr: React.FC = () => {
@@ -36,7 +37,6 @@ const CreateMsr: React.FC = () => {
     handleSubmitForm,
     selectedProductColumn,
     urgencyOptions,
-    vesselOptions,
     setPayload,
     payload,
     selectedProducts,
@@ -288,7 +288,7 @@ const CreateMsr: React.FC = () => {
                 isError={false}
                 textHelper=""
                 value={payload.suggestedSupplier}
-                options={convertToSelect(supplyer, ['id', 'dept_name'])}
+                options={convertToSelect(supplyer, ['id', 'VendorName'])}
                 onChange={(val) => setPayload({
                   ...payload,
                   suggestedSupplier:val

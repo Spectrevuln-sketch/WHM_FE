@@ -8,7 +8,7 @@ export const disableSubmit = (payload: any)=>{
         }
       }
     }else{
-      if (key !== "groupCode" && key !== "coaCode" && key !== "isManual" && key !== "requested_by"){
+      if (key !== "groupCode" && key !== "coaCode" && key !== "isManual" && key !== "requested_by" && key !== 'vessel'){
         if (payload[key] === "" || payload[key] === 0) {
           return true;
         }
