@@ -15,6 +15,16 @@ services:
       - .env
     networks:
       - sevira-network
+
+  tunnel:
+    container_name: cloudflared-tunnel
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    env_file:
+      - .env
+    # environment:
+    #   - TUNNEL_TOKEN= eyJhIjoiNWNlMjQ0NTdhYWYxNWJjYzk2MjZjMjliM2Y3NWFlZGQiLCJ0IjoiY2VkMmY1YjQtNmUxMS00OGJjLWE3NjktOWNmNTU4ODE5N2ExIiwicyI6Ik5XWTNNV0kyTkRRdFlqZGpOaTAwTTJKaExXRTVNall0WldGa09UYzNNelZpTW1VMCJ9
 networks:
   sevira-network:
     external: true
