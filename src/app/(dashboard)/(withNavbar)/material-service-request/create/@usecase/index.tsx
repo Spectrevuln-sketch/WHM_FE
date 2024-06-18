@@ -9,7 +9,7 @@ import moment from "moment";
 import { CustomTableColumnInterface } from "@/components/tables/CustomTable";
 import { Dayjs } from "dayjs";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { getMasterInventory } from "../../../(master)/master-inventory/@usecase/handler";
+import { getInventory, getMasterInventory } from "../../../(master)/master-inventory/@usecase/handler";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { IState, setSelectedInput } from "@/store/msr/slice";
 import { ProductInterface } from "@/components/modals/AddMsrProductModal";
@@ -243,10 +243,11 @@ export const useCreateMsr = (): IReturn =>{
 
   const SelectedInitialData = async () =>{
     const uom =  await getUomQty()
-    const inventorys = await getMasterInventory()
+    const inventorys = await getInventory()
     const statusMsr = await getStatusMsr()
     const coaCodes: AccountData = await getCoaCodes()
     const groupCodes = await getGroupCode()
+    console.log('GROUP DATA >>', groupCodes)
     const depts = await getDepartament()
     const supplyer = await getSupplyer()
     dispatch(setSelectedInput({

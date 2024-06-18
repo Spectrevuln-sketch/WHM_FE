@@ -12,15 +12,15 @@ interface IProps {
 }
 
 export default function MasterTableGrid({ initialData }:IProps) {
-  const { data } = useDemoData({
-    dataSet: 'Employee',
-    rowLength: 100,
-  });
-  useEffect(()=>{
-    if (initialData.columns.length < 0){
-      initialData = data;
-    }
-  },[])
+  // const { data } = useDemoData({
+  //   dataSet: 'Employee',
+  //   rowLength: 100,
+  // });
+  // useEffect(()=>{
+  //   if (initialData.columns.length < 0){
+  //     initialData = data;
+  //   }
+  // },[])
 
   const autosizeOptions: GridAutosizeOptions = {
     includeOutliers: DEFAULT_GRID_AUTOSIZE_OPTIONS.includeOutliers,

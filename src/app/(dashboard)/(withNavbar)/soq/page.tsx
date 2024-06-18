@@ -33,6 +33,35 @@ export default function Soq() {
     rows: []
   })
 
+  const ProcessStatus = async (row)=>{
+    try{
+      const res = await updateStatusDoc('/update-status-soq', row.id);
+      if(res.resp_code === "99")
+        return alert("Harap Update Status Kembali")
+      return window.location.reload();
+    }catch(err){
+      if(err){
+        return alert("Terjadi kesalahan silahkan di coba kembali")
+      }
+    }
+  }
+
+
+  const Approvement = async (row)=>{
+    // try{
+      const res = await ApproveSoq({
+        pr_id: row.id
+      })
+      console.log('PR RESPONSE APPROVE >>', res)
+        if(res.resp_code === "99")
+          return alert("Harap Approve Kembali")
+        return window.location.reload();
+
+    // }catch(err){
+    //   return alert("Terjadi kesalahan silahkan di coba kembali")
+    // }
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await getSoqData({page});
@@ -63,12 +92,7 @@ export default function Soq() {
               {StatusChecker(user.data.roles.name, ['admin', 'procurement', 'am_manager']) && (
                     <>
                     {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_AM_MANAGER_APPROVE', 'APPROVE_AM_MANAGER', 'APPROVE_COST_CONTROL', 'APPROVE_PM', 'APPROVE_BOARD_DIRECTOR', 'WAITING_FOR_PO_CREATE']) && (
-                      <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={async () => {
-                        const res = await updateStatusDoc('/update-status-soq', row.id);
-                        if(res.resp_code === "00")
-                          return window.location.reload();
-
-                              }} />
+                      <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={()=> ProcessStatus(row)} />
                       )}
                     {(
                       (StatusChecker(row.status, ['WAITING_AM_MANAGER_APPROVE']) && StatusChecker(user.data.roles.name, ['admin', 'am_manager'])) ||
@@ -87,11 +111,7 @@ export default function Soq() {
                       {row.status === 'WAITING_FOR_PO_CREATE' && StatusChecker(user.data.roles.name, ['cost_control', 'admin']) &&  (
                         <>
                           {StatusChecker(user.data.roles.name, ['cost_control', 'admin']) && (
-                            <CustomTextButton color={green[300]} icon={<Checklist/>} isDisabled={false} onClick={() =>{ ApproveSoq({
-                              pr_id: row.id
-                            })
-                              return window.location.reload();
-                            }} />
+                            <CustomTextButton color={green[300]} icon={<Checklist/>} isDisabled={false} onClick={() => Approvement(row)} />
                           )}
                         </>
                       )}

@@ -45,23 +45,23 @@ export default function MasterDepartement() {
           rows: []
         })
       }
-      res?.columns?.push({
-        field: "action",
-        headerName: 'ACTIONS',
-        sortable: false,
-        width: 160,
-        editable: false,
-        hide: false,
-        headerAlign: 'center',
-        renderCell: (params) => {
-          return (
-            <div>
-              <CustomTextButton icon={<DeleteForever/>} color={red[300]} isDisabled={false} onClick={()=> console.log('Delete')}/>
-              <CustomTextButton icon={<EditNoteOutlined/>} color={blue[300]} isDisabled={false} onClick={()=> console.log('Edit')}/>
-            </div>
-          );
-        }
-      });
+      // res?.columns?.push({
+      //   field: "action",
+      //   headerName: 'ACTIONS',
+      //   sortable: false,
+      //   width: 160,
+      //   editable: false,
+      //   hide: false,
+      //   headerAlign: 'center',
+      //   renderCell: (params) => {
+      //     return (
+      //       <div>
+      //         <CustomTextButton icon={<DeleteForever/>} color={red[300]} isDisabled={false} onClick={()=> console.log('Delete')}/>
+      //         <CustomTextButton icon={<EditNoteOutlined/>} color={blue[300]} isDisabled={false} onClick={()=> console.log('Edit')}/>
+      //       </div>
+      //     );
+      //   }
+      // });
       setData({
         columns: res?.columns,
         initialState:{
@@ -87,7 +87,7 @@ export default function MasterDepartement() {
         </div>
       </BoxCompo>
       <ColEnd>
-        <RoundedContainedButton fullWidth={false} label='Add Departement' isDisabled={false} onClick={()=> router.push('/master-departement/add')} />
+        {/* <RoundedContainedButton fullWidth={false} label='Add Departement' isDisabled={false} onClick={()=> router.push('/master-departement/add')} /> */}
       </ColEnd>
       <BoxTable>
         <Col>

@@ -5,7 +5,7 @@ import { IPayload } from ".";
 import { cookies } from 'next/headers'
 
 export const SigninHandler = async (payload: IPayload['login']) =>{
-  try {
+  // try {
     const response = await apiRequest.v1.post('/login', payload);
     cookies().set('token', response.data.token, {
       maxAge: Date.now() * 60 * 60,
@@ -15,12 +15,12 @@ export const SigninHandler = async (payload: IPayload['login']) =>{
       responseCode: '00',
       responseMessage: 'Success Login'
     }
-  } catch (err) {
-    // console.log(err.response.data);
-    return {
-      responseCode: '99',
-      responseMessage: err.response.data.message
-    }
-  }
+  // } catch (err) {
+  //   console.log(err.response);
+  //   return {
+  //     responseCode: '99',
+  //     responseMessage: err?.response?.data?.message
+  //   }
+  // }
 }
 

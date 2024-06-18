@@ -18,18 +18,21 @@ export const HeaderFilter = (key: string[], idx: number) =>{
 export interface IProps {
   url: string;
   payload: {
-    files : File[]
+    [type: string] : File[]
   }
 }
 export const UploadFile = async ({url, payload}:IProps)=>{
-  const token = await getToken()
-    const res = await apiRequest.v1.post(url, {
-      file : payload.files[0]
-    },{
-      headers:{
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data'
-      }
+    const token = await getToken()
+    const keys = Object.keys(payload)
+    keys.map(async (key:string | number) =>{
+      const res = await apiRequest.v1.post(url, {
+        [key] : payload[key][0]
+      },{
+        headers:{
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      return res
     })
-    return res
 }

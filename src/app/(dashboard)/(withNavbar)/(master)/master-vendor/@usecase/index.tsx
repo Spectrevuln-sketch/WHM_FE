@@ -5,7 +5,7 @@ import { getCurrentUser } from "@/helpers/tokenChecker";
 import { UploadFile } from "../../@usecase";
 import { useRouter } from "next/navigation";
 export interface IPayload {
-  files : File[]
+  [type: string]: File[]
 }
 export interface IComponents {
   filterModal: boolean
@@ -22,7 +22,7 @@ export interface IReturn {
 export const useMasterVendorV2 = (): IReturn =>{
   const router = useRouter()
   const initialState : IPayload={
-    files: []
+    file: []
   }
   const utilsState: IComponents ={
     filterModal : false
@@ -30,11 +30,14 @@ export const useMasterVendorV2 = (): IReturn =>{
   const [payload, setPayload] = useState(initialState)
   const [components, setComponents] = useState(utilsState)
   const ImportVendor = async () =>{
+    try{
     await getCurrentUser()
     const url = '/import-master-vendor'
-    const res = await UploadFile({url, payload})
-    router.refresh()
-    return res
+    await UploadFile({url, payload})
+    window.location.reload()
+  }catch(err){
+    alert("Gagal Import Data Silahkan Coba Kembali")
+  }
   }
   return {
     payload,

@@ -13,7 +13,7 @@ import { GetAllMasterBudget } from "./handler"
 import { TInitialData } from "../../@interface"
 import { DemoTreeDataValue } from "@mui/x-data-grid-generator/services/tree-data-generator"
 export interface IPayload {
-  files : File[]
+  [type: string]: File[]
 }
 export interface IComponents {
   filterModal: boolean
@@ -34,7 +34,7 @@ export interface IReturn {
 export const useMasterBudgetCode = ():IReturn => {
   const router = useRouter()
   const initialState : IPayload={
-    files: []
+    file: []
   }
   const utilsState: IComponents ={
     filterModal : false
@@ -105,10 +105,12 @@ export const useMasterBudgetCode = ():IReturn => {
 
   const ImportBudgetCode = async () =>{
     await getCurrentUser()
+    // console.log('data payload >>>> ',payload)
     const url = '/import-master-budgetcode'
     await UploadFile({url, payload})
-    fetchData()
-    setComponents({...components, filterModal: !components.filterModal})
+    // fetchData()
+    // setComponents({...components, filterModal: !components.filterModal})
+    window.location.reload()
   }
 
   return {

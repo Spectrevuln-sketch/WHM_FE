@@ -82,18 +82,24 @@ export const menu = (dashboardIcons: Iicons) =>{
         },
         {
           id: 4,
+          name: 'master_groupcode',
+          label: 'Master GroupCodes',
+          route: '/master-group-code',
+        },
+        {
+          id: 5,
           name: 'master_jasa',
           label: 'Master Jasa',
           route: '/master-jasa',
         },
         {
-          id: 5,
+          id: 6,
           name: 'master_departement',
           label: 'Master Departement',
           route: '/master-departement',
         },
         {
-          id: 6,
+          id: 7,
           name: 'master_coa',
           label: 'Master Coa',
           route: '/master-coa',

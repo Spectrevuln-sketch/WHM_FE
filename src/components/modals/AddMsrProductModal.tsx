@@ -105,13 +105,12 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
   useEffect(()=> {
     getCurrentUser().then((res)=>{
       setPayload({
-        ...payload,
+        ...initialize,
         requested_by:res.data.data.username,
-        name: ''
       })
     })
-  },[isOpen, payload.isManual])
-  console.log('payload data >>', payload)
+  },[isOpen])
+  // console.log('payload data >>', payload)
   return(
     <Modal
       open={isOpen}
@@ -163,7 +162,7 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
 
         <SelectSearchInputModal
           isOpen={modalOpen.productModal}
-          filterBy="item_name"
+          filterBy="ItemName"
           placeholder="Search Product"
           subtext="QTY"
           label="QTY On Hand"

@@ -132,7 +132,7 @@ export default function MasterInventory() {
 
         </Col>
       </BoxTable>
-      <ModalUploadDnd isOpen={components.filterModal} file={payload?.files} setFile={setPayload} onUpload={ImportInventory} remark="*file must be xlsx"  onClose={()=> setComponents({...components, filterModal: !components.filterModal})}/>
+      <ModalUploadDnd isOpen={components.filterModal} file={payload} setFile={setPayload} onUpload={ImportInventory} remark="*file must be xlsx"  onClose={()=> setComponents({...components, filterModal: !components.filterModal})}/>
     </PEMasterCoa>
   )
 }

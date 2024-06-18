@@ -6,6 +6,18 @@ import { HeaderFilter } from "../../@usecase";
 import { TInitialData } from "../../@interface";
 
 
+
+
+export const getInventory = async ()=>{
+  const token = cookies().get('token')?.value;
+    const result = await apiRequest.v1.get('/inventory', {
+      headers:{
+        'Authorization': 'Bearer ' + token
+      }
+    })
+    return result.data
+}
+
 export const getMasterInventory =  async ()=>{
   try {
     const token = cookies().get('token')?.value;

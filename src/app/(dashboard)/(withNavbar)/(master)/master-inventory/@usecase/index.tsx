@@ -9,7 +9,7 @@ import { UploadFile } from "../../@usecase"
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
 import { AxiosResponse } from "axios"
 export interface IPayload {
-  files : File[]
+  [type: string]: File[]
 }
 export interface IComponents {
   filterModal: boolean
@@ -17,7 +17,7 @@ export interface IComponents {
 
 export interface IReturn {
   router: AppRouterInstance
-  ImportInventory: () => Promise<AxiosResponse<any, any>>
+  ImportInventory: () =>void
   payload: IPayload
   setPayload: Dispatch<SetStateAction<IPayload>>
   components: IComponents
@@ -28,7 +28,7 @@ export interface IReturn {
 export const useMasterInventory = ():IReturn => {
   const router = useRouter()
   const initialState : IPayload={
-    files: []
+    file: []
   }
   const utilsState: IComponents ={
     filterModal : false
@@ -39,13 +39,15 @@ export const useMasterInventory = ():IReturn => {
 
 
   const ImportInventory = async () =>{
+  try{
     await getCurrentUser()
     const url = '/import-master-inv'
-    const res = await UploadFile({url, payload})
-    router.refresh()
-    return res
+    await UploadFile({url, payload})
+    window.location.reload()
+  }catch(err){
+    alert("Gagal Import Data Silahkan Coba Kembali")
   }
-
+  }
   return {
     router,
     ImportInventory,

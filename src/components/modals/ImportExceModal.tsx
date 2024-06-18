@@ -1,20 +1,23 @@
 "use client"
 
-import { Box,  Modal, Typography } from '@mui/material'
+import { Box,  Modal,} from '@mui/material'
 import React, { Dispatch } from 'react'
 import UploadBox from '../inputs/UploadBox';
-import { IPayload } from '@/app/(dashboard)/(withNavbar)/(master)/master-vendor/@usecase';
 
+
+export interface IPayload {
+  [type: string] : File[]
+}
 export interface IProps {
   isOpen : boolean;
   onClose : () => void;
   onUpload:()=>void;
-  file: File[],
+  file:IPayload,
   setFile: Dispatch<React.SetStateAction<IPayload>>
   remark?: string
 }
 
-const ModalUploadDnd: React.FC<IProps> = ({file, setFile, isOpen, onClose, remark, onUpload}) => {
+const ModalUploadDnd = ({file, setFile, isOpen, onClose, remark, onUpload}: IProps) => {
   return (
     <Modal
       open={isOpen}

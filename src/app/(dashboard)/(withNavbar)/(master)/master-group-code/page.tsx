@@ -4,18 +4,15 @@ import moment from 'moment'
 import { BoxCompo, Col, PEMasterCoa } from './styles';
 import MasterTableGrid from '@/components/tables/MasterTableGrid';
 import RoundedContainedButton from '@/components/buttons/RoundedContainedButton';
-import { useMasterCoa } from './@usecase';
+import { useMasterGroupCode } from './@usecase';
 import { BoxTable, ColEnd } from '../master-budget-code/styles';
 import ModalUploadDnd from '@/components/modals/ImportExceModal';
-import CustomTextButton from '@/components/buttons/CustomTextButton';
-import { DeleteForever, EditNoteOutlined } from '@mui/icons-material';
-import { blue, red } from '@mui/material/colors';
-import { getMasterCoa } from './@usecase/handler';
 import { TInitialData } from '../@interface';
 import { DemoTreeDataValue } from '@mui/x-data-grid-generator/services/tree-data-generator';
+import { getColGroupCode } from './@usecase/handle';
 
 const MasterCoa = () => {
-  const {ImportCoa, components, payload, setComponents, setPayload} = useMasterCoa()
+  const {ImportGroupCode, components, payload, setComponents, setPayload} = useMasterGroupCode()
 
   const [data, setData] = useState<TInitialData | DemoTreeDataValue>({
     columns: [],
@@ -30,7 +27,7 @@ const MasterCoa = () => {
   })
 
   const fetchData = async () => {
-    const res = await getMasterCoa();
+    const res = await getColGroupCode();
     if (res === undefined){
       return setData({
         columns: [],
@@ -44,23 +41,23 @@ const MasterCoa = () => {
         rows: []
       })
     }
-    res?.columns?.push({
-      field: "action",
-      headerName: 'ACTIONS',
-      sortable: false,
-      width: 160,
-      editable: false,
-      hide: false,
-      headerAlign: 'center',
-      renderCell: ({row}) => {
-        return (
-          <div>
-            <CustomTextButton icon={<DeleteForever/>} color={red[300]} isDisabled={false} onClick={()=> console.log('Delete')}/>
-            <CustomTextButton icon={<EditNoteOutlined/>} color={blue[300]} isDisabled={false} onClick={()=> console.log('Edit')}/>
-          </div>
-        );
-      }
-    });
+    // res?.columns?.push({
+    //   field: "action",
+    //   headerName: 'ACTIONS',
+    //   sortable: false,
+    //   width: 160,
+    //   editable: false,
+    //   hide: false,
+    //   headerAlign: 'center',
+    //   renderCell: ({row}) => {
+    //     return (
+    //       <div>
+    //         <CustomTextButton icon={<DeleteForever/>} color={red[300]} isDisabled={false} onClick={()=> console.log('Delete')}/>
+    //         <CustomTextButton icon={<EditNoteOutlined/>} color={blue[300]} isDisabled={false} onClick={()=> console.log('Edit')}/>
+    //       </div>
+    //     );
+    //   }
+    // });
     setData({
       columns: res.columns ?? [],
       initialState:{
@@ -92,12 +89,12 @@ const MasterCoa = () => {
       </ColEnd>
       <BoxTable>
         <Col>
-          <p>Seluruh Data Coa</p>
+          <p>Seluruh Data Group Code</p>
           <MasterTableGrid initialData={data}/>
 
         </Col>
       </BoxTable>
-      <ModalUploadDnd isOpen={components.filterModal} file={payload} setFile={setPayload} onUpload={ImportCoa} remark="*file must be xlsx"  onClose={()=> setComponents({...components, filterModal: !components.filterModal})}/>
+      <ModalUploadDnd isOpen={components.filterModal} file={payload} setFile={setPayload} onUpload={ImportGroupCode} remark="*file must be xlsx"  onClose={()=> setComponents({...components, filterModal: !components.filterModal})}/>
     </PEMasterCoa>
   )
 }

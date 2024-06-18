@@ -129,8 +129,31 @@ const CreateMsr: React.FC = () => {
 
 
 
+const ProcessUpload = async (row)=>{
+  try{
+    const statusData = await updateStatus(row.id);
+    if(statusData.resp_code === "99")
+      return alert("Harap Update Status Kembali")
+    return window.location.reload();
+  }catch(err){
+    return alert("Terjadi kesalahan silahkan di coba kembali")
+  }
+}
 
 
+const Approvement = async (row)=>{
+  // try{
+    const res = await ApproveMsr({
+      msrId: row.id
+      })
+      if(res.resp_code === "99")
+        return alert("Harap Approve Kembali")
+      return window.location.reload();
+
+  // }catch(err){
+  //   return alert("Terjadi kesalahan silahkan di coba kembali")
+  // }
+}
   useEffect(()=>{
     const fetchData = async () =>{
       const res = await getMsr({page});
@@ -165,21 +188,14 @@ const CreateMsr: React.FC = () => {
                   {StatusChecker(user.data.roles.name, ['admin', 'procurement', 'am_manager']) && (
                     <>
                     {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_FOR_VAL_FORM_COST_CONTROL', 'WAITING_FOR_VAL_FORM_WAREHOUSE_LOGISTIK']) && (
-                      <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={() => {
-                        updateStatus(row.id);
-                        return window.location.reload();
-                              }} />
+                      <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={()=>ProcessUpload(row)} />
                       )}
                       {/* <CustomTextButton icon={<DeleteForever/>} color={red[300]} isDisabled={false} onClick={()=> console.log('Delete')}/> */}
                       {row.status === 'APPROVE_MSR' && StatusChecker(user.data.roles.name, ['cost_control', 'admin']) &&  (
                         <>
                           {StatusChecker(user.data.roles.name, ['cost_control', 'admin']) && (
-                            <CustomTextButton color={green[300]} icon={<Checklist/>} isDisabled={false} onClick={() =>{ ApproveMsr({
-                              msrId: row.id
-                              })
-                              return window.location.reload();
-                              }} />
-                              )}
+                            <CustomTextButton color={green[300]} icon={<Checklist/>} isDisabled={false} onClick={() => Approvement(row)} />
+                      )}
                         </>
                       )}
                     </>

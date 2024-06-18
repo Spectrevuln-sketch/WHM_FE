@@ -1,15 +1,14 @@
-'use server'
+'use server';
 
 import { apiRequest } from "@/config/api";
 import { cookies } from "next/headers";
 import { TInitialData } from "../../@interface";
 import { HeaderFilter } from "../../@usecase";
 
-
-export const getMasterVendor =  async ()=>{
+export const getColGroupCode = async () =>{
   try {
     const token = cookies().get('token')?.value;
-    const result = await apiRequest.v1.get('/vendors', {
+    const result = await apiRequest.v1.get('/groupcodes', {
       headers:{
         'Authorization': 'Bearer ' + token
       }
@@ -17,7 +16,7 @@ export const getMasterVendor =  async ()=>{
     let columns : TInitialData['columns'] = [];
     let rows : TInitialData['rows'] = [];
     if(result.data.data.length){
-      const key = Object.keys(result.data.data[0]).filter((keyData: string)=>keyData !== 'coa' )
+      const key = Object.keys(result.data.data[0]).filter((keyData: string)=>keyData !== 'coa')
       columns = key.map((val, idx)=>{
           return {
             field: val,

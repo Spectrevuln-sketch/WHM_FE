@@ -126,6 +126,34 @@ const PurchaseOrder: React.FC = () => {
 
   const [search, setSearch] = React.useState('');
   const [page, setPage] = React.useState(1);
+
+  const ProcessStatus = async (row)=>{
+    try{
+      const res = await  updateStatusDoc('/update-status-po', row.id);
+      if(res.resp_code === "99")
+        return alert("Harap Update Status Kembali")
+      return window.location.reload();
+    }catch(err){
+      if(err){
+        return alert("Terjadi kesalahan silahkan di coba kembali")
+      }
+    }
+  }
+
+  // const Approvement = async (row)=>{
+  //   try{
+  //     const res = await ApprovePr({
+  //       pr_id: row.id
+  //     })
+  //     console.log('PR RESPONSE APPROVE >>', res)
+  //       if(res.resp_code === "99")
+  //         return alert("Harap Approve Kembali")
+  //       return window.location.reload();
+
+  //   }catch(err){
+  //     return alert("Terjadi kesalahan silahkan di coba kembali")
+  //   }
+  // }
   useEffect(()=>{
     const fetchData = async () =>{
       const res = await getPurchaseOrder({page});
@@ -170,13 +198,10 @@ const PurchaseOrder: React.FC = () => {
                   {StatusChecker(user.data.roles.name, ['admin', 'procurement', 'am_manager']) && (
                     <>
                     {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_APPROVE_PM', 'WAITING_APPROVE_AM_MANAGER', 'WAITING_APPROVE_PROCUREMENT']) && (
-                      <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={() => {
-                        updateStatusDoc('/update-status-po', row.id);
-                        return window.location.reload();
-                              }} />
+                      <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={()=>ProcessStatus(row)} />
                       )}
                       {/* <CustomTextButton icon={<DeleteForever/>} color={red[300]} isDisabled={false} onClick={()=> console.log('Delete')}/> */}
-                      {row.status === 'SEND_TO_SUPPLYER' && StatusChecker(user.data.roles.name, ['cost_control', 'admin']) &&  (
+                      {/* {row.status === 'SEND_TO_SUPPLYER' && StatusChecker(user.data.roles.name, ['cost_control', 'admin']) &&  (
                         <>
                           {StatusChecker(user.data.roles.name, ['cost_control', 'admin']) && (
                             <CustomTextButton color={green[300]} icon={<Checklist/>} isDisabled={false} onClick={() =>{ ApproveMsr({
@@ -186,7 +211,7 @@ const PurchaseOrder: React.FC = () => {
                               }} />
                               )}
                         </>
-                      )}
+                      )} */}
                     </>
                   )}
                 <CustomTextButton icon={<RemoveRedEye />} color={blue[300]} isDisabled={false} onClick={() => router.push(`/material-service-request/${row.id}`)} />

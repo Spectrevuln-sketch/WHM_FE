@@ -49,6 +49,7 @@ const CreateMsr: React.FC = () => {
     disabledBtn,
     supplyer
   } = useCreateMsr()
+  // console.log('product data', product)
   return (
     <Grid
       container

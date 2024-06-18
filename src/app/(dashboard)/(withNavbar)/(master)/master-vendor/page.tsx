@@ -99,7 +99,7 @@ export default function MasterVendor() {
           </Col>
         </BoxTable>
       </PEMasterCoa>
-      <ModalUploadDnd isOpen={components.filterModal} file={payload?.files} setFile={setPayload} onUpload={ImportVendor} remark="*file must be xlsx"  onClose={()=> setComponents({...components, filterModal: !components.filterModal})}/>
+      <ModalUploadDnd isOpen={components.filterModal}  file={payload} setFile={setPayload} onUpload={ImportVendor} remark="*file must be xlsx"  onClose={()=> setComponents({...components, filterModal: !components.filterModal})}/>
     </>
   );
 }
