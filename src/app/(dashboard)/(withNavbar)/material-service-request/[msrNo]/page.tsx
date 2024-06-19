@@ -80,6 +80,7 @@ const selectedProductColumn: CustomTableColumnInterface[] = [
     id: 'purpose',
     label: 'Purpose',
   },
+
 ]
 
 const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
@@ -142,6 +143,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
     const res :Msr = await getCurrentMsr(params.msrNo)
     setMsrstate(res)
   }
+  console.log('MSR DATA >>>', msrstate)
   return (
     <Grid
       container

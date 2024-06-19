@@ -120,6 +120,8 @@ const CreateMsr: React.FC = () => {
         uomOption={uoms}
         productOption={product}
         isOpen={addProductOpen}
+        selectedProducts={selectedProducts}
+        productIndex={editProductIndex}
         onClose={()=>setAddProductOpen(!addProductOpen)}
         onSubmit={(product) => addProduct(product)}
       />

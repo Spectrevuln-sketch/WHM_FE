@@ -47,6 +47,8 @@ export interface UomInterface {
 }
 
 interface AddProductModalInterface {
+  selectedProducts?: any;
+  productIndex?:any;
   uomOption: any;
   productOption: any;
   coaOption: any;
@@ -58,7 +60,7 @@ interface AddProductModalInterface {
 
 interface IPayload {
   isManual: boolean;
-  qty : number;
+  qty : number | string;
   uom : string;
   name: string;
   requested_by: string;
@@ -73,7 +75,7 @@ type IModalSelect = {
   groupCodeModal: boolean
 }
 
-const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coaOption, uomOption, productOption, isOpen, onSubmit, onClose}) => {
+const AddMsrProductModal: React.FC<AddProductModalInterface> = ({selectedProducts, productIndex, groupOption,coaOption, uomOption, productOption, isOpen, onSubmit, onClose}) => {
   const initialize : IPayload ={
     isManual: false,
     qty: 0,
@@ -97,20 +99,32 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
     setPayload(initialize)
     onClose()
   }
+  useEffect(()=>{
 
+  },[])
   useEffect(() => {
     // Update the disableButtonForm state whenever payload changes
     setDisabledBtn(disableSubmit(payload));
   }, [payload]);
   useEffect(()=> {
-    getCurrentUser().then((res)=>{
+    if(selectedProducts[productIndex] !== undefined){
       setPayload({
         ...initialize,
-        requested_by:res.data.data.username,
+        ...selectedProducts[productIndex],
+
       })
-    })
-  },[isOpen])
-  // console.log('payload data >>', payload)
+    }else{
+
+
+      getCurrentUser().then((res)=>{
+        setPayload({
+          ...initialize,
+          requested_by:res.data.data.username,
+        })
+      })
+    }
+    },[isOpen])
+  console.log('payload data >>', payload)
   return(
     <Modal
       open={isOpen}
@@ -191,7 +205,7 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
             uom:val
           })}
         />
-
+    {/* form data */}
         <Grid
           container
           direction={'row'}
@@ -212,9 +226,10 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
               isError={false}
               textHelper=""
               type="number"
+              value={payload.qty}
               onChange={(val) => setPayload({
                 ...payload,
-                qty:+val
+                qty: +val
               })}
             />
           </Box>
@@ -280,6 +295,7 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
           isDisabled={false}
           isError={false}
           textHelper=""
+          value={payload.name}
           onChange={(val) => setPayload({
             ...payload,
             name:val
@@ -343,6 +359,7 @@ const AddMsrProductModal: React.FC<AddProductModalInterface> = ({groupOption,coa
           isDisabled={false}
           isError={false}
           textHelper=""
+          value={payload.purpose}
           onChange={(val) => setPayload({
             ...payload,
             purpose:val

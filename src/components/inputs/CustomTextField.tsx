@@ -15,8 +15,8 @@ interface CustomTextFieldInterface {
   color?: colorOptions;
   type?: string;
   name?: string;
-  value?: string;
-  onChange: (val: string, e?: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  value?: string | number;
+  onChange: (val: string | number, e?: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 const CustomTextField: React.FC<CustomTextFieldInterface> = ({
@@ -29,7 +29,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
   color = 'transparent',
   type = 'text',
   name = '',
-  value = '',
+  value,
   onChange,
 }) => {
   return(

@@ -192,9 +192,10 @@ export const useCreateMsr = (): IReturn =>{
     }
   }
   const handleEditProductModalOpen = (index: number) => {
-    setEditProductOpen(true);
+    // setEditProductOpen(true);
+    setAddProductOpen(!addProductOpen)
     setEditProductIndex(index);
-    setEditedProduct(selectedProducts[index]);
+    // setEditedProduct(selectedProducts[index]);
   }
   const handleEditProductModalClose = () => {
     setEditProductOpen(false);
@@ -236,9 +237,10 @@ export const useCreateMsr = (): IReturn =>{
           work_location: payload.work_location,
           suggestedSupplier: payload.suggestedSupplier
         }
+        console.log('request data >>', req)
     const res = await createMsr(req)
     if (res.responseCode === "99") return setError(res)
-    return router.replace('/material-service-request')
+    // return router.replace('/material-service-request')
   }
 
   const SelectedInitialData = async () =>{
