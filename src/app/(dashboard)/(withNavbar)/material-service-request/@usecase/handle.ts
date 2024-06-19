@@ -183,7 +183,7 @@ export const getMsr = async ({page=1, limit=10} :IParamsGet) =>{
             return {
                 ...row,
                 // status: convertToCapitalcase(row.status),
-                delivered_at: moment.utc(row.delivered_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
+                delivered_at: moment.utc(row.delivered_at).tz('Asia/Jakarta').format('DD MMM YYYY'),
                 created_at: moment.utc(row.created_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
                 updated_at: moment.utc(row.updated_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
               };
@@ -254,5 +254,5 @@ export const ApproveMsr = async (payload: IPayloadApproveMsr) =>{
       'Authorization': 'Bearer ' + token
     }
   })
-  console.log('resultDAta >>',  result)
+  return result.data
 }

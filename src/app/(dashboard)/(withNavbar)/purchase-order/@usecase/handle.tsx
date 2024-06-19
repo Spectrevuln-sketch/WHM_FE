@@ -57,7 +57,7 @@ export const getPurchaseOrder = async({page=1, limit=10} :IParamsGet) =>{
   }
 }
 
-export const ApprovePo = async (payload: IPayloadApproveMsr) =>{
+export const ApprovePo = async (payload) =>{
   await getCurrentUser()
   const token = cookies().get('token')?.value;
   const result = await apiRequest.v1.post('/purchase-request',payload, {

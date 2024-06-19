@@ -7,17 +7,20 @@ import { cookies } from "next/headers";
 import { apiRequest } from "@/config/api";
 
 export interface IPayloadApproveSoq{
-
+  soq_id: string
 }
 export const ApproveSoq = async (payload: IPayloadApproveSoq) =>{
   await getCurrentUser()
+
+  console.log('payload data >>', payload)
   const token = cookies().get('token')?.value;
   const result = await apiRequest.v1.post('/po-create',payload, {
     headers:{
       'Authorization': 'Bearer ' + token
     }
   })
-  console.log('resultDAta >>',  result)
+  console.log('data result data >>>', result)
+  return result.data
 }
 
 

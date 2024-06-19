@@ -226,7 +226,7 @@ export const useCreateMsr = (): IReturn =>{
   const handleSubmitForm = async () =>{
     const getToken = await getCurrentUser()
     const req : IRequest={
-          date_time: moment(payload.deliveryDate).utc().format('YYYY-MM-DD'),
+          date_time: moment(payload.deliveryDate).utc().format('YYYY-MM-DD').toString(),
           dept_id: getToken.data.data.dept_id,
           list_of_items: selectedProducts,
           msr_number: payload.msr_number,

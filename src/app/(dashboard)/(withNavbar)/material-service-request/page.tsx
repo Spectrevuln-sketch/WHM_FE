@@ -132,7 +132,7 @@ const CreateMsr: React.FC = () => {
 const ProcessUpload = async (row)=>{
   try{
     const statusData = await updateStatus(row.id);
-    if(statusData.resp_code === "99")
+    if(statusData.data.resp_code === "99")
       return alert("Harap Update Status Kembali")
     return window.location.reload();
   }catch(err){
@@ -142,17 +142,17 @@ const ProcessUpload = async (row)=>{
 
 
 const Approvement = async (row)=>{
-  // try{
+  try{
     const res = await ApproveMsr({
       msrId: row.id
       })
-      if(res.resp_code === "99")
+      if(res.data.resp_code === "99")
         return alert("Harap Approve Kembali")
       return window.location.reload();
 
-  // }catch(err){
-  //   return alert("Terjadi kesalahan silahkan di coba kembali")
-  // }
+  }catch(err){
+    return alert("Terjadi kesalahan silahkan di coba kembali")
+  }
 }
   useEffect(()=>{
     const fetchData = async () =>{

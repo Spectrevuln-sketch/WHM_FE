@@ -110,18 +110,17 @@ const PurchaseRequest: React.FC = () => {
     }
   }
   const Approvement = async (row)=>{
-    // try{
+    try{
       const res = await ApprovePr({
         pr_id: row.id
       })
-      console.log('PR RESPONSE APPROVE >>', res)
-        if(res.resp_code === "99")
+        if(res.data.resp_code === "99")
           return alert("Harap Approve Kembali")
         return window.location.reload();
 
-    // }catch(err){
-    //   return alert("Terjadi kesalahan silahkan di coba kembali")
-    // }
+    }catch(err){
+      return alert("Terjadi kesalahan silahkan di coba kembali")
+    }
   }
   useEffect(()=>{
     const fetchData = async () =>{

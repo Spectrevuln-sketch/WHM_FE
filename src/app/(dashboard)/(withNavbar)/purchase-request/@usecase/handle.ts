@@ -26,7 +26,7 @@ export const ApprovePr = async (payload: IPayloadApprovePr) =>{
       'Authorization': 'Bearer ' + token
     }
   })
-  console.log('resultDAta >>',  result)
+  return result.data
 }
 
 

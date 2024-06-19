@@ -49,13 +49,14 @@ export default function Soq() {
 
   const Approvement = async (row)=>{
     // try{
+      console.log('APPROVE SOQ')
       const res = await ApproveSoq({
-        pr_id: row.id
+        soq_id: row.id
       })
-      console.log('PR RESPONSE APPROVE >>', res)
-        if(res.resp_code === "99")
+      console.log('data res', res)
+        if(res.data.resp_code === "99")
           return alert("Harap Approve Kembali")
-        return window.location.reload();
+        // return window.location.reload();
 
     // }catch(err){
     //   return alert("Terjadi kesalahan silahkan di coba kembali")
@@ -91,7 +92,7 @@ export default function Soq() {
             <div>
               {StatusChecker(user.data.roles.name, ['admin', 'procurement', 'am_manager']) && (
                     <>
-                    {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_AM_MANAGER_APPROVE', 'APPROVE_AM_MANAGER', 'APPROVE_COST_CONTROL', 'APPROVE_PM', 'APPROVE_BOARD_DIRECTOR', 'WAITING_FOR_PO_CREATE']) && (
+                    {StatusChecker(user.data.roles.name, ['admin', 'cost_control']) && StatusChecker(row.status, ['WAITING_AM_MANAGER_APPROVE', 'APPROVE_AM_MANAGER', 'APPROVE_COST_CONTROL', 'APPROVE_PM', 'APPROVE_BOARD_DIRECTOR']) && (
                       <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={()=> ProcessStatus(row)} />
                       )}
                     {(
