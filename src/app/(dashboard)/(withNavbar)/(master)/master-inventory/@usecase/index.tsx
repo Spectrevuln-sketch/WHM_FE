@@ -37,17 +37,23 @@ export const useMasterInventory = ():IReturn => {
   const [components, setComponents] = useState(utilsState)
 
 
-
   const ImportInventory = async () =>{
-  try{
-    await getCurrentUser()
-    const url = '/import-master-inv'
-    await UploadFile({url, payload})
-    window.location.reload()
-  }catch(err){
-    alert("Gagal Import Data Silahkan Coba Kembali")
+    try{
+      await getCurrentUser()
+      const url = '/import-master-inv'
+      const res = await UploadFile({url, payload})
+      if(res.status === 400)
+        return alert(res.data.message)
+      window.location.reload()
+    }catch(err){
+      if(err.response)
+        return alert(err.response.data.message)
+      return alert("Gagal Import Data Silahkan Coba Kembali")
+    }
   }
-  }
+
+
+
   return {
     router,
     ImportInventory,

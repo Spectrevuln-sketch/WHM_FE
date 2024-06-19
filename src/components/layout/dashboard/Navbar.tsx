@@ -244,9 +244,9 @@ export default function DashboardNavbar({
           }
         </Grid>
         <List sx={{paddingLeft: open ? '20px' : '0px', paddingRight: open ? '20px' : '0px'}}>
-          {sidebarItem.map((item) => (
+          {sidebarItem.map((item, idx) => (
             <>
-            <ListItem key={item.label} disablePadding sx={{ display: 'block' }}
+            <ListItem key={`${item.label}-${idx}`} disablePadding sx={{ display: 'block' }}
             className='sidebar-list-item'
             >
               <ListItemButton

@@ -22,9 +22,11 @@ export interface IProps {
   }
 }
 export const UploadFile = async ({url, payload}:IProps)=>{
+  try{
+
     const token = await getToken()
     const keys = Object.keys(payload)
-    keys.map(async (key:string | number) =>{
+    const data = keys.map(async (key:string | number) =>{
       const res = await apiRequest.v1.post(url, {
         [key] : payload[key][0]
       },{
@@ -35,4 +37,10 @@ export const UploadFile = async ({url, payload}:IProps)=>{
       })
       return res
     })
+    const response = await Promise.all(data)
+    return response
+  }catch(err:any){
+    if(err.response)
+      return err.response
+  }
 }

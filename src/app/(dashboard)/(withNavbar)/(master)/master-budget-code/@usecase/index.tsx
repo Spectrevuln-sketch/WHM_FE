@@ -102,16 +102,22 @@ export const useMasterBudgetCode = ():IReturn => {
     fetchData();
   }, []);
 
-
   const ImportBudgetCode = async () =>{
-    await getCurrentUser()
-    // console.log('data payload >>>> ',payload)
-    const url = '/import-master-budgetcode'
-    await UploadFile({url, payload})
-    // fetchData()
-    // setComponents({...components, filterModal: !components.filterModal})
-    window.location.reload()
+    try{
+      await getCurrentUser()
+      const url = '/import-master-budgetcode'
+      const res = await UploadFile({url, payload})
+      if(res.status === 400)
+        return alert(res.data.message)
+      window.location.reload()
+    }catch(err){
+      if(err.response)
+        return alert(err.response.data.message)
+      return alert("Gagal Import Data Silahkan Coba Kembali")
+    }
   }
+
+
 
   return {
     router,

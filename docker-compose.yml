@@ -4,6 +4,7 @@ services:
   app:
     build:
       context: .
+      dockerfile: dev.Dockerfile
     container_name: whm_fe
     restart: always
     ports:
@@ -16,14 +17,14 @@ services:
       - sevira-network
 
   tunnel:
-     container_name: cloudflared-tunnel
-     image: cloudflare/cloudflared
-     restart: unless-stopped
-     command: tunnel run
-     env_file:
-       - .env
-     networks:
-       - sevira-network
+    container_name: cloudflared-tunnel
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    env_file:
+      - .env
+    networks:
+      - sevira-network
 #     environment:
 #	- TUNNEL_TOKEN=eyJhIjoiNWNlMjQ0NTdhYWYxNWJjYzk2MjZjMjliM2Y3NWFlZGQiLCJ0IjoiNDRiNGQ1NTgtZWQzZS00N2Y0LWJhMWQtZWI5OTBmNWIyYzEyIiwicyI6IlpqWXpZakV3T0dZdFl6TmxaQzAwWWprMExUZzJOVGd0WVRnME9EZGtOMlEwT0RReSJ9
 #       - TUNNEL_TOKEN= eyJhIjoiNWNlMjQ0NTdhYWYxNWJjYzk2MjZjMjliM2Y3NWFlZGQiLCJ0IjoiY2VkMmY1YjQtNmUxMS00OGJjLWE3NjktOWNmNTU4ODE5N2ExIiwicyI6Ik5XWTNNV0kyTkRRdFlqZGpOaTAwTTJKaExXRTVNall0WldGa09UYzNNelZpTW1VMCJ9

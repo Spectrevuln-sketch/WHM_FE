@@ -29,15 +29,20 @@ export const useMasterVendorV2 = (): IReturn =>{
   }
   const [payload, setPayload] = useState(initialState)
   const [components, setComponents] = useState(utilsState)
+
   const ImportVendor = async () =>{
     try{
-    await getCurrentUser()
-    const url = '/import-master-vendor'
-    await UploadFile({url, payload})
-    window.location.reload()
-  }catch(err){
-    alert("Gagal Import Data Silahkan Coba Kembali")
-  }
+      await getCurrentUser()
+      const url = '/import-master-vendor'
+      const res = await UploadFile({url, payload})
+      if(res.status === 400)
+        return alert(res.data.message)
+      window.location.reload()
+    }catch(err){
+      if(err.response)
+        return alert(err.response.data.message)
+      return alert("Gagal Import Data Silahkan Coba Kembali")
+    }
   }
   return {
     payload,

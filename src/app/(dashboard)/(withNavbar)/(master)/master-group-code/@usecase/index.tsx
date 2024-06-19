@@ -36,18 +36,21 @@ export const useMasterGroupCode = () =>{
   const [components, setComponents] = useState(utilsState)
 
 
-
   const ImportGroupCode = async () =>{
     try{
-
       await getCurrentUser()
       const url = '/import-master-groupcode'
-      await UploadFile({url, payload})
+      const res = await UploadFile({url, payload})
+      if(res.status === 400)
+        return alert(res.data.message)
       window.location.reload()
     }catch(err){
-      alert("Gagal Import Data Silahkan Coba Kembali")
+      if(err.response)
+        return alert(err.response.data.message)
+      return alert("Gagal Import Data Silahkan Coba Kembali")
     }
   }
+
 
     return {
       router,

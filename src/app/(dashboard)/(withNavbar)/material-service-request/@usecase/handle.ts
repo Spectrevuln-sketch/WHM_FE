@@ -161,6 +161,7 @@ export const getMsr = async ({page=1, limit=10} :IParamsGet) =>{
       'Authorization': 'Bearer ' + token
     }
   })
+  console.log("MSR DATA >>>>", result.data.data)
   let columns : TInitialData['columns'] = [];
   let rows : TInitialData['rows'] = [];
   if(result.data.data.length){
