@@ -1,6 +1,6 @@
 'use client';
 
-import { FormControl, FormHelperText, InputAdornment, OutlinedInput, Typography } from "@mui/material";
+import { FormControl, FormHelperText, InputAdornment, OutlinedInput, SxProps, Theme, Typography } from "@mui/material";
 import React from "react";
 
 interface CustomTextareaFieldInterface {
@@ -13,9 +13,10 @@ interface CustomTextareaFieldInterface {
   isError: boolean;
   textHelper: string;
   onChange: (val: string) => void;
+  style?: SxProps<Theme>;
 }
 
-const CustomTextareaField: React.FC<CustomTextareaFieldInterface> = ({label, placeholder, endAdornment, rows, value, textHelper, onChange}) => {
+const CustomTextareaField: React.FC<CustomTextareaFieldInterface> = ({label, style,  placeholder, endAdornment, rows, value, textHelper, onChange}) => {
   return(
     <FormControl variant="outlined" fullWidth>
       {
@@ -23,6 +24,7 @@ const CustomTextareaField: React.FC<CustomTextareaFieldInterface> = ({label, pla
         ? <Typography
           id="custom-textfield-label"
           sx={{
+            ...style,
             marginBottom: '4px',
             fontSize: '13px',
             color: '#4B465C'

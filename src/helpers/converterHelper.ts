@@ -19,3 +19,9 @@ export const convertToCapitalcase = (text: string): string =>{
   const capitalCase =  text.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})
   return capitalCase.replaceAll("_", " ")
 }
+
+export const convertToUpperSnakeCase = (str: string) =>{
+  return str
+    .toUpperCase()                // Convert the string to uppercase
+    .replace(/\s+/g, '_');        // Replace spaces with underscores
+}

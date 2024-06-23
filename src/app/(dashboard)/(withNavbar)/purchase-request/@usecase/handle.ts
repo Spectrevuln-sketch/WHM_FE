@@ -1,12 +1,12 @@
 'use server'
 
 import { apiRequest } from "@/config/api";
-import { Dayjs } from "dayjs";
 import moment from "moment-timezone";
 import { cookies } from "next/headers";
 import { TInitialData } from "../../(master)/@interface";
 import { HeaderFilter } from "../../(master)/@usecase";
 import { getCurrentUser } from "@/helpers/tokenChecker";
+import { convertToCapitalcase } from "@/helpers/converterHelper";
 
 
 export interface IParamsGet{
@@ -28,6 +28,7 @@ export const ApprovePr = async (payload: IPayloadApprovePr) =>{
   })
   return result.data
 }
+
 
 
 
@@ -76,7 +77,7 @@ export const getPr = async ({page=1, limit=10} :IParamsGet) =>{
           rows= result.data.data.map(row => {
             return {
                 ...row,
-                // status: convertToCapitalcase(row.status),
+                status: convertToCapitalcase(row.status),
                 delivered_at: moment.utc(row.delivered_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
                 created_at: moment.utc(row.created_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
                 updated_at: moment.utc(row.updated_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),

@@ -1,12 +1,13 @@
 'use client'
-
+import dynamic from 'next/dynamic';
 import { dashboardIcons } from "@/assets/icon/dashboard";
 import { mainImage } from "@/assets/images";
 import CustomContainedButton from "@/components/buttons/CustomContainedButton";
 import CustomDatePicker from "@/components/inputs/CustomDatePicker";
 import CustomSelect from "@/components/inputs/CustomSelect";
 import CustomSelectVendor from "@/components/inputs/CustomSelectVendor";
-import CustomTextField from "@/components/inputs/CustomTextField";
+// import CustomTextField from "@/components/inputs/CustomTextField";
+const  CustomTextField = dynamic(()=> import("@/components/inputs/CustomTextField"))
 import GenerateQrCodeModal from "@/components/modals/GenerateQrCodeModal";
 import { TitleDashboardText } from "@/components/text/styledText";
 import { thousandSeparator } from "@/helpers/numericHelper";

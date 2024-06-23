@@ -5,6 +5,7 @@ import moment from "moment-timezone";
 import { TInitialData } from "../../@interface";
 import { cookies } from "next/headers";
 import { apiRequest } from "@/config/api";
+import { convertToCapitalcase } from "@/helpers/converterHelper";
 
 export interface IPayloadApproveSoq{
   soq_id: string
@@ -85,7 +86,7 @@ export const getSoqData = async ({page=1, limit=10} :IParamsGet)=>{
             return {
                 ...row,
                 prNumber: row.prData.prNumber,
-                // status: convertToCapitalcase(row.status),
+                status: convertToCapitalcase(row.status),
                 created_at: moment.utc(row.created_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
                 updated_at: moment.utc(row.updated_at).tz('Asia/Jakarta').format('DD MMM YYYY HH:mm'),
               };
