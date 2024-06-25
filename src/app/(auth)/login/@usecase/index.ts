@@ -50,6 +50,7 @@ export const useLogin = () : HILogin =>{
       return await router.replace('/dashboard');
 
     }catch(err:any){
+      console.log(err.response)
       if(err.response){
         alert(err.response.data)
       }
