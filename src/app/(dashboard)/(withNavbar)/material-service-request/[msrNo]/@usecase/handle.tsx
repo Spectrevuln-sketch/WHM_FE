@@ -53,3 +53,8 @@ export const getCurrentMsr = async (id: string):Promise<Msr>=>{
     list_of_items: JSON.parse(request.data.data.list_of_items)
   }
 }
+
+
+export const getToken = () =>{
+  return cookies().get('token')?.value;
+}

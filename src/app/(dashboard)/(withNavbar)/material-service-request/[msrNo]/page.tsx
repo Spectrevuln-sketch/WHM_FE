@@ -14,12 +14,14 @@ import { Box, Grid, IconButton, Paper, Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { Msr, getCurrentMsr } from "./@usecase/handle";
+import { Msr, getCurrentMsr, getToken } from "./@usecase/handle";
 import moment from "moment";
 import { convertToCapitalcase } from "@/helpers/converterHelper";
 import MasterTableGrid from "@/components/tables/MasterTableGrid";
 import CustomCreateMsrTable from "@/components/tables/CustomCreateMsrTable";
 import { CustomTableColumnInterface } from "@/components/tables/CustomTable";
+import { apiRequest } from "@/config/api";
+import { saveAs } from 'file-saver';
 
 export interface MaterialServiceItemInterface{
   qty_on_hand: number,
@@ -138,7 +140,23 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
     fatchData()
   }, []);
 
+  const DownloadExcel = async ()=>{
+    const token =getToken()
+    const res = apiRequest.v1.get(`/download-msr-xlsx/${msrNo}`, {
+      responseType: 'blob',
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
 
+    })
+
+      // Tangani respons dan simpan file
+      console.log(res)
+      const file = new Blob([res.data], { type: 'application/pdf' });
+      const fileURL = window.URL.createObjectURL(file);
+      saveAs(fileURL, `msr-${id}.pdf`);
+
+  }
   const fatchData =  async () =>{
     const res :Msr = await getCurrentMsr(params.msrNo)
     setMsrstate(res)
@@ -290,6 +308,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
             flexDirection={'row'}
             gap={'20px'}
             alignItems={'center'}
+            onClick={DownloadExcel}
           >
             <Image src={dashboardImages.excelFileIcon} alt="excel-icon" width={35} height={40} />
             <Grid

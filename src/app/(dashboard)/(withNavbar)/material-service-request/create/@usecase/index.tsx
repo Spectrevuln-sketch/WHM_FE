@@ -240,7 +240,7 @@ export const useCreateMsr = (): IReturn =>{
         console.log('request data >>', req)
     const res = await createMsr(req)
     if (res.responseCode === "99") return setError(res)
-    // return router.replace('/material-service-request')
+    return router.replace('/material-service-request')
   }
 
   const SelectedInitialData = async () =>{
