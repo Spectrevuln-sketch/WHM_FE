@@ -382,7 +382,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
       >
         <CustomDetailsMsrTable
           column={selectedProductColumn}
-          datas={msrstate.list_of_items}
+          datas={msrstate.list_of_items ?? []}
         />
          {/* <CustomCreateMsrTable
           datas={msrstate.list_of_items}
