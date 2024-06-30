@@ -92,7 +92,7 @@ export default function Soq() {
       const res = await ApproveSoq({
         soq_id: row.id
       })
-      console.log('data res', res)
+      console.log('data res 1', res)
         if(res.data.resp_code === "99")
           return alert("Harap Approve Kembali")
         // return window.location.reload();
