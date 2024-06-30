@@ -40,23 +40,11 @@ export interface Msr {
 }
 
 
-export const getCurrentMsr = async (id: string):Promise<Msr>=>{
+
+export const getStatusPr = async ()=>{
   await getCurrentUser()
   const token = cookies().get('token')?.value;
-  const request = await apiRequest.v1.get(`/current-msr/${id}`, {
-    headers:{
-      Authorization: `Bearer ${token}`
-    }
-  })
-  return {
-    ...request.data.data,
-    list_of_items: JSON.parse(request.data.data.list_of_items)
-  }
-}
-export const getStatusMsr = async ()=>{
-  await getCurrentUser()
-  const token = cookies().get('token')?.value;
-  const request = await apiRequest.v1.get(`/get-status-msr`, {
+  const request = await apiRequest.v1.get(`/get-status-pr`, {
     headers:{
       Authorization: `Bearer ${token}`
     }
@@ -67,5 +55,19 @@ export const getStatusMsr = async ()=>{
 
 export const getToken = () =>{
   return cookies().get('token')?.value;
+}
+
+
+
+export const getCurrentPr = async (id:string) =>{
+  await getCurrentUser()
+  const token = cookies().get('token')?.value;
+  const request = await apiRequest.v1.get(`/purchase-request/${id}`, {
+    headers:{
+      Authorization: `Bearer ${token}`
+    }
+  })
+  console.log('PR DATA >>', request.data)
+  return request.data
 }
 

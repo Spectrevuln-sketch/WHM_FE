@@ -2,6 +2,7 @@ import { MaterialServiceItemInterface } from "@/app/(dashboard)/(withNavbar)/mat
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React from "react";
 import { CustomTableColumnInterface } from "./CustomTable";
+import { convertToCapitalcase } from "@/helpers/converterHelper";
 
 interface CustomDetailsMsrTableInterface {
   column: CustomTableColumnInterface[];
@@ -9,6 +10,8 @@ interface CustomDetailsMsrTableInterface {
 }
 
 const CustomDetailsMsrTable: React.FC<CustomDetailsMsrTableInterface> = ({column, datas}) => {
+
+
   return(
     <TableContainer
       component={Paper}
@@ -24,69 +27,79 @@ const CustomDetailsMsrTable: React.FC<CustomDetailsMsrTableInterface> = ({column
     >
 
       {/* table */}
-      <Table
-        aria-label="custom pagination table"
-      >
-        <TableHead
-          sx={{
-            backgroundColor: 'rgba(0, 0, 0, 0.25)',
-          }}
+      {datas.length && (
+        <Table
+          aria-label="custom pagination table"
         >
-          <TableRow>
-            {
-              column.map((col, index) => (
-                <TableCell
-                  key={`column-header-${index}`}
-                  align="center"
-                  sx={{
-                    borderBottom: 'none'
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontWeight: 700,
-                      fontSize: '16px',
-                      lineHeight: '20px',
-                      color: '#000'
-                    }}
-                  >
-                    {col.label}
-                  </Typography>
-                </TableCell>
-              ))
-            }
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {datas?.map((data) => (
-            <TableRow key={Object.values(data)[0]}>
+          <TableHead
+            sx={{
+              backgroundColor: 'rgba(0, 0, 0, 0.25)',
+            }}
+          >
+            <TableRow>
               {
-                Object.entries(data).map(([key, value]) => (
+                Object.keys(datas[0]).filter((key)=> key !== 'isManual').map((col, index) => (
                   <TableCell
-                  key={`${key}-${value}`}
-                    component="th"
-                    scope="row"
+                    key={`column-header-${index}`}
                     align="center"
                     sx={{
-                      borderBottom: 'none',
+                      borderBottom: 'none'
                     }}
                   >
-                    <Box
+                    <Typography
                       sx={{
-                        fontWeight: 500,
-                        fontSize: '14px',
+                        fontWeight: 700,
+                        fontSize: '16px',
                         lineHeight: '20px',
+                        color: '#000'
                       }}
                     >
-                      {value}
-                    </Box>
+                      {convertToCapitalcase(col.replaceAll("_"," "))}
+                    </Typography>
                   </TableCell>
                 ))
               }
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+          <TableBody>
+
+              <>
+              {Array.isArray(datas) && datas.length > 0 && datas?.filter((data) => !data?.isManual).map((data) => (
+
+               <>
+                  <TableRow key={Object.values(data)[0]}>
+                    {
+                      Object.entries(data).map(([key, value]) => (
+                        <TableCell
+                        key={`${key}-${value}`}
+                        component="th"
+                          scope="row"
+                          align="center"
+                          sx={{
+                            borderBottom: 'none',
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              fontWeight: 500,
+                              fontSize: '14px',
+                              lineHeight: '20px',
+                            }}
+                          >
+                            {value}
+                          </Box>
+                        </TableCell>
+                      ))
+                    }
+                  </TableRow>
+
+                </>
+              ))}
+            </>
+          </TableBody>
+        </Table>
+
+      )}
 
     </TableContainer>
   )

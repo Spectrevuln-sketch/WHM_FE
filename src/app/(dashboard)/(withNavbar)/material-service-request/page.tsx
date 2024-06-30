@@ -111,7 +111,6 @@ const fetchData = useCallback(async () => {
       editable: false,
       hide: false,
       headerAlign: 'center',
-      resizable: true,
       width: 300,
       renderCell: ({ row }) => {
         const status = convertToUpperSnakeCase(row.status)
@@ -149,7 +148,7 @@ useEffect(()=>{
     fetchData()
   },[fetchData])
 
-
+  // console.log('users data res >>', data)
   return(
     <>
     <Grid

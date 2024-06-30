@@ -138,7 +138,6 @@ const PurchaseOrder: React.FC = () => {
             hide: false,
             headerAlign: 'center',
             flex: 1,
-            resizable: true,
             width: 160,
             renderCell: ({ row }) => {
               const status = convertToUpperSnakeCase(row.status)

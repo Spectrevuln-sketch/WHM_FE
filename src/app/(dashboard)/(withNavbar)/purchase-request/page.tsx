@@ -133,7 +133,6 @@ const PurchaseRequest: React.FC = () => {
           editable: false,
           hide: false,
           headerAlign: 'center',
-          resizable: true,
           width: 300,
           renderCell: ({ row }) => {
             const status = convertToUpperSnakeCase(row.status)
@@ -158,7 +157,7 @@ const PurchaseRequest: React.FC = () => {
                       </>
                     )}
                   </>
-              <CustomTextButton icon={<RemoveRedEye />} color={blue[300]} isDisabled={false} onClick={() => router.push(`/material-service-request/${row.id}`)} />
+              <CustomTextButton icon={<RemoveRedEye />} color={blue[300]} isDisabled={false} onClick={() => router.push(`/purchase-request/${row.id}`)} />
               </Box>
             );
           },

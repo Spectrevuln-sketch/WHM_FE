@@ -14,46 +14,53 @@ import { Box, Grid, IconButton,  Typography } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { Msr, getCurrentMsr, getToken, getStatusMsr } from "./@usecase/handle";
+import { Msr, getCurrentMsr, getToken, getStatusMsr, getCurrentPr, getStatusPr } from "./@usecase/handle";
 import moment from "moment";
 import { convertToCapitalcase } from "@/helpers/converterHelper";
 import { CustomTableColumnInterface } from "@/components/tables/CustomTable";
 import { apiRequest } from "@/config/api";
 import { saveAs } from 'file-saver';
 
-export interface MaterialServiceItemInterface{
-  qty_on_hand: number,
-  qty: number,
-  uom: string,
-  description: string,
-  requested_by: string,
-  purpose: string,
-  product_code: string
+
+
+export interface MsrData{
+  id: string;
+  created_at: string;
+  updated_at: string;
+  MsrIndex: number;
+  msr_number: string;
+  work_location: string;
+  dept_id: string;
+  depts: any; // Specify the structure if known
+  project_code: string;
+  delivered_at: string;
+  status: string;
+  urgentcy: string;
+  list_of_items: any; // Specify the structure if known
+  suggest_supplayer: string;
+  reasonReject: string;
 }
 
-interface PRSummariesInterface {
-  vendorName: string;
-  msrNo: string;
+interface IRes {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  PrIndex: number;
+  prNumber: string;
+  msrID: string;
+  msrData: MsrData;
+  description: string;
+  status: string;
+  rejectReason: string;
 }
 
-const dummyPRSummaries: PRSummariesInterface[] = [
-  {
-    msrNo: '0869-ASM-000-PR-IX-2023',
-    vendorName: 'GABRIEL INTI MARINDO',
-  },
-  {
-    msrNo: '0869-ASM-000-PR-IX-2023',
-    vendorName: 'GABRIEL INTI MARINDO',
-  },
-  {
-    msrNo: '0869-ASM-000-PR-IX-2023',
-    vendorName: 'GABRIEL INTI MARINDO',
-  },
-  {
-    msrNo: '0869-ASM-000-PR-IX-2023',
-    vendorName: 'GABRIEL INTI MARINDO',
-  },
-]
+interface IStepper {
+    label: string,
+    description: string,
+    notes: []
+}
+
+
 
 const selectedProductColumn: CustomTableColumnInterface[] = [
   {
@@ -83,46 +90,43 @@ const selectedProductColumn: CustomTableColumnInterface[] = [
 
 ]
 
-const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
-  const initialMSRState: Msr = {
-    id: "",
-    created_at: "",
-    updated_at: "",
-    MsrIndex: 0,
-    msr_number: "",
-    work_location: "",
-    dept_id: "",
-    depts: {
-        id: "",
-        created_at: "",
-        updated_at: "",
-        dept_name: ""
+const PrDetail = ({ params }: { params: { prId: string } }) => {
+  const initialState: IRes = {
+    id: '',
+    created_at: '',
+    updated_at: '',
+    PrIndex: 0,
+    prNumber: '',
+    msrID: '',
+    msrData: {
+      id: '',
+      created_at: '',
+      updated_at: '',
+      MsrIndex: 0,
+      msr_number: '',
+      work_location: '',
+      dept_id: '',
+      depts: {}, // Define the actual structure here
+      project_code: '',
+      delivered_at: '',
+      status: '',
+      urgentcy: '',
+      list_of_items: [], // Change to appropriate type if needed
+      suggest_supplayer: '',
+      reasonReject: ''
     },
-    project_code: "",
-    delivered_at: "",
-    status: "",
-    qty_on_hand: "",
-    list_of_items: [
-        {
-            qty_on_hand: 0,
-            qty: 0,
-            uom: "",
-            description: "",
-            requested_by: "",
-            purpose: "",
-            product_code: ""
-        }
-    ],
-    urgentcy: ""
+    description: '',
+    status: '',
+    rejectReason: ''
 };
-  const [msrstate, setMsrstate] = useState<Msr>(initialMSRState)
-  const [stepper, setStepper] = useState<[]>([])
+
+  const [prState, setPrState] = useState<IRes >(initialState)
+  const [stepper, setStepper] = useState<IStepper[]>([])
   const router = useRouter();
 
   const [status, setStatus] = React.useState('')
   const [notes, setNotes] = React.useState('')
 
-  const [PRSummaries, setPRSummaries] = React.useState<PRSummariesInterface[]>([]);
 
   const [addToInventoryModalOpen, setAddToInventoryModalOpen] = React.useState(false)
 
@@ -135,7 +139,6 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
 
   React.useEffect(() => {
     setStatus('approvalPo')
-    setPRSummaries(dummyPRSummaries)
     fatchData()
     StatusMsr()
   }, []);
@@ -143,7 +146,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
 
   const DownloadExcel = async ()=>{
     const token =getToken()
-    const res = await apiRequest.v1.get(`/download-msr-xlsx/${params.msrNo}`, {
+    const res = await apiRequest.v1.get(`/download-pr-xlsx/${params.prId}`, {
       responseType: 'blob',
       headers:{
         Authorization: `Bearer ${token}`
@@ -151,22 +154,24 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
 
     })
 
-      // Tangani respons dan simpan file
-      console.log(res)
       const file = new Blob([res], { type: 'application/pdf' });
       const fileURL = window.URL.createObjectURL(file);
-      saveAs(fileURL, `msr-${params.msrNo}.pdf`);
+      saveAs(fileURL, `msr-${params.prId}.pdf`);
 
   }
   const fatchData =  async () =>{
-    const res :Msr = await getCurrentMsr(params.msrNo)
-    setMsrstate(res)
+    const res = await getCurrentPr(params.prId)
+    if (res.resp_code !== '00')
+      return alert('PR Tidak Tidak Terdaftar !')
+      setPrState(res.data)
   }
 
   //  getall status msr
 
   const StatusMsr = async ()=>{
-    const res = await getStatusMsr()
+    const res = await getStatusPr()
+    if(res.resp_code !== '00')
+      return setStepper([])
     res.data.forEach((status:string) => {
       setStepper((prevStepper) => [
         ...prevStepper,
@@ -178,8 +183,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
       ]);
     });
   }
-
-
+  console.log('depts data >>', stepper)
   return (
     <Grid
       container
@@ -190,8 +194,8 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
       <AddToInventoryModal
         isOpen={addToInventoryModalOpen}
         onClose={handleCloseAddToInventoryModal}
-        msrNo={msrstate?.msr_number}
-        qrCode={params.msrNo}
+        msrNo={prState?.msrData.msr_number}
+        qrCode={params.prId}
       />
 
       {/* date & status */}
@@ -215,7 +219,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
             fontSize: '20px',
             lineHeight: '24px'
           }}
-        >{moment(msrstate.created_at).format('dddd, MMMM D YYYY')}</Typography>
+        >{moment(prState.created_at).format('dddd, MMMM D YYYY')}</Typography>
         <Box>
           <StatusChip label="Approval from PO" color={1} />
         </Box>
@@ -229,7 +233,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
         alignItems={'start'}
         marginTop={'16px'}
       >
-        <TitleDashboardText>Details Material Services Request</TitleDashboardText>
+        <TitleDashboardText>Details Purchase Request</TitleDashboardText>
         {/* <FiberManualRecord sx={{fontSize: '5px', color: 'rgba(0, 0, 0, 0.56)'}} /> */}
         <Typography
           sx={{
@@ -238,7 +242,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
             lineHeight: '24px',
             color: 'rgba(75, 70, 92, 1)'
           }}
-        >{msrstate.msr_number}</Typography>
+        >{prState.prNumber}</Typography>
       </Grid>
 
       {/* order data detail & excel download */}
@@ -266,7 +270,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
               <DetailKeyText>Vessel / Site / Dept</DetailKeyText>
             </Box>
             <Box sx={{width: '50%'}}>
-              <DetailValueText>{convertToCapitalcase(msrstate.depts.dept_name)}</DetailValueText>
+              <DetailValueText>{convertToCapitalcase(prState.msrData.depts.dept_name)}</DetailValueText>
             </Box>
           </Grid>
           <Grid
@@ -277,7 +281,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
               <DetailKeyText>Work Location</DetailKeyText>
             </Box>
             <Box sx={{width: '50%'}}>
-              <DetailValueText>{convertToCapitalcase(msrstate.work_location)}</DetailValueText>
+              <DetailValueText>{convertToCapitalcase(prState.msrData.work_location)}</DetailValueText>
             </Box>
           </Grid>
           <Grid
@@ -288,7 +292,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
               <DetailKeyText>Project Code</DetailKeyText>
             </Box>
             <Box sx={{width: '50%'}}>
-              <DetailValueText>{msrstate.project_code}</DetailValueText>
+              <DetailValueText>{prState.msrData.project_code}</DetailValueText>
             </Box>
           </Grid>
           <Grid
@@ -299,7 +303,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
               <DetailKeyText>Delivery Date (within)</DetailKeyText>
             </Box>
             <Box sx={{width: '50%'}}>
-              <DetailValueText>{moment(msrstate.delivered_at).format('dddd, MMMM D YYYY')}</DetailValueText>
+              <DetailValueText>{moment(prState.msrData.delivered_at).format('dddd, MMMM D YYYY')}</DetailValueText>
             </Box>
           </Grid>
           <Grid
@@ -310,7 +314,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
               <DetailKeyText>Urgency</DetailKeyText>
             </Box>
             <Box sx={{width: '50%'}}>
-              <DetailValueText>{convertToCapitalcase(msrstate.urgentcy)}</DetailValueText>
+              <DetailValueText>{convertToCapitalcase(prState.msrData.urgentcy)}</DetailValueText>
             </Box>
           </Grid>
         </Grid>
@@ -382,10 +386,10 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
       >
         <CustomDetailsMsrTable
           column={selectedProductColumn}
-          datas={msrstate.list_of_items}
+          datas={prState.msrData.list_of_items ?? []}
         />
          {/* <CustomCreateMsrTable
-          datas={msrstate.list_of_items}
+          datas={prState.list_of_items}
           column={selectedProductColumn}
         /> */}
       </Box>
@@ -420,7 +424,7 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
         {
           ['approvalPr'].includes(status)
           ? <Box sx={{width: '240px'}}>
-              <CustomContainedButtonBlue label="Creating Purchase Request" isDisabled={false} onClick={() => router.push(`/material-service-request/create-pr/${params.msrNo}`)} />
+              <CustomContainedButtonBlue label="Creating Purchase Request" isDisabled={false} onClick={() => router.push(`/material-service-request/create-pr/${params.prId}`)} />
             </Box>
           :null
         }
@@ -451,4 +455,4 @@ const MsrDetail = ({ params }: { params: { msrNo: string } }) => {
   )
 }
 
-export default MsrDetail;
+export default PrDetail;
