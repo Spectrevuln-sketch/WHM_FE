@@ -63,7 +63,7 @@ const CreateBarang: React.FC = () => {
 
   // form validation
   const validator = ['', null, undefined, false, 0, '0'];
-  
+
   const submitConditionArray = [
     validator?.includes(formBarang.productName),
     validator?.includes(formBarang.price),
@@ -248,7 +248,7 @@ const CreateBarang: React.FC = () => {
                   borderRadius: '6px'
                 }}
               >
-                <Image src={mainImage.logoSmallYellow} alt="logo-asm" width={44} height={44} />
+                <Image src={mainImage.logoSmall} alt="logo-asm" width={44} height={44} />
               </Box>
               <Grid
                 display={'flex'}
@@ -485,7 +485,7 @@ const CreateBarang: React.FC = () => {
                       Rp. {thousandSeparator(825000)}
                     </Typography>
                   </Grid>
-                  
+
                 </Grid>
               </>
               : null

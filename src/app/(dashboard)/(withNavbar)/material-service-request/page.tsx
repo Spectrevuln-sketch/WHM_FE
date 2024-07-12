@@ -1,15 +1,25 @@
 'use client';
-
-import CustomContainedButton from "@/components/buttons/CustomContainedButton";
-import RoundedContainedButton from "@/components/buttons/RoundedContainedButton";
-import StatusChip from "@/components/chips/StatusChip";
-import CustomSearchField from "@/components/inputs/CustomSearchField";
-import CustomTable, { CustomTableColumnInterface } from "@/components/tables/CustomTable";
-import { TitleDashboardText } from "@/components/text/styledText";
-import FlexWrapper from "@/components/wrappers/FlexWrapper";
-import { Box, Grid, Typography } from "@mui/material";
+import dynamic from 'next/dynamic';
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import { Box, Grid } from "@mui/material";
+import { ApproveMsr, getMsr,  updateStatus } from "./@usecase/handle";
+import { DemoTreeDataValue } from "@mui/x-data-grid-generator/services/tree-data-generator";
+import { TInitialData } from "../(master)/@interface";
+import { Checklist, EditNoteOutlined, RemoveRedEye } from "@mui/icons-material";
+import { blue, green } from "@mui/material/colors";
+import { useAppSelector } from "@/store/store";
+import { PrivilageChecker, StatusChecker } from "@/helpers/checker";
+import { convertToUpperSnakeCase } from '@/helpers/converterHelper';
+import GlobalModal from '@/components/modals/GlobalModal';
+import CustomTextareaField from '@/components/inputs/CustomTextareaField';
+import { RejectDoc } from '../@usecase/handler';
+const  CustomContainedButton = dynamic(()=> import("@/components/buttons/CustomContainedButton"))
+const  CustomContainedButtonRed = dynamic(()=> import("@/components/buttons/CustomContainedButtonRed"))
+const  TitleDashboardText  = dynamic(()=> import("@/components/text/styledText").then(mod => mod.TitleDashboardText))
+const  CustomTextButton = dynamic(()=> import("@/components/buttons/CustomTextButton"))
+const  MasterTableGrid = dynamic(()=> import("@/components/tables/MasterTableGrid"))
+const  FlexWrapper = dynamic(()=> import("@/components/wrappers/FlexWrapper"))
 
 export interface MsrData {
   msrNumber: string,
@@ -19,98 +29,141 @@ export interface MsrData {
   status: React.ReactElement,
   action: React.ReactElement,
 }
-
+export interface IState {
+  msr_id:string
+  reason: string
+}
+export interface IModal{
+  modalReject: boolean
+}
 const CreateMsr: React.FC = () => {
-
+  const initializeModal: IModal = {
+    modalReject: false
+  }
+  const initialState:IState = {
+    msr_id: '',
+    reason: ''
+  }
+  const [modal, setModal] = useState<IModal>(initializeModal)
+  const [state, setState] = useState<IState>(initialState)
   const router = useRouter();
+  const user = useAppSelector((state)=> state.users.currentUser)
+  const [data, setData] = useState<TInitialData | DemoTreeDataValue>({
+    columns: [],
+    initialState:{
+      columns:{
+        columnVisibilityModel:{
+          id: false
+        }
+      }
+    },
+    rows: []
+  })
 
-  const msrHeader: CustomTableColumnInterface[] = [
-    {
-      id: 'msrNumber',
-      label: 'MSR Number',
-    },
-    {
-      id: 'reqBy',
-      label: 'Requested By',
-    },
-    {
-      id: 'urgent',
-      label: 'Urgent',
-    },
-    {
-      id: 'creationDate',
-      label: 'Creation Date',
-    },
-    {
-      id: 'status',
-      label: 'Status',
-    },
-    {
-      id: 'aksi',
-      label: 'Aksi',
-    },
-  ]
+const Reject = async () =>{
+  const res = await RejectDoc(`/reject-msr/${state.msr_id}`, {msr_id: state.msr_id, note: state.reason})
+  if(res.resp_code === '99'){
+    alert('Gagal Reject Dokumen')
+    window.location.reload();
+  }else{
+    alert('Document Rejected !')
+    window.location.reload();
+  }
+}
 
-  const [msrData] = React.useState<MsrData[]>([
-    {
-      msrNumber: 'QFE12345678910',
-      reqBy: 'Andi Kumala',
-      urgency: 'Normal',
-      creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip label="Approval" color={1} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
-    },
-    {
-      msrNumber: 'QFE12345678910',
-      reqBy: 'Andi Kumala',
-      urgency: 'Very Urgent',
-      creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip label="Rejected form Logistik" color={4} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
-    },
-    {
-      msrNumber: 'QFE12345678910',
-      reqBy: 'Andi Kumala',
-      urgency: 'Normal',
-      creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip label="Approval" color={1} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
-    },
-    {
-      msrNumber: 'QFE12345678910',
-      reqBy: 'Andi Kumala',
-      urgency: 'Very Urgent',
-      creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip label="Waiting for Approval from PM" color={0} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
-    },
-    {
-      msrNumber: 'QFE12345678910',
-      reqBy: 'Andi Kumala',
-      urgency: 'Normal',
-      creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip label="Approval" color={1} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
-    },
-    {
-      msrNumber: 'QFE12345678910',
-      reqBy: 'Andi Kumala',
-      urgency: 'Very Urgent',
-      creationDate: '27 Februari 2023 -  10:35:05',
-      status: <StatusChip label="Waiting for Approval from PR" color={0} />,
-      action: <RoundedContainedButton isDisabled={false} label="View Details" onClick={() => router.push('/material-service-request/QFE12345678910')} />
-    },
-  ])
+const StatusChange = async (row)=>{
+  try{
+    const statusData = await updateStatus(row.id);
+    if(statusData.data.resp_code === "99")
+      return alert("Harap Update Status Kembali")
+    return window.location.reload();
+  }catch(err){
+    return alert("Terjadi kesalahan silahkan di coba kembali")
+  }
+}
 
-  const [search, setSearch] = React.useState('');
-  const [page, setPage] = React.useState(1);
 
+const Approvement = async (row)=>{
+  try{
+    const res = await ApproveMsr({
+      msrId: row.id
+      })
+      if(res.data.resp_code === "99")
+        return alert("Harap Approve Kembali")
+      return window.location.reload();
+
+  }catch(err){
+    return alert("Terjadi kesalahan silahkan di coba kembali")
+  }
+}
+
+const fetchData = useCallback(async () => {
+  const res = await getMsr({ page: 1 }); // Assuming page is always 1 for simplicity
+  if (!res) {
+    setData({ columns: [], initialState: { columns: { columnVisibilityModel: { id: false } } }, rows: [] });
+    return;
+  }
+  if (res.columns.length > 0 && user.data.roles.name === 'admin') {
+    res.columns.push({
+      field: "action",
+      headerName: 'ACTIONS',
+      sortable: false,
+      editable: false,
+      hide: false,
+      headerAlign: 'center',
+      width: 300,
+      renderCell: ({ row }) => {
+        const status = convertToUpperSnakeCase(row.status)
+        return(
+          <Box>
+              <>
+                {PrivilageChecker(user.data.roles.name, status) && (
+                  <>
+                    <CustomTextButton type="submit" variant="contained" label="Update Status" bgcolor="success" color="#fff" isDisabled={false} onClick={() => StatusChange(row)} />
+                    <CustomTextButton type="submit" variant="contained" label="Reject" bgcolor="error" color="#fff" isDisabled={false} onClick={() => {
+                      setState({...state, msr_id: row.id})
+                      setModal({...modal, modalReject: !modal.modalReject})
+                    }} />
+                  </>
+                )}
+                 {row.reasonReject !== '' && (
+                    <CustomTextButton
+                      icon={<EditNoteOutlined />}
+                      color={blue[300]}
+                      isDisabled={false}
+                      onClick={() => router.push(`/material-service-request/edit/${row.id}`)}
+                    />
+                  )}
+                {status === 'APPROVE_MSR' && StatusChecker(user.data.roles.name, ['cost_control', 'admin']) && (
+                  <CustomTextButton color={green[300]} icon={<Checklist />} isDisabled={false} onClick={() => Approvement(row)} />
+                )}
+              </>
+            <CustomTextButton icon={<RemoveRedEye />} color={blue[300]} isDisabled={false} onClick={() => router.push(`/material-service-request/${row.id}`)} />
+          </Box>
+        )
+      },
+    });
+  }
+  setData({
+    columns: res.columns,
+    initialState: { columns: { columnVisibilityModel: { id: false } } },
+    rows: res.rows,
+  });
+}, [user.data]);
+
+
+useEffect(()=>{
+    fetchData()
+  },[fetchData])
+
+  // console.log('users data res >>', data)
   return(
+    <>
     <Grid
       container
       direction={'column'}
       sx={{}}
-    >
+      >
 
       <TitleDashboardText>Material Services Request</TitleDashboardText>
       <Box
@@ -123,67 +176,37 @@ const CreateMsr: React.FC = () => {
       </Box>
 
       {/* content */}
-      <FlexWrapper direction="column" justifyContent="center" alignItems="center">
-        {
-          msrData && msrData.length > 0
-          ?
-          <Grid
-            container
-            direction={'column'}
-            sx={{
-              marginTop: '72px'
-            }}
-          >
-            <CustomSearchField
-              placeholder="Search MSR Number"
-              isDisabled={false}
-              isError={false}
-              onChange={(val) => setSearch(val)}
-              textHelper=""
-              value={search}
-            />
-            <CustomTable
-              column={msrHeader}
-              datas={msrData}
-              onPageChange={(page) => setPage(page)}
-              rowsPerPage={4}
-              page={page}
-              count={msrData.length}
-            />
-          </Grid>
-          : <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '440px',
-              flexGrow: 1
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: 400,
-                fontSize: '20px',
-                lineHeight: '22px'
-              }}
-            >
-              {`Oops, it looks like you haven't made a`}
-            </Typography>
-            <Typography
-              sx={{
-                fontWeight: 600,
-                fontSize: '20px',
-                lineHeight: '22px'
-              }}
-            >
-              MATERIAL & SERVICE REQUISITION
-            </Typography>
-          </Box>
-        }
+      <FlexWrapper direction="column" justifyContent="center" alignItems="center" padding="1em">
+             <MasterTableGrid initialData={data}/>
       </FlexWrapper>
 
     </Grid>
+    <GlobalModal isOpen={modal.modalReject} onClose={()=> setModal({...modal, modalReject:!modal.modalReject })} >
+        <Box sx={{
+          display: 'flex',
+          padding: '20px',
+          textAlign: 'left',
+          width: '50em',
+          height: '10em'
+        }}>
+           <CustomTextareaField
+            label="Reason"
+            placeholder="Enter your reason"
+            rows={3}
+            value={state.reason}
+            onChange={(val) => setState({
+              ...state,
+              reason: val
+            })}
+            endAdornment=""
+            isDisabled={false}
+            isError={false}
+            textHelper=""
+          />
+        </Box>
+        <CustomContainedButtonRed label="Reject" isDisabled={false} onClick={Reject} />
+    </GlobalModal>
+  </>
   );
 }
 

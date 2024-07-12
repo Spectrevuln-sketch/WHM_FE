@@ -114,7 +114,7 @@ const MasterVendorTable: React.FC = () => {
           <CustomContainedButton label="Create Vendor" isDisabled={false} onClick={onClickCreate} />
         </Box>
       </Grid>
-      
+
       <TableContainer
         component={Paper}
         elevation={3}

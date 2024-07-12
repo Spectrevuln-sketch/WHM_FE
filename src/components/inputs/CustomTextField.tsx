@@ -9,14 +9,14 @@ interface CustomTextFieldInterface {
   label: string;
   placeholder: string;
   endAdornment?: string;
-  value: string;
   isDisabled?: boolean;
   isError?: boolean;
   textHelper?: string;
   color?: colorOptions;
   type?: string;
   name?: string;
-  onChange: (val: string, e?: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  value?: string | number;
+  onChange: (val: string | number, e?: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 const CustomTextField: React.FC<CustomTextFieldInterface> = ({
@@ -25,11 +25,11 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
   label,
   placeholder,
   endAdornment = '',
-  value,
   textHelper = '',
   color = 'transparent',
   type = 'text',
   name = '',
+  value,
   onChange,
 }) => {
   return(
@@ -48,18 +48,20 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
         </Typography>
         : null
       }
-      <OutlinedInput
+      {isDisabled ? (
+
+        <OutlinedInput
         disabled={isDisabled}
         type={type}
         error={isError}
         fullWidth
         size="small"
-        value={value}
         name={name}
         placeholder={placeholder}
         id="custom-textfield"
         endAdornment={<InputAdornment position="end">{endAdornment}</InputAdornment>}
         aria-describedby="custom-text-field-helper-text"
+        value={value}
         onChange={(e) => onChange(e.target.value, e)}
         inputProps={{
           'aria-label': 'textfield',
@@ -69,7 +71,31 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
           color: '#A8AAAE',
           backgroundColor: color === 'white' ? '#fff' : undefined,
         }}
-      />
+        />
+        ): (
+          <OutlinedInput
+          disabled={isDisabled}
+          type={type}
+          error={isError}
+          fullWidth
+          size="small"
+          name={name}
+          value={value}
+          placeholder={placeholder}
+          id="custom-textfield"
+          endAdornment={<InputAdornment position="end">{endAdornment}</InputAdornment>}
+          aria-describedby="custom-text-field-helper-text"
+          onChange={(e) => onChange(e.target.value, e)}
+          inputProps={{
+            'aria-label': 'textfield',
+          }}
+          sx={{
+            borderRadius: '6px',
+            color: '#A8AAAE',
+            backgroundColor: color === 'white' ? '#fff' : undefined,
+          }}
+          />
+        )}
       <FormHelperText id="custom-text-field-helper-text" sx={{margin: 0}}>{textHelper}</FormHelperText>
     </FormControl>
   )
