@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { DemoTreeDataValue } from "@mui/x-data-grid-generator/services/tree-data-generator";
 import { TInitialData } from "../(master)/@interface";
 import CustomTextButton from "@/components/buttons/CustomTextButton";
-import { Checklist, RemoveRedEye } from "@mui/icons-material";
+import { Checklist, EditNoteOutlined, RemoveRedEye } from "@mui/icons-material";
 import { blue, green } from "@mui/material/colors";
 import MasterTableGrid from "@/components/tables/MasterTableGrid";
 import {  useAppSelector } from "@/store/store";
@@ -148,6 +148,14 @@ const PurchaseRequest: React.FC = () => {
                     }} />
                     </>
                     )}
+                     { PrivilageChecker(user.data.roles.name, status) || (row. === 'WAITING_FOR_PO_CREATE' && StatusChecker(user.data.roles.name, ['cost_control', 'admin'])) && (
+                    <CustomTextButton
+                      icon={<EditNoteOutlined />}
+                      color={blue[300]}
+                      isDisabled={false}
+                      onClick={() => console.log('Edit')}
+                    />
+                  )}
                     {/* <CustomTextButton icon={<DeleteForever/>} color={red[300]} isDisabled={false} onClick={()=> console.log('Delete')}/> */}
                     {status === 'SEND_TO_SUPPLYER' &&  (
                       <>

@@ -6,7 +6,7 @@ import { Box, Grid } from "@mui/material";
 import { ApproveMsr, getMsr,  updateStatus } from "./@usecase/handle";
 import { DemoTreeDataValue } from "@mui/x-data-grid-generator/services/tree-data-generator";
 import { TInitialData } from "../(master)/@interface";
-import { Checklist, RemoveRedEye } from "@mui/icons-material";
+import { Checklist, EditNoteOutlined, RemoveRedEye } from "@mui/icons-material";
 import { blue, green } from "@mui/material/colors";
 import { useAppSelector } from "@/store/store";
 import { PrivilageChecker, StatusChecker } from "@/helpers/checker";
@@ -126,6 +126,14 @@ const fetchData = useCallback(async () => {
                     }} />
                   </>
                 )}
+                 {row.reasonReject !== '' && (
+                    <CustomTextButton
+                      icon={<EditNoteOutlined />}
+                      color={blue[300]}
+                      isDisabled={false}
+                      onClick={() => router.push(`/material-service-request/edit/${row.id}`)}
+                    />
+                  )}
                 {status === 'APPROVE_MSR' && StatusChecker(user.data.roles.name, ['cost_control', 'admin']) && (
                   <CustomTextButton color={green[300]} icon={<Checklist />} isDisabled={false} onClick={() => Approvement(row)} />
                 )}

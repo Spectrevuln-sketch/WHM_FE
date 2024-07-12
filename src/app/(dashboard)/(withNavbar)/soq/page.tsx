@@ -87,19 +87,17 @@ export default function Soq() {
 
 
   const Approvement = async (row)=>{
-    // try{
-      console.log('APPROVE SOQ')
+    try{
       const res = await ApproveSoq({
         soq_id: row.id
       })
-      console.log('data res 1', res)
         if(res.data.resp_code === "99")
           return alert("Harap Approve Kembali")
-        // return window.location.reload();
+        return window.location.reload();
 
-    // }catch(err){
-    //   return alert("Terjadi kesalahan silahkan di coba kembali")
-    // }
+    }catch(err){
+      return alert("Terjadi kesalahan silahkan di coba kembali")
+    }
   }
   const fetchData = useCallback(async () => {
     const res = await getSoqData({page});

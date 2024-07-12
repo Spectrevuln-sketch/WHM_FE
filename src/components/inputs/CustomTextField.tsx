@@ -80,6 +80,7 @@ const CustomTextField: React.FC<CustomTextFieldInterface> = ({
           fullWidth
           size="small"
           name={name}
+          value={value}
           placeholder={placeholder}
           id="custom-textfield"
           endAdornment={<InputAdornment position="end">{endAdornment}</InputAdornment>}

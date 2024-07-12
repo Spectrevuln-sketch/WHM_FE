@@ -20,6 +20,7 @@ export const convertToCapitalcase = (text: string): string =>{
   return capitalCase.replaceAll("_", " ")
 }
 
+
 export const convertToUpperSnakeCase = (str: string) =>{
   return str
     .toUpperCase()                // Convert the string to uppercase

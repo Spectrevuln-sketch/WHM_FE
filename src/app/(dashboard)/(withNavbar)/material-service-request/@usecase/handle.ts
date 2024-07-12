@@ -152,11 +152,8 @@ export const updateStatus = async (id: string) =>{
 export const getMsr = async ({page=1, limit=10} :IParamsGet) =>{
   await getCurrentUser()
   const token = cookies().get('token')?.value;
-  const result = await apiRequest.v1.get('/get-all-msr', {
-    params: {
-      page,
-      limit
-    },
+  const result = await apiRequest.v1.get('/get-msrs', {
+
     headers:{
       'Authorization': 'Bearer ' + token
     }
