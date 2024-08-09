@@ -2,6 +2,7 @@
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import React from "react";
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 type Iicons = {
   [icon: string]: string | StaticImport;
 }
@@ -58,6 +59,25 @@ export const menu = (dashboardIcons: Iicons) =>{
       route: '/inventory'
     },
     {
+      name: 'user_management',
+      label: 'User Management',
+      icon: <PeopleOutlineIcon/>,
+      children:[
+        {
+          id: 1,
+          name: 'master_user',
+          label: 'Master User',
+          route: '/user-management/master-user',
+        },
+        {
+          id: 2,
+          name: 'master_role',
+          label: 'Master Role',
+          route: '/user-management/master-role',
+        }
+      ]
+    },
+    {
       name: 'master',
       label: 'Master',
       icon: <Image src={dashboardIcons.createMsrIcon} alt='create-msr-icon' width={24} height={24} />,
@@ -105,6 +125,7 @@ export const menu = (dashboardIcons: Iicons) =>{
           route: '/master-coa',
         },
 
+        
       ]
     },
   ];
